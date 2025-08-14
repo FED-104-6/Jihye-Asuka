@@ -2,7 +2,7 @@
   <nav>
     <a id="logo" (click)="closeMenu()" routerLink="/home"><img src="/assets/logo.png" alt="" /></a>
 
-    <div *ngIf="!isLoggedIn">
+    <div *ngIf="isLoggedIn">
       <div id="mypage">
         <ul *ngIf="isMenuOpen" id="menu-items">
           <a (click)="closeMenu()" routerLink="/my-flats" routerLinkActive="active">My flats</a>
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="isLoggedIn">
+    <div *ngIf="!isLoggedIn">
       <a id="login" routerLink="/login">Log in</a>
     </div>
   </nav>
