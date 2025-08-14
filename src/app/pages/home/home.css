@@ -3,7 +3,7 @@
   height: 713px;
   display: flex;
   flex-wrap: wrap;
-  align-items: start;
+  align-content: flex-start;
   gap: 20px;
 
   white-space: nowrap;
@@ -13,7 +13,7 @@
 }
 
 .flat-item {
-  /* width: 250px; */
+  width: 500px;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
