@@ -16,6 +16,7 @@
   list-style: none;
   text-decoration: none;
   outline: none;
+  user-select: none;
 }
 
 button {
@@ -29,7 +30,7 @@ button {
 
 .common-back {
   max-width: 1200px;
-  min-height: calc(100vh - 125px);
+  min-height: calc(100vh - 110px);
   margin: 0 auto;
 
   display: flex;
@@ -37,9 +38,7 @@ button {
   align-items: center;
   flex-direction: column;
 }
-
-app-register .common-back,
-app-login .common-back {
+.login-register-height {
   height: calc(100vh - 50px);
 }
 

@@ -11,14 +11,11 @@ import { Router } from '@angular/router';
 })
 export class Header {
   isLoggedIn = false;
+  isMenuOpen = false;
 
-  constructor(private router: Router) {}
-
-  mypage() {
-    if(this.isLoggedIn) {
-      this.router.navigate(['/mypage']);
-    } else {
-      this.router.navigate(['/login'])
-    }
+  closeMenu() {
+    this.isMenuOpen = false; 
   }
+
+  logout() {}
 }

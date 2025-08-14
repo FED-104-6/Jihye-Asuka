@@ -1,22 +1,24 @@
 <header>
   <nav>
-    <a routerLink="/home"><img id="logo" src="assets/logo.png" alt="" /></a>
-  </nav>
+    <a id="logo" (click)="closeMenu()" routerLink="/home"><img src="/assets/logo.png" alt="" /></a>
 
-  <img
-    *ngIf="!isLoggedIn"
-    (click)="mypage()"
-    id="user"
-    class="btn-hover"
-    src="assets/user.png"
-    alt=""
-  />
-  <img
-    *ngIf="isLoggedIn"
-    (click)="mypage()"
-    id="user"
-    class="btn-hover"
-    src="assets/userOK.png"
-    alt=""
-  />
+    <div *ngIf="!isLoggedIn">
+      <div id="mypage">
+        <ul *ngIf="isMenuOpen" id="menu-items">
+          <a (click)="closeMenu()" routerLink="/my-flats" routerLinkActive="active">My flats</a>
+          <a (click)="closeMenu()" routerLink="/my-favorites" routerLinkActive="active">My favorites</a>
+          <a (click)="closeMenu()" routerLink="/my-profile" routerLinkActive="active">My profile</a>
+          <a (click)="closeMenu()" routerLink="/edit-profile" routerLinkActive="active">Edit profile</a>
+          <li (click)="closeMenu()" class="btn-hover" id="logout" (click)="logout()">Log out</li>
+        </ul>
+        <div id="menu" class="btn-hover" (click)="isMenuOpen = !isMenuOpen">
+          <p *ngIf="!isMenuOpen">Jihye Park</p>
+          <img src="/assets/menu.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoggedIn">
+      <a id="login" routerLink="/login">Log in</a>
+    </div>
+  </nav>
 </header>

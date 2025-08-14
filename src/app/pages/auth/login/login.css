@@ -2,15 +2,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
 }
 
 #logo {
-    width: 80px;
+    width: 150px;
+}
+
+#login-wrap #login-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 #warn-msg {
     color: red;
+    text-align: center;
 }
 
 form[name="login"] {

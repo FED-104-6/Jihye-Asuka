@@ -2,12 +2,22 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
 import { Login } from './pages/auth/login/login';
 import { Register } from './pages/auth/register/register';
-import { MyPage } from './pages/my-page/my-page';
+import { MyFavorites } from './pages/my-page/my-favorites/my-favorites';
+import { MyFlats } from './pages/my-page/my-flats/my-flats';
+import { MyProfile } from './pages/my-page/my-profile/my-profile';
+import { EditProfile } from './pages/my-page/edit-profile/edit-profile';
+import { NewFlat } from './pages/flat/new-flat/new-flat';
 
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'home', component: Home },
-  {path: 'login', component: Login},
-  {path: 'register', component: Register},
-  {path: 'mypage', component: MyPage},
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+
+  { path: 'my-favorites', component: MyFavorites },
+  { path: 'my-flats', component: MyFlats },
+  { path: 'my-profile', component: MyProfile },
+  { path: 'edit-profile', component: EditProfile },
+
+  { path: 'new-flat', component: NewFlat },
 ];
