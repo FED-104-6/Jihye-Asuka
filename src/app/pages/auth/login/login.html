@@ -1,0 +1,14 @@
+<div class="common-back">
+  <div id="login-wrap">
+    <a class="btn-hover" href="/home"><img id="logo" src="assets/logo.png" alt="" /></a>
+    <small id="warn-msg" *ngIf="errorMessage">{{ errorMessage }}</small>
+    <form [formGroup]="loginForm" name="login" (ngSubmit)="login()">
+      <input type="email" formControlName="email" placeholder="email" />
+      <input type="password" formControlName="password" placeholder="password" />
+      <button id="login-btn" type="submit">Login</button>
+    </form>
+    <div id="under-bar">
+      <a class="btn-hover" href="/register">Create account →</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<header>
+  <nav>
+    <a routerLink="/home"><img id="logo" src="assets/logo.png" alt="" /></a>
+  </nav>
+
+  <img
+    *ngIf="!isLoggedIn"
+    (click)="mypage()"
+    id="user"
+    class="btn-hover"
+    src="assets/user.png"
+    alt=""
+  />
+  <img
+    *ngIf="isLoggedIn"
+    (click)="mypage()"
+    id="user"
+    class="btn-hover"
+    src="assets/userOK.png"
+    alt=""
+  />
+</header>

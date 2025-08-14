@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+:root {
+  --btn-grey: rgb(195, 195, 195);
+  --btn-grey-on: rgb(161, 161, 161);
+  --btn-blue: #9ebbce
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans KR", sans-serif;
+  color: #333;
+
+  list-style: none;
+  text-decoration: none;
+  outline: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+.btn-hover {
+  cursor: pointer;
+}
+
+.common-back {
+  max-width: 1200px;
+  height: calc(100vh - 125px);
+  border-radius: 10px;
+  padding: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+app-register .common-back,
+app-login .common-back {
+  height: calc(100vh - 50px);
+}
+
+html, body { height: 100%; background-color: white; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

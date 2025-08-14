@@ -1,0 +1,75 @@
+#flat-wrap {
+  width: 1200px;
+  height: 713px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 20px;
+
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.flat-item {
+  /* width: 250px; */
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background-color: rgb(241, 241, 241);
+  transition: all 0.1s ease;
+
+  display: flex;
+
+  &:hover {
+    background-color: rgb(232, 232, 232);
+  }
+}
+
+.flat-fav {
+  position: absolute;
+}
+
+.flat-img {
+  width: 250px;
+  height: 150px;
+}
+.flat-img img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.flat-inform {
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 10px;
+  gap: 5px;
+}
+.flat-inform > p {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.flat-inform .emphasize {
+  display: flex;
+  gap: 5px;
+}
+.flat-inform .emphasize > p {
+  width: fit-content;
+  padding: 4px 7px;
+  background-color: rgb(191, 191, 191);
+  border-radius: 5px;
+  font-size: 11px;
+  color: white;
+}
+.flat-inform .price {
+  font-size: 18px;
+  font-weight: 600;
+}
+.flat-inform .detail {
+  display: flex;
+}

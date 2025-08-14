@@ -1,0 +1,25 @@
+<div class="common-back">
+  <div id="register-wrap">
+    <a class="btn-hover" href="/home"
+      ><img id="logo" src="assets/logo.png" alt=""
+    /></a>
+    <small id="warn-msg" *ngIf="errorMessage">{{ errorMessage }}</small>
+    <form [formGroup]="registerForm" name="register" (ngSubmit)="register()">
+      <input formControlName="email" type="email" placeholder="email" />
+      <input
+        formControlName="password"
+        type="password"
+        placeholder="password"
+      />
+      <input
+        formControlName="confirmPw"
+        type="password"
+        placeholder="confirm password"
+      />
+      <input formControlName="firstname" type="text" placeholder="first name" />
+      <input formControlName="lastname" type="text" placeholder="last name" />
+      <input type="date" formControlName="birthdate">
+      <button id="signin-btn" type="submit">Register</button>
+    </form>
+  </div>
+</div>

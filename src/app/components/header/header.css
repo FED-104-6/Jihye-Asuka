@@ -1,0 +1,34 @@
+header {
+  width: 1200px;
+  height: 75px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  position: relative;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+nav > a {
+  font-size: 14px;
+}
+nav > a.active {
+  font-weight: 600;
+}
+
+#logo {
+  width: 40px;
+
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#user {
+  width: 40px;
+}
