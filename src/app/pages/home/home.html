@@ -1,80 +1,219 @@
 <div class="common-back">
+  <!-- filter nav -->
+  <div id="filter-nav" [ngClass]="{ open: isFilterOpen }">
+    <img
+      id="filter-close"
+      class="btn-hover"
+      src="/assets/close.png"
+      (click)="isFilterOpen = !isFilterOpen"
+      alt=""
+    />
+    <h3>Search Filter</h3>
+    <div id="filter-filtering">
+      <div>
+        <label>City</label>
+        <input
+          name="city"
+          type="text"
+          placeholder="Enter the name of the city"
+        />
+      </div>
+      <div>
+        <label>Price (CAD)</label>
+        <div>
+          <input name="price" type="number" placeholder="min" />
+          <span>~</span>
+          <input name="price" type="number" placeholder="max" />
+        </div>
+      </div>
+      <div>
+        <label>Area Size (㎡)</label>
+        <div>
+          <input name="size" type="number" placeholder="min" />
+          <span>~</span>
+          <input name="size" type="number" placeholder="max" />
+        </div>
+      </div>
+    </div>
+    <div id="filter-sort">
+      <div>
+        <input id="aToZ" name="sort" type="radio" />
+        <label for="aToZ" name="sort">City (A-Z)</label>
+      </div>
+      <div>
+        <input id="zToA" name="sort" type="radio" />
+        <label for="zToA" name="sort">City (Z-A)</label>
+      </div>
+      <div>
+        <input id="priceLH" name="sort" type="radio" />
+        <label for="priceLH" name="sort">Price (Low to high)</label>
+      </div>
+      <div>
+        <input id="priceHL" name="sort" type="radio" />
+        <label for="priceHL" name="sort">Price (High to low)</label>
+      </div>
+      <div>
+        <input id="sizeLH" name="sort" type="radio" />
+        <label for="sizeLH" name="sort">Size (Low to high)</label>
+      </div>
+      <div>
+        <input id="sizeHL" name="sort" type="radio" />
+        <label for="sizeHL" name="sort">Size (High to low)</label>
+      </div>
+    </div>
+    <div id="filter-apply">
+      <button id="reset-btn" type="button">Reset</button>
+      <button id="apply-btn" type="button">Apply</button>
+    </div>
+  </div>
+  <div id="flat-control">
+    <div id="title">Listing Flats <span>(9)</span></div>
+    <div id="btn-wrap">
+      <div id="filter" class="btn-hover" (click)="isFilterOpen = !isFilterOpen">
+        <img src="/assets/filter.png" alt="" />
+        Filter
+      </div>
+      <div id="new" class="btn-hover">
+        <img src="/assets/add.png" alt="" />
+        New Flat
+      </div>
+    </div>
+  </div>
   <div id="flat-wrap">
+    <div id="category">
+      <p>Address</p>
+      <p>Size</p>
+      <p>Price</p>
+      <p>Owner</p>
+      <p>Marked</p>
+    </div>
+
     <a href="" class="btn-hover flat-item">
-      <div class="flat-fav"></div>
-      <div class="flat-img">
-        <img src="/assets/houseExample.png" alt="" />
-      </div>
       <div class="flat-inform">
-        <div class="emphasize">
-            <p class="region">Vancouver, BC</p>
-            <p>56m²</p>
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
         </div>
-        <p class="price">$24,000 CAD</p>
-        <p>광주전남공동혁신도시빛가람대방엘리움로얄카운티1차</p>
-        <!-- メモ -->
-        <p>Linda / linda@gmail.com</p>
+        <div class="basic">
+          <p class="address">233 Robson st, Vancouver BC</p>
+          <p class="size">56m²</p>
+          <p class="price">$24,000 CAD</p>
+          <p>linda@gmail.com (Linda)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
       </div>
     </a>
     <a href="" class="btn-hover flat-item">
-      <div class="flat-fav"></div>
-      <div class="flat-img">
-        <img src="/assets/houseExample.png" alt="" />
-      </div>
       <div class="flat-inform">
-        <div class="emphasize">
-            <p class="region">Vancouver, BC</p>
-            <p>56m²</p>
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
         </div>
-        <p class="price">$24,000 CAD</p>
-        <p>광주전남공동혁신도시빛가람대방엘리움로얄카운티1차</p>
-        <p>Linda / linda@gmail.com</p>
+        <div class="basic">
+          <p class="address">2068 Willingdon st, Vancouver BC</p>
+          <p class="size">68m²</p>
+          <p class="price">$32,000 CAD</p>
+          <p>lissejfsefnda@gmail.com (Amy)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
       </div>
     </a>
     <a href="" class="btn-hover flat-item">
-      <div class="flat-fav"></div>
-      <div class="flat-img">
-        <img src="/assets/houseExample.png" alt="" />
-      </div>
       <div class="flat-inform">
-        <div class="emphasize">
-            <p class="region">Vancouver, BC</p>
-            <p>56m²</p>
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
         </div>
-        <p class="price">$24,000 CAD</p>
-        <p>광주전남공동혁신도시빛가람대방엘리움로얄카운티1차</p>
-        <p>Linda / linda@gmail.com</p>
+        <div class="basic">
+          <p class="address">233 Robson st, Vancouver BC</p>
+          <p class="size">56m²</p>
+          <p class="price">$24,000 CAD</p>
+          <p>linda@gmail.com (Linda)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
       </div>
     </a>
     <a href="" class="btn-hover flat-item">
-      <div class="flat-fav"></div>
-      <div class="flat-img">
-        <img src="/assets/houseExample.png" alt="" />
-      </div>
       <div class="flat-inform">
-        <div class="emphasize">
-            <p class="region">Vancouver, BC</p>
-            <p>56m²</p>
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
         </div>
-        <p class="price">$24,000 CAD</p>
-        <p>광주전남공동혁신도시빛가람대방엘리움로얄카운티1차</p>
-        <p>Linda / linda@gmail.com</p>
+        <div class="basic">
+          <p class="address">233 Robson st, Vancouver BC</p>
+          <p class="size">56m²</p>
+          <p class="price">$24,000 CAD</p>
+          <p>linda@gmail.com (Linda)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
       </div>
     </a>
     <a href="" class="btn-hover flat-item">
-      <div class="flat-fav"></div>
-      <div class="flat-img">
-        <img src="/assets/houseExample.png" alt="" />
-      </div>
       <div class="flat-inform">
-        <div class="emphasize">
-            <p class="region">Vancouver, BC</p>
-            <p>56m²</p>
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
         </div>
-        <p class="price">$24,000 CAD</p>
-        <p>광주전남공동혁신도시빛가람대방엘리움로얄카운티1차</p>
-        <p>Linda / linda@gmail.com</p>
+        <div class="basic">
+          <p class="address">233 Robson st, Vancouver BC</p>
+          <p class="size">56m²</p>
+          <p class="price">$24,000 CAD</p>
+          <p>linda@gmail.com (Linda)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
       </div>
     </a>
+    <a href="" class="btn-hover flat-item">
+      <div class="flat-inform">
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
+        </div>
+        <div class="basic">
+          <p class="address">233 Robson st, Vancouver BC</p>
+          <p class="size">56m²</p>
+          <p class="price">$24,000 CAD</p>
+          <p>linda@gmail.com (Linda)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
+      </div>
+    </a>
+    <a href="" class="btn-hover flat-item">
+      <div class="flat-inform">
+        <div class="flat-img">
+          <img src="/assets/home.png" alt="" />
+        </div>
+        <div class="basic">
+          <p class="address">233 Robson st, Vancouver BC</p>
+          <p class="size">56m²</p>
+          <p class="price">$24,000 CAD</p>
+          <p>linda@gmail.com (Linda)</p>
+        </div>
+        <img
+          class="flat-fav"
+          src="/assets/fav-white.png"
+          alt=""
+        />
+      </div>
+    </a>
+    
   </div>
 </div>
