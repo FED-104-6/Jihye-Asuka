@@ -1,1 +1,51 @@
-<p>edit-profile works!</p>
+<form id="updateForm" name="updateForm">
+
+    <div class="form-row">
+        <label for="first-name">First name:</label>
+        <input type="text" id="first-name" name="firstName" placeholder="Enter your first name" required>
+        <div class="error" id="first-name-error"></div>
+    </div>
+
+    <div class="form-row">
+        <label for="last-name">Last name:</label>
+        <input type="text" id="last-name" name="lastName" placeholder="Enter your last name" required>
+        <div class="error" id="last-name-error"></div>
+    </div>
+
+
+    <div class="form-row">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <div class="error" id="overlap-email-error"></div>
+    </div>
+
+    <div class="form-row">
+        <label for="confirm-email">Confirm Email:</label>
+        <input type="email" id="confirm-email" name="confirmEmail" placeholder="Enter your email again" required>
+        <div class="error" id="match-email-error"></div>
+    </div>
+
+    <div class="form-row">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"
+            placeholder="At least 6 characters, including numbers, letters, and symbols" required>
+        <div class="error" id="password-error"></div>
+    </div>
+
+    <div class="form-row">
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Enter your password again"
+            required>
+        <div class="error" id="confirm-password-error"></div>
+    </div>
+
+    <div class="form-row">
+        <label for="birthday">Date of birth</label>
+        <input type="date" id="birthday" name="birthday" required>
+        <div class="error" id="birthday-error"></div>
+    </div>
+
+    <div class="btn">
+        <input type="submit" value="Update">
+    </div>
+</form>
