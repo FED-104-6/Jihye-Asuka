@@ -1,51 +1,70 @@
-<form id="updateForm" name="updateForm">
+<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
 
+    <!-- first name -->
     <div class="form-row">
         <label for="first-name">First name:</label>
-        <input type="text" id="first-name" name="firstName" placeholder="Enter your first name" required>
-        <div class="error" id="first-name-error"></div>
+        <input type="text" id="first-name" formControlName="firstName">
+        <div class="error" *ngIf="firstName?.invalid && firstName?.touched">
+            First name is required and must be at least 2 characters.
+        </div>
     </div>
 
+    <!-- last name -->
     <div class="form-row">
         <label for="last-name">Last name:</label>
-        <input type="text" id="last-name" name="lastName" placeholder="Enter your last name" required>
-        <div class="error" id="last-name-error"></div>
+        <input type="text" id="last-name" formControlName="lastName">
+        <div class="error" *ngIf="lastName?.invalid && lastName?.touched">
+            Last name is required and must be at least 2 characters.
+        </div>
     </div>
 
-
+    <!-- Email -->
     <div class="form-row">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-        <div class="error" id="overlap-email-error"></div>
+        <input type="email" id="email" formControlName="email">
+        <div class="error" id="overlap-email-error" *ngIf="email?.invalid && email?.touched">
+            Your Email were used by other user.
+        </div>
     </div>
 
-    <div class="form-row">
+    <!-- Comfirm Email -->
+    <!-- <div class="form-row">
         <label for="confirm-email">Confirm Email:</label>
-        <input type="email" id="confirm-email" name="confirmEmail" placeholder="Enter your email again" required>
-        <div class="error" id="match-email-error"></div>
-    </div>
+        <input type="email" id="confirm-email" formControlName="confirmEmail" placeholder="Enter your email again" >
+        <div class="error" id="match-email-error" *ngIf="updateForm.errors?.emailMismatch && updateForm.get('confirmEmail')?.touched">
+            Emails do NOT match.
+        </div>
+    </div> -->
 
+    <!-- password -->
     <div class="form-row">
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password"
-            placeholder="At least 6 characters, including numbers, letters, and symbols" required>
-        <div class="error" id="password-error"></div>
+        <input type="password" id="password" formControlName="password">
+        <div class="error" id="password-error" *ngIf="password?.invalid && password?.touched">
+            At least 6 characters, including numbers, letters, and symbols
+        </div>
     </div>
 
-    <div class="form-row">
+    <!-- Comfirm password -->
+    <!-- <div class="form-row">
         <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirmPassword" placeholder="Enter your password again"
-            required>
-        <div class="error" id="confirm-password-error"></div>
-    </div>
+        <input type="password" id="confirm-password" formControlName="confirmPassword" placeholder="Enter your password again">
+        <div class="error" id="confirm-password-error" *ngIf="updateForm.errors?.passwordMismatch && updateForm.get('confirmPassword')?.touched">
+            Passwords do not match.
+        </div>
+    </div> -->
 
+    <!-- Birthday -->
     <div class="form-row">
-        <label for="birthday">Date of birth</label>
-        <input type="date" id="birthday" name="birthday" required>
-        <div class="error" id="birthday-error"></div>
+        <label for="birthdate">Date of birth</label>
+        <input type="date" id="birthdate" formControlName="birthdate">
+        <div class="error" id="birthdate-error" *ngIf="birthdate?.invalid && birthdate?.touched">
+            Date of birth is required.
+        </div>
     </div>
 
+    <!-- submit -->
     <div class="btn">
-        <input type="submit" value="Update">
+        <button type="submit" [disabled]="updateForm.invalid">Update</button>
     </div>
 </form>
