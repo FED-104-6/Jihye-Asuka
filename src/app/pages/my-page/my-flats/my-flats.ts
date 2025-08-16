@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './my-flats.css'
 })
 export class MyFlats {
-
+  
 }
