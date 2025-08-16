@@ -1,1 +1,34 @@
-<p>my-profile works!</p>
+<div class="container">
+    <button class="edit-btn" (click)="goToEditPage()">
+    <i class="material-icons">edit</i>
+    </button>
+
+    <div class="form-row">
+        <label for="first-name">First name:</label>
+        <div>{{ firstName }}</div>
+    </div>
+
+    <!-- last name -->
+    <div class="form-row">
+        <label for="last-name">Last name:</label>
+        <div>{{ lastName }}</div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-row">
+        <label for="email">Email:</label>
+        <div>{{ email }}</div>
+    </div>
+
+    <!-- password -->
+    <div class="form-row">
+        <label for="password">Password:</label>
+        <div>********</div>
+    </div>
+
+    <!-- Birthday -->
+    <div class="form-row">
+        <label for="birthdate">Date of birth:</label>
+        <div>{{ birthDate }}</div>
+    </div>
+</div>
