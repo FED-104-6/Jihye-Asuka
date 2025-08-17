@@ -112,7 +112,7 @@
 }
 
 /* flat content */
-#flat-wrap {
+.flat-wrap {
   width: 1200px;
   min-height: 658px;
   display: flex;
@@ -121,13 +121,13 @@
   align-content: flex-start;
   gap: 10px;
 }
-#flat-wrap #category {
+.flat-wrap #category {
   width: 1200px;
   display: flex;
   justify-content: center;
   gap: 10px;
 }
-#flat-wrap #category p {
+.flat-wrap #category p {
   font-size: 13px;
   font-weight: 500;
   color: lightgray;
@@ -145,6 +145,10 @@
   &:nth-child(4) {
     width: 300px;
   }
+}
+.flat-wrap #no-result {
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .flat-item {

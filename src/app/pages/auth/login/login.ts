@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,6 @@ import { Router } from '@angular/router';
   styleUrl: './login.css',
 })
 export class Login {
-  email = '';
-  password = '';
   errorMessage = '';
 
   loginForm = new FormGroup({
@@ -27,28 +26,30 @@ export class Login {
   });
 
   // private auth: Auth = inject(Auth);             // ✅ 최신 방식으로 Auth 주입
-  // private router = inject(Router);
-  // private authService = inject(AuthService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
-  // getFormErrors(): string {
-  //   for (const field in this.loginForm.controls) {
-  //     const control = this.loginForm.get(field);
-  //     if (control && control.errors) {
-  //       if (control.errors['required']) {
-  //         return `Fill in the ${field} field.`;
-  //       }
-  //       if (control.errors['email']) {
-  //         return 'The email format is invalid.';
-  //       }
-  //     }
-  //   }
-  //   return '';
-  // }
+  // validation
+  getFormErrors(): string {
+    console.log("enter");
+    for (const field in this.loginForm.controls) {
+      const control = this.loginForm.get(field);
+      if (control && control.errors) {
+        if (control.errors['required']) {
+          return `Fill in the ${field} field.`;
+        }
+        if (control.errors['email']) {
+          return 'The email format is invalid.';
+        }
+      }
+    }
+    return '';
+  }
 
   login() {
   // async login() {
-  //   this.errorMessage = this.getFormErrors();
-  //   if (this.errorMessage) return;
+    this.errorMessage = this.getFormErrors();
+    if (this.errorMessage) return;
 
   //   const email = this.loginForm.get('email')?.value?.trim() ?? '';
   //   const password = this.loginForm.get('password')?.value ?? '';
@@ -61,7 +62,7 @@ export class Login {
   //       const displayName = user.displayName ?? email;
   //       alert(`Welcome ${displayName}`);
   //       this.router.navigate(['/home']);
-  //       this.authService.login();
+        // this.authService.login();
   //     }
   //   } catch (error) {
   //     this.errorMessage = 'Email or password is incorrect.';

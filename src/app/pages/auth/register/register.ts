@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/login.service';
 // import { Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 // import { AuthService } from '../../../services/login.service';
 
@@ -21,13 +22,6 @@ import { Router } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
-  
-  email = '';
-  password = '';
-  confirmPw = '';
-  firstname = '';
-  lastname = '';
-  birthdate = '';
   errorMessage = '';
   
   ngOnInit() {
@@ -47,7 +41,7 @@ export class Register {
     lastname: new FormControl('', [Validators.required]),
     birthdate: new FormControl('', [Validators.required]),
   }, {
-    // validators: Register.passwordMatchValidator,
+    validators: Register.passwordMatchValidator,
   });
 
   // ✅ 최신 방식으로 Auth 등 DI
@@ -55,39 +49,39 @@ export class Register {
   // private router = inject(Router);
   // private authService = inject(AuthService);
 
-  // static passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
-  //   const originPw = group.get('password')?.value;
-  //   const confirmPw = group.get('confirmPw')?.value;
-  //   return originPw === confirmPw ? null : { passwordMismatch: true };
-  // }
+  static passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const originPw = group.get('password')?.value;
+    const confirmPw = group.get('confirmPw')?.value;
+    return originPw === confirmPw ? null : { passwordMismatch: true };
+  }
 
-  // getFormErrors(): string {
-  //   for (const field in this.registerForm.controls) {
-  //     const control = this.registerForm.get(field);
-  //     if (control && control.errors) {
-  //       if (control.errors['required']) {
-  //         return `Fill in the ${field} field.`;
-  //       }
-  //       if (control.errors['email']) {
-  //         return 'The email format is invalid.';
-  //       }
-  //       if (control.errors['minlength']) {
-  //         return 'The password should be at least 6 characters.';
-  //       }
-  //     }
-  //   }
+  getFormErrors(): string {
+    for (const field in this.registerForm.controls) {
+      const control = this.registerForm.get(field);
+      if (control && control.errors) {
+        if (control.errors['required']) {
+          return `Fill in the ${field} field.`;
+        }
+        if (control.errors['email']) {
+          return 'The email format is invalid.';
+        }
+        if (control.errors['minlength']) {
+          return 'The password should be at least 6 characters.';
+        }
+      }
+    }
 
-  //   if (this.registerForm.errors?.['passwordMismatch']) {
-  //     return 'The password and confirm do not match.';
-  //   }
+    if (this.registerForm.errors?.['passwordMismatch']) {
+      return 'The password and confirm do not match.';
+    }
 
-  //   return '';
-  // }
+    return '';
+  }
 
   register() {
   // async register() {
-    // this.errorMessage = this.getFormErrors();
-    // if (this.errorMessage) return;
+    this.errorMessage = this.getFormErrors();
+    if (this.errorMessage) return;
 
     // const email = this.registerForm.get('email')?.value?.trim() ?? '';
     // const password = this.registerForm.get('password')?.value ?? '';
