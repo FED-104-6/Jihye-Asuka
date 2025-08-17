@@ -1,35 +1,35 @@
 <div class="container">
     <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
 
-    <!-- first name -->
-    <div class="form-row">
-        <label for="first-name">First name:</label>
-        <input type="text" id="first-name" formControlName="firstName">
-        <div class="error" *ngIf="firstName?.invalid && firstName?.touched">
-            First name is required and must be at least 2 characters.
+        <!-- first name -->
+        <div class="form-row">
+            <label for="first-name">First name:</label>
+            <input type="text" id="first-name" formControlName="firstName">
+            <div class="error" *ngIf="firstName?.invalid && firstName?.touched">
+                First name is required and must be at least 2 characters.
+            </div>
         </div>
-    </div>
 
-    <!-- last name -->
-    <div class="form-row">
-        <label for="last-name">Last name:</label>
-        <input type="text" id="last-name" formControlName="lastName">
-        <div class="error" *ngIf="lastName?.invalid && lastName?.touched">
-            Last name is required and must be at least 2 characters.
+        <!-- last name -->
+        <div class="form-row">
+            <label for="last-name">Last name:</label>
+            <input type="text" id="last-name" formControlName="lastName">
+            <div class="error" *ngIf="lastName?.invalid && lastName?.touched">
+                Last name is required and must be at least 2 characters.
+            </div>
         </div>
-    </div>
 
-    <!-- Email -->
-    <div class="form-row">
-        <label for="email">Email:</label>
-        <input type="email" id="email" formControlName="email">
-        <div class="error" id="overlap-email-error" *ngIf="email?.invalid && email?.touched">
-            Your Email were used by other user.
+        <!-- Email -->
+        <div class="form-row">
+            <label for="email">Email:</label>
+            <input type="email" id="email" formControlName="email">
+            <div class="error" id="overlap-email-error" *ngIf="email?.invalid && email?.touched">
+                Please enter valid email.
+            </div>
         </div>
-    </div>
 
-    <!-- Comfirm Email -->
-    <!-- <div class="form-row">
+        <!-- Comfirm Email -->
+        <!-- <div class="form-row">
         <label for="confirm-email">Confirm Email:</label>
         <input type="email" id="confirm-email" formControlName="confirmEmail" placeholder="Enter your email again" >
         <div class="error" id="match-email-error" *ngIf="updateForm.errors?.emailMismatch && updateForm.get('confirmEmail')?.touched">
@@ -37,36 +37,38 @@
         </div>
     </div> -->
 
-    <!-- password -->
-    <div class="form-row">
-        <label for="password">Password:</label>
-        <input type="password" id="password" formControlName="password">
-        <div class="error" id="password-error" *ngIf="password?.invalid && password?.touched">
-            At least 6 characters, including numbers, letters, and symbols
+        <!-- password -->
+        <div class="form-row">
+            <label for="password">Password:</label>
+            <input type="password" id="password" formControlName="password">
+            <div class="error" id="password-error" *ngIf="password?.invalid && password?.touched">
+                At least 6 characters, including numbers, letters, and symbols
+            </div>
         </div>
-    </div>
 
-    <!-- Comfirm password -->
-    <!-- <div class="form-row">
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" formControlName="confirmPassword" placeholder="Enter your password again">
-        <div class="error" id="confirm-password-error" *ngIf="updateForm.errors?.passwordMismatch && updateForm.get('confirmPassword')?.touched">
-            Passwords do not match.
+        <!-- Comfirm password -->
+        <div class="form-row">
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" formControlName="confirmPassword"
+                placeholder="Enter your password again">
+            <div class="error" id="confirm-password-error"
+                *ngIf="updateForm.errors?.['passwordMatch'] && confirmPassword?.touched">
+                Passwords do not match.
+            </div>
         </div>
-    </div> -->
 
-    <!-- Birthday -->
-    <div class="form-row">
-        <label for="birthdate">Date of birth</label>
-        <input type="date" id="birthdate" formControlName="birthdate">
-        <div class="error" id="birthdate-error" *ngIf="birthdate?.invalid && birthdate?.touched">
-            Date of birth is required.
+        <!-- Birthday -->
+        <div class="form-row">
+            <label for="birthdate">Date of birth</label>
+            <input type="date" id="birthdate" formControlName="birthdate">
+            <div class="error" id="birthdate-error" *ngIf="birthdate?.invalid && birthdate?.touched">
+                Please enter a valid date of birth. Valid age range is 18-120.
+            </div>
         </div>
-    </div>
 
-    <!-- submit -->
-    <div class="btn">
-        <button type="submit" [disabled]="updateForm.invalid">Update</button>
-    </div>
-</form>
+        <!-- submit -->
+        <div class="btn">
+            <button type="submit" [disabled]="updateForm.invalid">Update</button>
+        </div>
+    </form>
 </div>
