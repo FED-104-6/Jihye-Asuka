@@ -1,48 +1,82 @@
-form fieldset {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-form legend {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #2c3e50;
+/* Container */
+.flat-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
-form label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: 500;
+/* Icon for flat-info */
+.flat-info {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    min-width: 200px;
 }
 
-form input[type="text"],
-form input[type="number"],
-form input[type="date"] {
+.flat-info .icon {
+    font-size: 28px;
+    color: #555;
+    margin-right: 15px;
+}
+
+.flat-info .label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 5px;
+    white-space: normal; 
+}
+
+.flat-info .value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
     width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
 }
 
-form input[type="radio"] {
-    margin-right: 0.5rem;
+.flat-info .form-row input:not([type="radio"]) {
+    height: 1.5rem;
+    width: 100%;
 }
 
-/* btn */
-input[type="submit"] {
-  background-color: #3498db;
-  color: white;
-  padding: 0.75rem;
-  width: 100%;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+/* flat-actions */
+.flat-actions {
+    margin-top: 25px;
+    text-align: center;
 }
 
-input[type="submit"]:hover {
-  background-color: #2980b9;
+.flat-actions button,
+.flat-actions button:disabled {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.flat-actions button:hover {
+    background-color: #0056b3;
+}
+
+.flat-actions button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }

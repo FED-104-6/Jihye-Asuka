@@ -1,63 +1,94 @@
 <form [formGroup]="newFlatForm" (ngSubmit)="onSubmit()">
-    <fieldset>
-        <legend>About Address</legend>
-        <div>
-            <label for="city">Which city is your house located in?</label>
-            <br>
-            <input type="text" id="city" formControlName="city">
+    <div class="flat-container">
+        <!-- Adress -->
+        <div class="flat-info">
+            <div class="icon"><i class="material-icons">home</i></div>
+            <div class="form-row">
+                <div class="label">What is the street number of your house?</div>
+                <div class="value">
+                    <input type="number" formControlName="stNum" placeholder="Street Number">
+                </div>
+            </div>
         </div>
 
-        <div>
-            <label for="stName">What street is your house on?</label>
-            <br>
-            <input type="text" id="stName" formControlName="stName">
+        <div class="flat-info">
+            <div class="icon"><i class="material-icons">home</i></div>
+            <div class="form-row">
+                <div class="label">What street is your house on?</div>
+                <div class="value">
+                    <input type="text" formControlName="stName" placeholder="Street Name">
+                </div>
+            </div>
         </div>
 
-        <div>
-            <label for="stNum">What is the street number of your house?</label>
-            <br>
-            <input type="number" id="stNum" formControlName="stNum">
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>About house equipment</legend>
-        <div class="input-wrapper sqm">
-            <label for="size">How big is the house?</label>
-            <br>
-            <input type="number" id="size" formControlName="size">
+        <div class="flat-info">
+            <div class="icon"><i class="material-icons">home</i></div>
+            <div class="form-row">
+                <div class="label">Which city is your house located in?</div>
+                <div class="value">
+                    <input type="text" formControlName="city" placeholder="City">
+                </div>
+            </div>
         </div>
 
-        <div>
-            <label for="hasAC">Does your house have an air conditioner?</label>
-            <br>
-            <input type="radio" formControlName="hasAC" value="yes" checked>Yes
-            <input type="radio" formControlName="hasAC" value="no">No
-        </div>
+        <!-- Main Info -->
+        <div class="flat-detail">
+            <!-- Flat Info -->
+            <div class="flat-info-list">
+                <div class="flat-info">
+                    <div class="icon"><i class="material-icons">attach_money</i></div>
+                    <div class="form-row">
+                        <div class="label">How much is the monthly rent?</div>
+                        <div class="value">
+                            <input type="number" formControlName="price">
+                        </div>
+                    </div>
+                </div>
 
-        <div>
-            <label for="built">When was your house built?</label>
-            <br>
-            <input type="number" id="built" formControlName="built">
-        </div>
-    </fieldset>
+                <div class="flat-info">
+                    <div class="icon"><i class="material-icons">square_foot</i></div>
+                    <div class="form-row">
+                        <div class="label">How big is the house?</div>
+                        <div class="value">
+                            <input type="number" formControlName="size">
+                        </div>
+                    </div>
+                </div>
 
-    <fieldset>
-        <legend>About house availability</legend>
-        <div class="input-wrapper dollar">
-            <label for="\price">How much is the monthly rent?</label>
-            <br>
-            <input type="number" id="price" formControlName="price">
-        </div>
+                <div class="flat-info">
+                    <div class="icon"><i class="material-icons">thermostat</i></div>
+                    <div class="form-row">
+                        <div class="label">Does your house have an air conditioner?</div>
+                        <input type="radio" formControlName="hasAC" value="yes"> Yes
+                        <input type="radio" formControlName="hasAC" value="no"> No
+                    </div>
+                </div>
 
-        <div>
-            <label for="dateAvailable">When do you start accepting tenants?</label>
-            <br>
-            <input type="date" id="dateAvailable" formControlName="dateAvailable">
-        </div>
-    </fieldset>
+                <div class="flat-info">
+                    <div class="icon"><i class="material-icons">apartment</i></div>
+                    <div class="form-row">
+                        <div class="label">When was your house built?</div>
+                        <div class="value">
+                            <input type="number" formControlName="built">
+                        </div>
+                    </div>
+                </div>
 
-    <div class="btn">
-        <input type="submit" value="Register">
+                <div class="flat-info">
+                    <div class="icon"><i class="material-icons">today</i></div>
+                    <div class="form-row">
+                        <div class="label">When do you start accepting tenants?</div>
+                        <div class="value">
+                            <input type="date" formControlName="dateAvailable">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flat-actions">
+                <button type="submit" [disabled]="!newFlatForm.valid">Save Changes</button>
+            </div>
+        </div>
     </div>
 </form>
