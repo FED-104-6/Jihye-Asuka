@@ -1,0 +1,70 @@
+<div class="flat-container">
+    <!-- Header -->
+    <div class="flat-header">
+        <div class="address">
+            <input type="number" formControlName="stNum" placeholder="Street Number">
+            <input type="text" formControlName="stName" placeholder="Street Name">
+            <input type="text" formControlName="city" placeholder="City">
+        </div>
+        <img class="flat-fav" src="/assets/fav-white.png" alt="favorite" />
+    </div>
+
+    <!-- Main Info -->
+    <div>
+        <div class="flat-info">
+            <div class="icon"><i class="material-icons">attach_money</i></div>
+            <div>
+                <div class="label">price</div>
+                <div class="value">
+                    <input type="number" formControlName="price">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="icon"><i class="material-icons">square_foot</i></div>
+            <div>
+                <div class="label">size</div>
+                <div class="value">
+                    <input type="number" formControlName="size">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="icon"><i class="material-icons">ac_unit</i></div>
+            <div>
+                <div class="label">hasAC</div>
+                <div class="value">
+                    <input type="radio" formControlName="hasAC" value="yes"> Yes
+                    <input type="radio" formControlName="hasAC" value="no"> No
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="icon"><i class="material-icons">apartment</i></div>
+            <div>
+                <div class="label">Built In</div>
+                <div class="value">
+                    <input type="number" formControlName="built">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="icon"><i class="material-icons">today</i></div>
+            <div>
+                <div class="label">Date Available</div>
+                <div class="value">
+                    <input type="date" formControlName="dateAvailable">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flat-actions">
+        <button type="submit" [disabled]="!editFlatForm.valid">Save Changes</button>
+    </div>
+</div>
