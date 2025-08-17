@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 })
 
 export class MyProfile {
-  firstName: string = "";
-  lastName: string = "";
-  email: string = "";
-  birthDate = "";
+  firstName: string = "Asuka";
+  lastName: string = "Fukuchi";
+  email: string = "abc123@gmail.com";
+  birthDate = "1997/11/17";
 
   constructor(private router: Router) {}
   goToEditPage(){
