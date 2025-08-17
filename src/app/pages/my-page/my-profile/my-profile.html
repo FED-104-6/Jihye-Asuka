@@ -1,23 +1,25 @@
 <div class="container">
-    <button class="edit-btn" (click)="goToEditPage()">
-    <i class="material-icons">edit</i>
-    </button>
+    <div class="btn-container">
+        <button class="edit-btn" (click)="goToEditPage()">
+            <i class="material-icons">edit</i>
+        </button>
+    </div>
 
     <div class="form-row">
         <label for="first-name">First name:</label>
-        <div>{{ firstName }}</div>
+        <div> Asuka {{ firstName }}</div>
     </div>
 
     <!-- last name -->
     <div class="form-row">
         <label for="last-name">Last name:</label>
-        <div>{{ lastName }}</div>
+        <div>Fukuchi {{ lastName }}</div>
     </div>
 
     <!-- Email -->
     <div class="form-row">
         <label for="email">Email:</label>
-        <div>{{ email }}</div>
+        <div>abc123@gmail.com {{ email }}</div>
     </div>
 
     <!-- password -->
@@ -29,6 +31,6 @@
     <!-- Birthday -->
     <div class="form-row">
         <label for="birthdate">Date of birth:</label>
-        <div>{{ birthDate }}</div>
+        <div> 1997/11/17 {{ birthDate }}</div>
     </div>
 </div>

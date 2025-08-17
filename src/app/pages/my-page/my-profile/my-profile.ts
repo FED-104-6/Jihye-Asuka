@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-//import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-profile',
@@ -14,8 +14,8 @@ export class MyProfile {
   email: string = "";
   birthDate = "";
 
-  //constructor(private router: Router) {}
+  constructor(private router: Router) {}
   goToEditPage(){
-    //this.router.navigate(['/edit-profile'])
+    this.router.navigate(['/edit-profile'])
   }
 }
