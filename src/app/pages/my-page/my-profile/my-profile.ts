@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 
 export class MyProfile {
+  //TODO: get current user information from database to display user data
   firstName: string = "Asuka";
   lastName: string = "Fukuchi";
   email: string = "abc123@gmail.com";
