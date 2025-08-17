@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 
 export class EditProfile {
+  //TODO: get current user information from database to display user data for reducing user task
   updateForm = new FormGroup({
     firstName: new FormControl("", [
       Validators.required,
@@ -84,6 +85,7 @@ export class EditProfile {
 
   onSubmit() {
     if (this.updateForm.valid) {
+      //TODO: Update User information to database
       this.goToMyProfilePage()
     }
   }
