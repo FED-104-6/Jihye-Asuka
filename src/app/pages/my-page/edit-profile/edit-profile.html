@@ -1,4 +1,5 @@
-<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+<div class="container">
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
 
     <!-- first name -->
     <div class="form-row">
@@ -68,3 +69,4 @@
         <button type="submit" [disabled]="updateForm.invalid">Update</button>
     </div>
 </form>
+</div>
