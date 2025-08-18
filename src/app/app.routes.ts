@@ -7,6 +7,8 @@ import { MyFlats } from './pages/my-page/my-flats/my-flats';
 import { MyProfile } from './pages/my-page/my-profile/my-profile';
 import { EditProfile } from './pages/my-page/edit-profile/edit-profile';
 import { NewFlat } from './pages/flat/new-flat/new-flat';
+import { Admin } from './pages/admin/admin';
+import { AllUsers } from './pages/admin/all-users/all-users';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -20,4 +22,12 @@ export const routes: Routes = [
   { path: 'edit-profile', component: EditProfile },
 
   { path: 'new-flat', component: NewFlat },
+
+  {
+    path: 'admin',
+    component: Admin,
+    children: [
+      { path: 'all-users', component: AllUsers }, // 하위 페이지
+    ],
+  },
 ];

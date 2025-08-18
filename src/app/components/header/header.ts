@@ -10,8 +10,9 @@ import { Router } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
-  isLoggedIn = false;
+  isLoggedIn = true;
   isMenuOpen = false;
+  isUserAdmin = true;
 
   closeMenu() {
     this.isMenuOpen = false; 

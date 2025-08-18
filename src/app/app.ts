@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-root',
   imports: [RouterOutlet, CommonModule, Header, Footer],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('angular-react');
@@ -16,6 +16,15 @@ export class App {
   constructor(public router: Router) {}
 
   get showHeader() {
-    return !['/login', '/register'].includes(this.router.url);
+    const url = this.router.url;
+    return !(
+      url === '/login' ||
+      url === '/register' ||
+      url.startsWith('/admin')
+    );
   }
+  get showFooter() {
+  const url = this.router.url;
+  return !(url.startsWith('/admin'));
+}
 }

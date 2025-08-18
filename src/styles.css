@@ -3,7 +3,7 @@
 :root {
   --btn-grey: rgb(195, 195, 195);
   --btn-grey-on: rgb(161, 161, 161);
-  --btn-blue: #9ebbce
+  --btn-blue: #9ebbce;
 }
 
 * {
@@ -29,9 +29,10 @@ button {
 }
 
 .common-back {
-  max-width: 1200px;
+  width: 100%;
+  /* max-width: 1200px; */
   min-height: calc(100vh - 110px);
-  margin: 0 auto;
+  /* margin: 0 auto; */
 
   display: flex;
   justify-content: center;
@@ -42,5 +43,12 @@ button {
   height: calc(100vh - 50px);
 }
 
-html, body { height: 100%; background-color: white; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  background-color: white;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

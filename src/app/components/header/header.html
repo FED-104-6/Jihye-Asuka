@@ -1,6 +1,9 @@
 <header>
   <nav>
-    <a id="logo" (click)="closeMenu()" routerLink="/home"><img src="/assets/logo.png" alt="" /></a>
+    <div id="left-menu">
+      <a id="logo" (click)="closeMenu()" routerLink="/home"><img src="/assets/logo.png" alt="" /></a>
+      <a id="admin" *ngIf="isUserAdmin" routerLink="/admin">Admin</a>
+    </div>
 
     <div *ngIf="isLoggedIn">
       <div id="mypage">

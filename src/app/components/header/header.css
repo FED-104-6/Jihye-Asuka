@@ -1,7 +1,8 @@
 nav {
-  max-width: 1200px;
+  width: 100%;
+  /* max-width: 1200px; */
   height: 60px;
-  margin: 0 auto;
+  padding: 0 20px;
 
   display: flex;
   align-items: center;
@@ -10,8 +11,17 @@ nav {
   position: relative;
 }
 
+#left-menu {
+  display: flex;
+  gap: 20px;
+}
 #logo img {
   width: 80px;
+}
+#admin {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(255, 60, 92);
 }
 
 nav div #mypage,

@@ -1,0 +1,26 @@
+<div id="admin-back">
+  <div id="admin-menu">
+    <a id="logo" routerLink="/home"><img src="/assets/logo.png" alt="" /></a>
+    <nav>
+      <a
+        routerLink="/admin"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >HOME</a
+      >
+      <a routerLink="all-users" routerLinkActive="active">All users</a>
+    </nav>
+    <div id="admin-user">
+      <div id="img-box">
+        <img src="/assets/sample.jpg" alt="" />
+      </div>
+      <div id="inform">
+        <p>JIHYE PARK</p>
+        <p>qkrwlgp1526@gmail.com</p>
+      </div>
+    </div>
+  </div>
+  <div id="child-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
