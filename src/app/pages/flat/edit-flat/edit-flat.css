@@ -53,6 +53,13 @@
     width: 100%;
 }
 
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-left: 4px;
+    display: block;
+  }
+
 /* flat-actions */
 .flat-actions {
   margin-top: 25px;
