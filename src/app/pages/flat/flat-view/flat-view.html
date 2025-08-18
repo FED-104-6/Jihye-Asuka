@@ -1,8 +1,11 @@
 <div class="flat-container">
     <!-- Header -->
     <div class="flat-header">
-        <p class="address">233 Robson St, Vancouver BC</p>
-        <img class="flat-fav" src="/assets/fav-white.png" alt="favorite" />
+        <p class="address">{{ flat.address.stNum }} {{ flat.address.stName }}, {{ flat.address.city }}</p>
+        <img class="flat-fav" 
+        [src]="flat.isFavorite ? '/assets/fav-black.png' : '/assets/fav-white.png'"  
+        alt="favorite"
+        (click)="toggleFavorite()" />
     </div>
 
     <!-- Main Info -->
@@ -13,7 +16,7 @@
                 <div class="icon"><i class="material-icons">attach_money</i></div>
                 <div class="form-row">
                     <div class="label">price</div>
-                    <div class="value">950</div>
+                    <div class="value">{{ flat.price  | currency:'CAD':'symbol':'1.0-0' }}</div>
                 </div>
             </div>
 
@@ -21,7 +24,7 @@
                 <div class="icon"><i class="material-icons">square_foot</i></div>
                 <div class="right">
                     <div class="label">size</div>
-                    <div class="value">60</div>
+                    <div class="value">{{ flat.size }}</div>
                 </div>
             </div>
 
@@ -29,7 +32,7 @@
                 <div class="icon"><i class="material-icons">thermostat</i></div>
                 <div class="right">
                     <div class="label">hasAC</div>
-                    <div class="value">Yes</div>
+                    <div class="value">{{ flat.hasAC}}</div>
                 </div>
             </div>
 
@@ -37,7 +40,7 @@
                 <div class="icon"><i class="material-icons">apartment</i></div>
                 <div class="right">
                     <div class="label">Built In</div>
-                    <div class="value">2012</div>
+                    <div class="value">{{ flat.built }}</div>
                 </div>
             </div>
 
@@ -45,7 +48,7 @@
                 <div class="icon"><i class="material-icons">today</i></div>
                 <div class="right">
                     <div class="label">Date Available</div>
-                    <div class="value">2025/08/26</div>
+                    <div class="value">{{ flat.dateAvailable | date:'yyyy/MM/dd' }}</div>
                 </div>
             </div>
         </div>
@@ -54,7 +57,7 @@
         <div class="owner-section">
             <div class="owner-info">
                 <h3>Owner Information</h3>
-                <p><strong>Email:</strong> owner@example.com</p>
+                <p><strong>Email:</strong> {{ flat.owner.email }}</p>
             </div>
 
             <div class="message-box">
