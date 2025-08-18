@@ -4,7 +4,7 @@
         <div class="flat-info">
             <div class="icon"><i class="material-icons">home</i></div>
             <div class="form-row">
-                <div class="label">What is the street number of your house?</div>
+                <label for="stNum" class="label">What is the street number of your house?</label>
                 <div class="value">
                     <input type="number" formControlName="stNum" placeholder="Street Number">
                 </div>
@@ -17,7 +17,7 @@
         <div class="flat-info">
             <div class="icon"><i class="material-icons">home</i></div>
             <div class="form-row">
-                <div class="label">What street is your house on?</div>
+                <label for="stName" class="label">What street is your house on?</label>
                 <div class="value">
                     <input type="text" formControlName="stName" placeholder="Street Name">
                 </div>
@@ -30,7 +30,7 @@
         <div class="flat-info">
             <div class="icon"><i class="material-icons">home</i></div>
             <div class="form-row">
-                <div class="label">Which city is your house located in?</div>
+                <label for="city" class="label">Which city is your house located in?</label>
                 <div class="value">
                     <input type="text" formControlName="city" placeholder="City">
                 </div>
@@ -47,7 +47,7 @@
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">attach_money</i></div>
                     <div class="form-row">
-                        <div class="label">How much is the monthly rent?</div>
+                        <label for="price" class="label">How much is the monthly rent?</label>
                         <div class="value">
                             <input type="number" formControlName="price">
                         </div>
@@ -60,7 +60,7 @@
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">square_foot</i></div>
                     <div class="form-row">
-                        <div class="label">How big is the house?</div>
+                        <label for="size" class="label">How big is the house?</label>
                         <div class="value">
                             <input type="number" formControlName="size">
                         </div>
@@ -73,16 +73,22 @@
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">thermostat</i></div>
                     <div class="form-row">
-                        <div class="label">Does your house have an air conditioner?</div>
-                        <input type="radio" formControlName="hasAC" value="yes"> Yes
-                        <input type="radio" formControlName="hasAC" value="no"> No
+                        <label>Does your house have an air conditioner?</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" formControlName="hasAC" value="yes"> Yes
+                            </label>
+                            <label>
+                                <input type="radio" formControlName="hasAC" value="no"> No
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">apartment</i></div>
                     <div class="form-row">
-                        <div class="label">When was your house built?</div>
+                        <label for="built" class="label">When was your house built?</label>
                         <div class="value">
                             <input type="number" formControlName="built">
                         </div>
@@ -95,7 +101,7 @@
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">today</i></div>
                     <div class="form-row">
-                        <div class="label">When do you start accepting tenants?</div>
+                        <label for="dateAvailable" class="label">When do you start accepting tenants?</label>
                         <div class="value">
                             <input type="date" formControlName="dateAvailable">
                         </div>

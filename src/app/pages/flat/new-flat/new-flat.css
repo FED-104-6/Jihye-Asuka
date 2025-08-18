@@ -60,7 +60,13 @@
     font-size: 0.9em;
     margin-left: 4px;
     display: block;
-  }
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
 
 /* flat-actions */
 .flat-actions {
