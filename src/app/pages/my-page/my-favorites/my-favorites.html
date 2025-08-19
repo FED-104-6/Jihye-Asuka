@@ -7,52 +7,17 @@
         <p>Owner</p>
     </div>
 
-    <a href="" class="btn-hover flat-item">
+    <a *ngFor="let flat of favFlats" class="btn-hover flat-item">
+         <!-- [routerLink]="['/flat-view', flat.id]" -->
         <div class="flat-inform">
             <div class="flat-img">
-                <img src="/assets/home.png" alt="" />
+                <img [src]="flat.image" alt="Flat Image" />
             </div>
-            <p class="address">233 Robson st, Vancouver BC</p>
-            <p class="size">56m²</p>
-            <p class="price">$24,000 CAD</p>
-            <p>linda@gmail.com (Linda)</p>
-            <img class="flat-fav" src="/assets/fav-white.png" alt="" />
-        </div>
-    </a>
-    <a href="" class="btn-hover flat-item">
-        <div class="flat-inform">
-            <div class="flat-img">
-                <img src="/assets/home.png" alt="" />
-            </div>
-            <p class="address">233 Robson st, Vancouver BC</p>
-            <p class="size">56m²</p>
-            <p class="price">$24,000 CAD</p>
-            <p>linda@gmail.com (Linda)</p>
-            <img class="flat-fav" src="/assets/fav-white.png" alt="" />
-        </div>
-    </a>
-    <a href="" class="btn-hover flat-item">
-        <div class="flat-inform">
-            <div class="flat-img">
-                <img src="/assets/home.png" alt="" />
-            </div>
-            <p class="address">233 Robson st, Vancouver BC</p>
-            <p class="size">56m²</p>
-            <p class="price">$24,000 CAD</p>
-            <p>linda@gmail.com (Linda)</p>
-            <img class="flat-fav" src="/assets/fav-white.png" alt="" />
-        </div>
-    </a>
-    <a href="" class="btn-hover flat-item">
-        <div class="flat-inform">
-            <div class="flat-img">
-                <img src="/assets/home.png" alt="" />
-            </div>
-            <p class="address">233 Robson st, Vancouver BC</p>
-            <p class="size">56m²</p>
-            <p class="price">$24,000 CAD</p>
-            <p>linda@gmail.com (Linda)</p>
-            <img class="flat-fav" src="/assets/fav-white.png" alt="" />
+            <p class="address">{{ flat.address }}</p>
+            <p class="size">{{ flat.size }}</p>
+            <p class="price">{{ flat.price }}</p>
+            <p>{{ flat.ownerEmail }} ({{ flat.owner }})</p>
+            <img class="flat-fav" [src]="flat.fav ? '/assets/fav-white.png' : '/assets/fav.png'" alt="Favorite Icon" />
         </div>
     </a>
 </div>
