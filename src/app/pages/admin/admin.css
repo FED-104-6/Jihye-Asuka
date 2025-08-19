@@ -34,7 +34,7 @@ nav a.active {
 #admin-user {
   width: 230px;
   height: 90px;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -66,4 +66,5 @@ nav a.active {
 #child-content {
   width: calc(100vw - 230px);
   height: 100vh;
+  padding: 0 50px;
 }

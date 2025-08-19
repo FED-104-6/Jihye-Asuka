@@ -1,3 +1,116 @@
-<div>
-    All users
+<!-- filter nav -->
+<div id="filter-nav" [ngClass]="{ open: isFilterOpen }">
+  <img
+    id="filter-close"
+    class="btn-hover"
+    src="/assets/close.png"
+    (click)="isFilterOpen = !isFilterOpen"
+    alt=""
+  />
+  <h3>Search Filter</h3>
+  <div id="filter-filtering">
+    <div>
+      <label>User Type</label>
+      <input [(ngModel)]="type" type="hidden" />
+      <div>
+        <div>Basic</div>
+        <div>Writer</div>
+      </div>
+    </div>
+    <div>
+      <label>Age</label>
+      <div>
+        <input [(ngModel)]="ageA" type="number" placeholder="min" />
+        <span>~</span>
+        <input [(ngModel)]="ageB" type="number" placeholder="max" />
+      </div>
+    </div>
+    <div>
+      <label>Flats Counter</label>
+      <div>
+        <input [(ngModel)]="cntA" type="number" placeholder="min" />
+        <span>~</span>
+        <input [(ngModel)]="cntB" type="number" placeholder="max" />
+      </div>
+    </div>
+    <div>
+      <label>Is Admin</label>
+      <div>
+        <input [(ngModel)]="isAdmin" type="hidden" />
+        <div>
+          <div>Y</div>
+          <div>N</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="filter-sort">
+    <div>
+      <input id="aToZ" [(ngModel)]="sort" value="aToZ" type="radio" />
+      <label for="aToZ">City (A-Z)</label>
+    </div>
+    <div>
+      <input id="zToA" [(ngModel)]="sort" value="zToA" type="radio" />
+      <label for="zToA">City (Z-A)</label>
+    </div>
+    <div>
+      <input id="priceLH" [(ngModel)]="sort" value="priceLH" type="radio" />
+      <label for="priceLH">Price (Low to high)</label>
+    </div>
+    <div>
+      <input id="priceHL" [(ngModel)]="sort" value="priceHL" type="radio" />
+      <label for="priceHL">Price (High to low)</label>
+    </div>
+    <div>
+      <input id="sizeLH" [(ngModel)]="sort" value="sizeLH" type="radio" />
+      <label for="sizeLH">Size (Low to high)</label>
+    </div>
+    <div>
+      <input id="sizeHL" [(ngModel)]="sort" value="sizeHL" type="radio" />
+      <label for="sizeHL">Size (High to low)</label>
+    </div>
+  </div>
+  <div id="filter-apply">
+    <button id="reset-btn" type="button" (click)="filterReset()">Reset</button>
+    <button id="apply-btn" type="button" (click)="filterApply()">Apply</button>
+  </div>
+</div>
+
+<!-- user title -->
+<div id="user-control">
+  <div id="title">
+    Listing Users <span>({{ filteredItems.length }})</span>
+  </div>
+  <div id="filter" class="btn-hover" (click)="isFilterOpen = !isFilterOpen">
+    <img src="/assets/filter.png" alt="" />
+    Filter
+  </div>
+</div>
+
+<!-- user content -->
+<div class="user-wrap" *ngIf="filteredItems.length > 0">
+  <div id="category">
+    <p>First Name</p>
+    <p>Last Name</p>
+    <p>Email</p>
+    <p>User Type</p>
+    <p>Age</p>
+    <p>Flat Counter</p>
+    <p>Is Admin</p>
+    <p>Manage</p>
+  </div>
+
+  <div
+    class="btn-hover user-item"
+    *ngFor="let user of getAllUsers(); let i = index"
+  >
+    <p class="firstname">{{ user.firstname }}</p>
+    <p class="lastname">{{ user.lastname }}</p>
+    <p class="email">{{ user.email }}</p>
+    <!-- <p class="price">${{ user.price | number : "1.0-0" }} CAD</p> -->
+    <!-- <p>{{ user.ownerEmail }} ({{ user.ownerName }})</p> -->
+  </div>
+</div>
+<div class="user-wrap" *ngIf="filteredItems.length === 0">
+  <p id="no-result">No results found. ✅</p>
 </div>
