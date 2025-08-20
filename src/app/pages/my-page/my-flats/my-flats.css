@@ -11,8 +11,8 @@
 #flat-wrap #category {
   width: 1200px;
   display: flex;
-  justify-content: center;
   gap: 10px;
+  padding: 0 60px;
 }
 #flat-wrap #category p {
   font-size: 13px;
@@ -21,7 +21,7 @@
   text-align: center;
 
   &:nth-child(1) {
-    width: 470px;
+    width: 430px;
   }
   &:nth-child(2) {
     width: 130px;

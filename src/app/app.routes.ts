@@ -9,6 +9,8 @@ import { EditProfile } from './pages/my-page/edit-profile/edit-profile';
 import { NewFlat } from './pages/flat/new-flat/new-flat';
 import { Admin } from './pages/admin/admin';
 import { AllUsers } from './pages/admin/all-users/all-users';
+import { EditFlat } from './pages/flat/edit-flat/edit-flat';
+import { FlatView } from './pages/flat/flat-view/flat-view';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -22,12 +24,12 @@ export const routes: Routes = [
   { path: 'edit-profile', component: EditProfile },
 
   { path: 'new-flat', component: NewFlat },
+  { path: 'edit-flat', component: EditFlat },
+  { path: 'flat-view', component: FlatView },
 
   {
     path: 'admin',
     component: Admin,
-    children: [
-      { path: 'all-users', component: AllUsers }, // 하위 페이지
-    ],
+    children: [{ path: 'all-users', component: AllUsers }],
   },
 ];

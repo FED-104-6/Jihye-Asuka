@@ -4,6 +4,8 @@
   --btn-grey: rgb(195, 195, 195);
   --btn-grey-on: rgb(161, 161, 161);
   --btn-blue: #9ebbce;
+  --gray-black: rgb(30, 30, 30);
+  --light-gray-black: rgb(58, 58, 58);
 }
 
 * {

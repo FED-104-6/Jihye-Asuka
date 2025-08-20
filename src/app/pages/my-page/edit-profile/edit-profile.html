@@ -1,4 +1,5 @@
 <div class="container">
+    <p id="title">Edit Profile</p>
     <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
 
         <!-- first name -->
@@ -67,8 +68,8 @@
         </div>
 
         <!-- submit -->
-        <div class="btn">
-            <button type="submit" [disabled]="updateForm.invalid">Update</button>
-        </div>
+        <button type="submit" [disabled]="updateForm.invalid">Update</button>
+        <!-- <div class="btn">
+        </div> -->
     </form>
 </div>

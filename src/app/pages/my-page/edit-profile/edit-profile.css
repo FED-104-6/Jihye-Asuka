@@ -1,57 +1,59 @@
+#title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
 .container {
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    position: relative;
-    max-width: 700px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+.container form {
+  padding: 40px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
 }
 
 .form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
-.form-row label,
-.form-row input {
-    margin-bottom: 15px;
-}
-
 .form-row label {
-    width: 150px;
-    margin-right: 1rem;
-    text-align: right;
+  font-size: 14px;
 }
 
 .form-row input {
-    width: 500px;
-    padding: 0.5rem;
+  width: 500px;
+  padding: 0.5rem;
 }
 
 .error {
-    color: red;
-    font-size: 0.9em;
-    margin-left: 4px;
-    display: block;
-  }
+  color: red;
+  font-size: 0.9em;
+  display: block;
+}
 
 /* btn */
 button[type="submit"] {
-  background-color: #3498db;
+  width: 100%;
+  background-color: var(--light-gray-black);
   color: white;
   padding: 0.75rem;
-  width: 100%;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+  border-radius: 7px;
 
-
-button[type="submit"]:hover {
-  background-color: #2980b9;
+  &:hover {
+    background-color: var(--gray-black);
+  }
 }
 
 /* Need improve */
@@ -65,7 +67,6 @@ button[type="submit"]:hover {
   .form-row label {
     width: 100%;
     text-align: left;
-    margin-bottom: 5px;
   }
 
   .form-row input {
