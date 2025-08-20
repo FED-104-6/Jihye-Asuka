@@ -1,0 +1,23 @@
+<!-- flat content -->
+<div id="flat-wrap">
+    <div id="category">
+        <p>Address</p>
+        <p>Size</p>
+        <p>Price</p>
+        <p>Date Available</p>
+    </div>
+
+    <a *ngFor="let flat of myFlats" class="btn-hover flat-item">
+        <div class="flat-inform">
+            <div class="flat-img">
+                <img [src]="flat.img" alt="flat" />
+            </div>
+            <p class="address">{{ flat.address.stNum }} {{ flat.address.stName }}, {{ flat.address.city }}</p>
+            <p class="size">{{ flat.size }} m²</p>
+            <p class="price">${{ flat.price }} CAD</p>
+            <p>{{ flat.dateAvailable | date:'yyyy/MM/dd' }}</p>
+            <i class="material-icons" (click)="goToFlatEdit(flat)">edit</i>
+            <i class="material-icons" (click)="onDelete(flat)">delete</i>
+        </div>
+    </a>
+</div>

@@ -1,11 +1,34 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-my-profile',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './my-profile.html',
   styleUrl: './my-profile.css'
 })
-export class MyProfile {
 
+export class MyProfile {
+  //TODO: get current user information from database to display user data
+  firstName: string = "Asuka";
+  lastName: string = "Fukuchi";
+  email: string = "abc123@gmail.com";
+  birthDate = "1997/11/17";
+
+  constructor(private router: Router) {}
+  // private userService: UserService
+
+  ngOnInit(){
+    // this.userService.getCurrentUser().subscribe(user => {
+    //   this.firstName = user.firstName;
+    //   this.lastName = user.lastName;
+    //   this.email = user.email;
+    //   this.birthDate = user.birthDate;
+    // });
+  }
+
+  goToEditPage(){
+    this.router.navigate(['/edit-profile'])
+  }
 }

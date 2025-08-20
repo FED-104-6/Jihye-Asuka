@@ -1,0 +1,23 @@
+<!-- flat content -->
+<div id="flat-wrap">
+    <div id="category">
+        <p>Address</p>
+        <p>Size</p>
+        <p>Price</p>
+        <p>Owner</p>
+    </div>
+
+    <a *ngFor="let flat of favFlats" class="btn-hover flat-item">
+         <!-- [routerLink]="['/flat-view', flat.id]" -->
+        <div class="flat-inform">
+            <div class="flat-img">
+                <img [src]="flat.image" alt="Flat Image" />
+            </div>
+            <p class="address">{{ flat.address }}</p>
+            <p class="size">{{ flat.size }}</p>
+            <p class="price">{{ flat.price }}</p>
+            <p>{{ flat.ownerEmail }} ({{ flat.owner }})</p>
+            <img class="flat-fav" [src]="flat.fav ? '/assets/fav-white.png' : '/assets/fav.png'" alt="Favorite Icon" />
+        </div>
+    </a>
+</div>
