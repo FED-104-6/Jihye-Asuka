@@ -2,15 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 interface User {
   id: number;
   firstname: string;
   lastname: string;
   email: string;
-  // type: string; // 뭔데 이게
+  password: string;
+  birthdate: Date;
+  age?: number;
+  type: Array<string>; 
+  admin: boolean; // db 컬럼에 추가하기
   // flatCnt: number; // falt 이랑 forign key
-  // isAdmin: boolean; // db 컬럼에 추가하기
 }
 function getAge(birthDate: Date): number {
   const today = new Date();
@@ -23,7 +27,6 @@ function getAge(birthDate: Date): number {
   if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
     age--;
   }
-
   return age;
 }
 
@@ -34,30 +37,7 @@ function getAge(birthDate: Date): number {
   styleUrl: './all-users.css',
 })
 export class AllUsers {
-  allUserDB = [
-    {
-      id: 0,
-      firstname: 'Jihye',
-      lastname: 'Park',
-      email: 'qkrwlgp1526@gmail.com',
-      birthdate: new Date('2004-02-14'),
-    },
-    {
-      id: 1,
-      firstname: 'Jungkook',
-      lastname: 'Jeon',
-      email: 'hijklmnop@gmail.com',
-      birthdate: new Date('1997-09-07'),
-    },
-    {
-      id: 2,
-      firstname: 'Doyoung',
-      lastname: 'Kim',
-      email: 'kiadoyoung@kia.com',
-      birthdate: new Date('2003-10-02'),
-    },
-  ];
-
+  allUserDB: User[] = [];
   isFilterOpen = false;
 
   // filter
@@ -68,14 +48,28 @@ export class AllUsers {
   cntB: number | null = null;
   isAdmin: boolean | null = null;
   sort: string = '';
-  filteredItems: User[] = this.allUserDB.map((user) => ({
-    ...user,
-    age: getAge(user.birthdate), // age 계산해서 추가
-  }));
+  filteredItems: User[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
+    this.userService.getUsers().subscribe({
+      next: (data) => {
+        this.allUserDB = data;
+        console.log(data);
+        this.filteredItems = this.allUserDB.map((user) => ({
+          ...user,
+          birthdate: new Date(user.birthdate), // 문자열 → Date
+          age: getAge(new Date(user.birthdate)),
+        }));
+      },
+      error: (err) => console.error(err),
+    });
+
     this.route.queryParams.subscribe((params) => {
       this.type = params['type'] || '';
       this.ageA = params['ageA'] ? Number(params['ageA']) : null;
@@ -90,6 +84,7 @@ export class AllUsers {
   getAllUsers() {
     return this.filteredItems;
   }
+
   filterReset() {
     this.type = this.sort = '';
     this.ageA = this.ageB = null;

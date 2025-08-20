@@ -88,29 +88,33 @@
 </div>
 
 <!-- user content -->
-<div class="user-wrap" *ngIf="filteredItems.length > 0">
-  <div id="category">
-    <p>First Name</p>
-    <p>Last Name</p>
-    <p>Email</p>
-    <p>User Type</p>
-    <p>Age</p>
-    <p>Flat Counter</p>
-    <p>Is Admin</p>
-    <p>Manage</p>
-  </div>
-
-  <div
-    class="btn-hover user-item"
-    *ngFor="let user of getAllUsers(); let i = index"
-  >
-    <p class="firstname">{{ user.firstname }}</p>
-    <p class="lastname">{{ user.lastname }}</p>
-    <p class="email">{{ user.email }}</p>
-    <!-- <p class="price">${{ user.price | number : "1.0-0" }} CAD</p> -->
-    <!-- <p>{{ user.ownerEmail }} ({{ user.ownerName }})</p> -->
-  </div>
-</div>
+<table *ngIf="filteredItems.length > 0" class="user-table">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>User Type</th>
+      <th>Age</th>
+      <th>Flat Counter</th>
+      <th>Is Admin</th>
+      <th>Manage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of getAllUsers(); let i = index">
+      <td>{{ user.firstname }}</td>
+      <td>{{ user.lastname }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.type }}</td>
+      <td>{{ user.age }}</td>
+      <!-- user.flatCnt 만들어서 넣기 -->
+      <td>{{ user.age }}</td>
+      <td>{{ user.admin }}</td>
+      <td><button class="profile-btn">View profile</button></td>
+    </tr>
+  </tbody>
+</table>
 <div class="user-wrap" *ngIf="filteredItems.length === 0">
   <p id="no-result">No results found. ✅</p>
 </div>

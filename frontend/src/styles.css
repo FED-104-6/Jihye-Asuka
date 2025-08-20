@@ -32,9 +32,7 @@ button {
 
 .common-back {
   width: 100%;
-  /* max-width: 1200px; */
   min-height: calc(100vh - 110px);
-  /* margin: 0 auto; */
 
   display: flex;
   justify-content: center;
@@ -44,11 +42,14 @@ button {
 .login-register-height {
   height: calc(100vh - 50px);
 }
+.admin-display-block {
+  display: block;
+}
 
 html,
 body {
+  min-width: 980px;
   height: 100%;
-  background-color: white;
 }
 body {
   margin: 0;

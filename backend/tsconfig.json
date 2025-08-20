@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",          // 최신 JS 문법 지원
+    "module": "commonjs",        // Node.js 환경은 commonjs
+    "rootDir": "./",             // 소스코드 기준 폴더
+    "outDir": "./dist",          // 빌드 결과물 폴더
+    "strict": true,              // 엄격 모드 (타입 검사 강화)
+    "esModuleInterop": true,     // import/export 호환성
+    "skipLibCheck": true         // 라이브러리 타입 검사 건너뜀 (속도 ↑)
+  },
+  "include": ["**/*.ts"],        // backend 폴더 안의 ts 파일 전부 포함
+  "exclude": ["node_modules", "dist"]
+}
