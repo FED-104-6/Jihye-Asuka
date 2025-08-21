@@ -101,10 +101,10 @@
       <div class="flat-img">
         <img src="/assets/home.png" alt="" />
       </div>
-      <p class="address">{{ flat.city }}</p>
+      <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
       <p class="size">{{ flat.size }}m²</p>
       <p class="price">${{ flat.price | number : "1.0-0" }} CAD</p>
-      <p>{{ flat.ownerEmail }} ({{ flat.ownerName }})</p>
+      <!-- <p>{{ flat.ownerEmail }} ({{ flat.ownerName }})</p> -->
       <img class="flat-fav" src="/assets/fav-white.png" alt="" />
     </div>
   </a>

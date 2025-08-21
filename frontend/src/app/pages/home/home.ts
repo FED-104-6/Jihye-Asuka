@@ -2,14 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FlatService } from '../../services/flat.service';
 
-interface Item {
+interface Flat {
   id: number;
   city: string;
+  stName: string;
+  stNum: number;
   size: number;
+  hasAC: boolean;
+  year: number;
   price: number;
-  ownerEmail: string;
-  ownerName: string;
+  availDate: Date;
+  userid: number;
 }
 
 @Component({
@@ -19,25 +24,7 @@ interface Item {
   styleUrl: './home.css',
 })
 export class Home {
-  allFlatDB = [
-    {
-      id: 0,
-      city: '233 Robson st, Vancouver BC',
-      size: 560,
-      price: 24000,
-      ownerEmail: 'owneremail@gmail.com',
-      ownerName: 'Linda',
-    },
-    {
-      id: 1,
-      city: '2338 Robson st, Victoria BC',
-      size: 56,
-      price: 24000,
-      ownerEmail: 'owneremail@gmail.com',
-      ownerName: 'Victor',
-    },
-  ];
-
+  allFlatDB: Flat[] = [];
   isLoggedIn = false;
   isFilterOpen = false;
 
@@ -48,11 +35,26 @@ export class Home {
   sizeA: number | null = null;
   sizeB: number | null = null;
   sort: string = '';
-  filteredItems: Item[] = [...this.allFlatDB];
+  filteredItems: Flat[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private flatService: FlatService
+  ) {}
 
   ngOnInit() {
+    this.flatService.getFlats().subscribe({
+      next: (data) => {
+        this.allFlatDB = data;
+        console.log(data);
+        this.filteredItems = this.allFlatDB.map((flat) => ({
+          ...flat,
+        }));
+      },
+      error: (err) => console.error(err),
+    });
+
     this.route.queryParams.subscribe((params) => {
       this.city = params['city'] || '';
       this.priceA = params['priceA'] ? Number(params['priceA']) : null;
@@ -96,7 +98,7 @@ export class Home {
     });
 
     // sort
-    const sortFuncs: Record<string, (a: Item, b: Item) => number> = {
+    const sortFuncs: Record<string, (a: Flat, b: Flat) => number> = {
       aToZ: (a, b) => a.city.localeCompare(b.city),
       zToA: (a, b) => b.city.localeCompare(a.city),
       priceLH: (a, b) => a.price - b.price,
@@ -119,7 +121,7 @@ export class Home {
       sort: this.sort,
     };
     Object.keys(params).forEach(
-      (key) => (params[key] == null || params[key] === '') && delete params[key] 
+      (key) => (params[key] == null || params[key] === '') && delete params[key]
     );
 
     this.router.navigate([], {
