@@ -104,6 +104,7 @@ export class AllUsers {
         this.filteredItems = this.filteredItems.filter(
           (u) => u._id !== user._id
         );
+        window.location.reload();
       },
       error: (err) => console.error(err),
     });
@@ -123,6 +124,7 @@ export class AllUsers {
           this.allUserDB[index].admin = updatedUser.admin;
           this.filteredItems[index].admin = updatedUser.admin;
         }
+        window.location.reload();
       },
       error: (err) => console.error(err),
     });

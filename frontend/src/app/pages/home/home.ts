@@ -47,7 +47,6 @@ export class Home {
     this.flatService.getFlats().subscribe({
       next: (data) => {
         this.allFlatDB = data;
-        console.log(data);
         this.filteredItems = this.allFlatDB.map((flat) => ({
           ...flat,
         }));
