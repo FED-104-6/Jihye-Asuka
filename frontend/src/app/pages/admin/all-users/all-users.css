@@ -1,4 +1,4 @@
-/* user header */
+/* user header ---------------------------------- */
 #user-control {
   width: 100%;
   height: 50px;
@@ -27,8 +27,8 @@
   width: 18px;
 }
 
-/* filter */
-#filter-nav {
+/* aside common ---------------------------------- */
+aside {
   width: 270px;
   height: 100%;
   padding: 45px 30px;
@@ -48,17 +48,19 @@
   transform: translateX(270px);
   transition: all 0.5s ease;
 }
-#filter-nav.open {
+aside.open {
   opacity: 1;
   visibility: visible;
   transform: translateX(0);
 }
-#filter-nav #filter-close {
+aside .aside-close {
   width: 16px;
   position: absolute;
   top: 27px;
   right: 29px;
 }
+
+/* aside - filter */
 #filter-filtering input {
   width: 97.9px;
   padding: 7px 10px;
@@ -81,6 +83,29 @@
   flex-direction: column;
   gap: 10px;
 }
+#filter-filtering .choose-both {
+  display: flex;
+  border: thin solid lightgray;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#filter-filtering .choose-both div {
+  width: calc(100% / 2);
+  text-align: center;
+  padding: 7px 10px;
+  font-size: 13px;
+  color: #757575;
+
+  &:last-child {
+    border-left: thin solid lightgray;
+  }
+}
+#filter-filtering .choose-both div.type,
+#filter-filtering .choose-both div.admin {
+  background-color: var(--light-gray-black);
+  color: white;
+}
+
 #filter-sort > div {
   display: flex;
   gap: 10px;
@@ -91,41 +116,73 @@
   gap: 10px;
 }
 #filter-apply button {
-  padding: 7px 12px;
+  padding: 7px 15px;
   background-color: lightgray;
   color: white;
   border-radius: 7px;
   font-size: 12px;
 }
 
-/* user content */
+/* aside - profile */
+#profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 15px;
+}
+#profile-content span {
+  font-size: 12px;
+}
+
+/* user content ---------------------------------- */
 .user-wrap {
   width: 100%;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns:
-    100px 100px 250px 100px 100px 100px
-    100px 100px;
-  gap: 20px;
-  margin: 0 auto;
 }
-.user-wrap #category {
-  width: 100%;
-  display: contents;
+table.user-wrap {
+  border-spacing: 0px 10px;
 }
-.user-wrap #category p {
+table tr {
+  height: 50px;
+}
+table thead th {
   font-size: 13px;
   font-weight: 500;
   color: lightgray;
   text-align: center;
 }
-.flat-wrap #no-result {
+table tbody tr {
+  background-color: rgb(241, 241, 241);
+}
+table tbody td .admin-manage,
+table tbody td .user-manage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+table tbody td button {
+  background-color: var(--light-gray-black);
+  color: white;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 7px;
+}
+table tbody td .admin-manage img {
+  height: 25px;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: green;
+}
+table tbody td button.remove-manage {
+  background-color: rgb(181, 30, 30);
+}
+
+.user-wrap #no-result {
   font-weight: 600;
   font-size: 20px;
 }
 
 .user-item {
-  display: contents;
   font-size: 13px;
   text-align: center;
 }

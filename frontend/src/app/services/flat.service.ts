@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Flat {
-  id: number;
+  _id?: string;
   city: string;
   stName: string;
   stNum: number;
@@ -12,16 +12,16 @@ export interface Flat {
   year: number;
   price: number;
   availDate: Date;
-  userid: number;
+  user: string; // User의 ObjectId
 }
 
 @Injectable({ providedIn: 'root' })
 export class FlatService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000/flats';
 
   constructor(private http: HttpClient) {}
 
-  getFlats(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/flats`);
+  getFlats(): Observable<Flat[]> {
+    return this.http.get<Flat[]>(this.apiUrl);
   }
 }

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FlatService } from '../../services/flat.service';
 
 interface Flat {
-  id: number;
+  _id?: string;     
   city: string;
   stName: string;
   stNum: number;
@@ -14,7 +14,7 @@ interface Flat {
   year: number;
   price: number;
   availDate: Date;
-  userid: number;
+  user: string;     
 }
 
 @Component({

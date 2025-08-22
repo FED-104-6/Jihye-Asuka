@@ -1,32 +1,24 @@
-import { createServer } from 'http';
-import { connectDB } from './db/connect';
+import dotenv from 'dotenv';
 import express from 'express';
+import mongoose from 'mongoose';
+import userRoutes from './routes/user.routes';
+import flatRoutes from './routes/flat.routes';
 import cors from 'cors';
 
+dotenv.config();
 const app = express();
-app.use(cors()); // ✅ 프론트엔드 요청 허용
+app.use(cors());
 app.use(express.json());
 
-app.get('/users', async (req, res) => {
-  try {
-    const db = await connectDB();
-    const users = await db.collection('user').find().toArray(); // 컬렉션 이름
-    res.json(users);
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// DB connect
+mongoose
+  .connect(process.env.MONGODB_URI as string)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error(err));
 
-app.get('/flats', async (req, res) => {
-  try {
-    const db = await connectDB();
-    const flats = await db.collection('flat').find().toArray(); // 컬렉션 이름
-    res.json(flats);
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
-  }
-});
+// register route
+app.use('/users', userRoutes);
+app.use('/flats', flatRoutes);
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

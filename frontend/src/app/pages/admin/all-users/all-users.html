@@ -1,8 +1,7 @@
 <!-- filter nav -->
-<div id="filter-nav" [ngClass]="{ open: isFilterOpen }">
+<aside [ngClass]="{ open: isFilterOpen }">
   <img
-    id="filter-close"
-    class="btn-hover"
+    class="btn-hover aside-close"
     src="/assets/close.png"
     (click)="isFilterOpen = !isFilterOpen"
     alt=""
@@ -10,71 +9,168 @@
   <h3>Search Filter</h3>
   <div id="filter-filtering">
     <div>
-      <label>User Type</label>
-      <input [(ngModel)]="type" type="hidden" />
-      <div>
-        <div>Basic</div>
-        <div>Writer</div>
+      <label>Type</label>
+      <input id="type" [(ngModel)]="type" type="hidden" />
+      <div class="choose-both">
+        <div
+          class="btn-hover"
+          (click)="filterSetUsertype('buyer')"
+          [class.type]="type.includes('buyer')"
+        >
+          Buyer
+        </div>
+        <div
+          class="btn-hover"
+          (click)="filterSetUsertype('seller')"
+          [class.type]="type.includes('seller')"
+        >
+          Seller
+        </div>
       </div>
     </div>
     <div>
       <label>Age</label>
       <div>
-        <input [(ngModel)]="ageA" type="number" placeholder="min" />
+        <input
+          id="ageA"
+          [(ngModel)]="ageA"
+          min="0"
+          type="number"
+          placeholder="min"
+        />
         <span>~</span>
-        <input [(ngModel)]="ageB" type="number" placeholder="max" />
+        <input
+          id="ageB"
+          [(ngModel)]="ageB"
+          min="0"
+          type="number"
+          placeholder="max"
+        />
       </div>
     </div>
     <div>
-      <label>Flats Counter</label>
+      <label>Flat Count</label>
       <div>
-        <input [(ngModel)]="cntA" type="number" placeholder="min" />
+        <input
+          id="cntA"
+          [(ngModel)]="cntA"
+          min="0"
+          type="number"
+          placeholder="min"
+        />
         <span>~</span>
-        <input [(ngModel)]="cntB" type="number" placeholder="max" />
+        <input
+          id="cntB"
+          [(ngModel)]="cntB"
+          min="0"
+          type="number"
+          placeholder="max"
+        />
       </div>
     </div>
     <div>
       <label>Is Admin</label>
       <div>
-        <input [(ngModel)]="isAdmin" type="hidden" />
-        <div>
-          <div>Y</div>
-          <div>N</div>
+        <input id="isAdmin" [(ngModel)]="isAdmin" type="hidden" />
+        <div class="choose-both">
+          <div
+            class="btn-hover"
+            (click)="filterSetAdmin(true)"
+            [class.admin]="isAdmin === true"
+          >
+            Y
+          </div>
+          <div
+            class="btn-hover"
+            (click)="filterSetAdmin(false)"
+            [class.admin]="isAdmin === false"
+          >
+            N
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div id="filter-sort">
     <div>
-      <input id="aToZ" [(ngModel)]="sort" value="aToZ" type="radio" />
-      <label for="aToZ">City (A-Z)</label>
+      <input id="fAtoZ" [(ngModel)]="sort" value="fAtoZ" type="radio" />
+      <label for="fAtoZ">First Name (A-Z)</label>
     </div>
     <div>
-      <input id="zToA" [(ngModel)]="sort" value="zToA" type="radio" />
-      <label for="zToA">City (Z-A)</label>
+      <input id="fZtoA" [(ngModel)]="sort" value="fZtoA" type="radio" />
+      <label for="fZtoA">First Name (Z-A)</label>
     </div>
     <div>
-      <input id="priceLH" [(ngModel)]="sort" value="priceLH" type="radio" />
-      <label for="priceLH">Price (Low to high)</label>
+      <input id="lAtoZ" [(ngModel)]="sort" value="lAtoZ" type="radio" />
+      <label for="lAtoZ">Last Name (A-Z)</label>
     </div>
     <div>
-      <input id="priceHL" [(ngModel)]="sort" value="priceHL" type="radio" />
-      <label for="priceHL">Price (High to low)</label>
+      <input id="lZtoA" [(ngModel)]="sort" value="lZtoA" type="radio" />
+      <label for="lZtoA">Last Name (Z-A)</label>
     </div>
     <div>
-      <input id="sizeLH" [(ngModel)]="sort" value="sizeLH" type="radio" />
-      <label for="sizeLH">Size (Low to high)</label>
+      <input id="cntLH" [(ngModel)]="sort" value="cntLH" type="radio" />
+      <label for="cntLH">Flat Counter (Low to high)</label>
     </div>
     <div>
-      <input id="sizeHL" [(ngModel)]="sort" value="sizeHL" type="radio" />
-      <label for="sizeHL">Size (High to low)</label>
+      <input id="cntHL" [(ngModel)]="sort" value="cntHL" type="radio" />
+      <label for="cntHL">Flat Counter (High to low)</label>
     </div>
   </div>
   <div id="filter-apply">
     <button id="reset-btn" type="button" (click)="filterReset()">Reset</button>
-    <button id="apply-btn" type="button" (click)="filterApply()">Apply</button>
+    <button id="apply-btn" type="button" (click)="filterApply($event)">
+      Apply
+    </button>
   </div>
-</div>
+</aside>
+
+<!-- user profile (detail) -->
+<aside [ngClass]="{ open: isUserSelected }">
+  <img
+    class="btn-hover aside-close"
+    src="/assets/close.png"
+    (click)="isUserSelected = !isUserSelected"
+    alt=""
+  />
+  <h3>View Profile</h3>
+  <div id="profile-content">
+    <div>
+      <span>Name</span>
+      <p>{{ selectedUser?.firstname }} {{ selectedUser?.lastname }}</p>
+    </div>
+
+    <div>
+      <span>Email</span>
+      <p>{{ selectedUser?.email }}</p>
+    </div>
+
+    <div>
+      <span>Birth Date</span>
+      <p>{{ selectedUser?.birthdate | date : "mediumDate" }}</p>
+    </div>
+
+    <div>
+      <span>User Type</span>
+      <p>{{ selectedUser?.type }}</p>
+    </div>
+
+    <div>
+      <span>Is Admin</span>
+      <p>{{ selectedUser?.admin }}</p>
+    </div>
+
+    <div>
+      <span>Flats</span>
+      <p>{{ selectedUser?.flats?.length || 0 }} units</p>
+    </div>
+
+    <div>
+      <span>Created At</span>
+      <p>{{ selectedUser?.createdat | date : "medium" }}</p>
+    </div>
+  </div>
+</aside>
 
 <!-- user title -->
 <div id="user-control">
@@ -88,7 +184,7 @@
 </div>
 
 <!-- user content -->
-<table *ngIf="filteredItems.length > 0" class="user-table">
+<table *ngIf="filteredItems.length > 0" class="user-wrap">
   <thead>
     <tr>
       <th>First Name</th>
@@ -102,16 +198,35 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of getAllUsers(); let i = index">
+    <tr *ngFor="let user of getAllUsers(); let i = index" class="user-item">
       <td>{{ user.firstname }}</td>
       <td>{{ user.lastname }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.type }}</td>
       <td>{{ user.age }}</td>
-      <!-- user.flatCnt 만들어서 넣기 -->
-      <td>{{ user.age }}</td>
-      <td>{{ user.admin }}</td>
-      <td><button class="profile-btn">View profile</button></td>
+      <td>{{ user?.flats?.length || 0 }}</td>
+      <td>
+        <div class="admin-manage">
+          <p>
+            {{ user.admin }}
+          </p>
+          <img
+            (click)="toggleAdmin(user)"
+            class="btn-hover"
+            src="/assets/change.png"
+            alt=""
+            title="change admin"
+          />
+        </div>
+      </td>
+      <td>
+        <div class="user-manage">
+          <button (click)="openUserProfile(user)">View profile</button>
+          <button class="remove-manage" (click)="removeUser(user)">
+            Remove
+          </button>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>

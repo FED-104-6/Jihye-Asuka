@@ -39,6 +39,7 @@ frontend/typings
 !/backend/.vscode/tasks.json
 !/backend/.vscode/launch.json
 !/backend/.vscode/extensions.json
+*/.env
 
 # ------------------------
 # IDEs and editors (frontend & backend)

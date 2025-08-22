@@ -5,17 +5,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 
 interface User {
-  id: number;
+  _id?: string;
   firstname: string;
   lastname: string;
   email: string;
   password: string;
-  birthdate: Date;
-  age?: number;
-  type: Array<string>; 
-  admin: boolean; // db 컬럼에 추가하기
-  // flatCnt: number; // falt 이랑 forign key
+  birthdate: Date | string; // DB에서 string으로 올 수 있음
+  createdat: Date | string;
+  age: number;
+  type: string[];
+  admin: boolean;
+  flats?: any[]; // populate된 flat 배열
 }
+
 function getAge(birthDate: Date): number {
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
@@ -39,9 +41,11 @@ function getAge(birthDate: Date): number {
 export class AllUsers {
   allUserDB: User[] = [];
   isFilterOpen = false;
+  isUserSelected = false;
+  selectedUser: User | null = null;
 
   // filter
-  type: string = '';
+  type: string[] = [];
   ageA: number | null = null;
   ageB: number | null = null;
   cntA: number | null = null;
@@ -59,19 +63,19 @@ export class AllUsers {
   ngOnInit() {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        this.allUserDB = data;
-        console.log(data);
-        this.filteredItems = this.allUserDB.map((user) => ({
+        this.allUserDB = data.map((user) => ({
           ...user,
-          birthdate: new Date(user.birthdate), // 문자열 → Date
+          birthdate: new Date(user.birthdate),
           age: getAge(new Date(user.birthdate)),
+          flats: user.flats || [],
         }));
+        this.filteredItems = [...this.allUserDB];
       },
       error: (err) => console.error(err),
     });
 
     this.route.queryParams.subscribe((params) => {
-      this.type = params['type'] || '';
+      this.type = params['type'] || [];
       this.ageA = params['ageA'] ? Number(params['ageA']) : null;
       this.ageB = params['ageB'] ? Number(params['ageB']) : null;
       this.cntA = params['cntA'] ? Number(params['cntA']) : null;
@@ -85,55 +89,118 @@ export class AllUsers {
     return this.filteredItems;
   }
 
+  openUserProfile(user: User) {
+    this.isUserSelected = !this.isUserSelected;
+    this.selectedUser = user;
+  }
+  removeUser(user: User) {
+    if (!user._id) return;
+    if (!confirm('Are you sure?')) return;
+
+    this.userService.deleteUser(user._id).subscribe({
+      next: (res) => {
+        console.log(res.message);
+        this.allUserDB = this.allUserDB.filter((u) => u._id !== user._id);
+        this.filteredItems = this.filteredItems.filter(
+          (u) => u._id !== user._id
+        );
+      },
+      error: (err) => console.error(err),
+    });
+  }
+  toggleAdmin(user: User) {
+    if (!user._id) return;
+    if (!confirm('Are you sure?')) return;
+
+    const newStatus = !user.admin;
+    this.userService.updateAdminStatus(user._id, newStatus).subscribe({
+      next: (updatedUser) => {
+        // 로컬 배열에서 바로 반영
+        const index = this.allUserDB.findIndex(
+          (u) => u._id === updatedUser._id
+        );
+        if (index !== -1) {
+          this.allUserDB[index].admin = updatedUser.admin;
+          this.filteredItems[index].admin = updatedUser.admin;
+        }
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
+  filterSetUsertype(type: string) {
+    if (this.type.includes(type)) {
+      this.type = this.type.filter((item) => item !== type);
+    } else {
+      this.type.push(type);
+    }
+  }
+  filterSetAdmin(value: boolean) {
+    if (value) {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+    }
+  }
   filterReset() {
-    this.type = this.sort = '';
+    this.type = [];
+    this.sort = '';
     this.ageA = this.ageB = null;
     this.cntA = this.cntB = null;
     this.isAdmin = null;
     this.filteredItems = [...this.allUserDB];
     this.router.navigate([], { queryParams: {} });
   }
-  filterApply() {
-    // edit minus
+  filterApply(event: Event) {
+    event.preventDefault();
+
+    // // edit minus
     if (this.ageA !== null && this.ageA < 0) this.ageA = 0;
     if (this.ageB !== null && this.ageB < 0) this.ageB = 0;
     if (this.cntA !== null && this.cntA < 0) this.cntA = 0;
     if (this.cntB !== null && this.cntB < 0) this.cntB = 0;
 
     // filtering
-    // this.filteredItems = this.allUserDB.filter((user) => {
-    //   const userAge = getAge(user.birthdate);
-    //   const ageMatch =
-    //     (this.ageA === null || userAge >= this.ageA) &&
-    //     (this.ageB === null || userAge <= this.ageB);
-    //   const cntMatch =
-    //     (this.cntA === null || user.size >= this.cntA) &&
-    //     (this.cntB === null || user.size <= this.cntB);
+    this.filteredItems = this.allUserDB.filter((user) => {
+      const userAge = user.age;
+      const flatCnt = user.flats?.length ?? 0;
 
-    //   return cityMatch && priceMatch && sizeMatch;
-    // });
+      const adminMatch = this.isAdmin === null || this.isAdmin == user.admin;
+      const typeMatch =
+        this.type.length === 0 || this.type.every((t) => user.type.includes(t));
+
+      const ageMatch =
+        (this.ageA === null || userAge >= this.ageA) &&
+        (this.ageB === null || userAge <= this.ageB);
+      const cntMatch =
+        (this.cntA === null || flatCnt >= this.cntA) &&
+        (this.cntB === null || flatCnt <= this.cntB);
+
+      return adminMatch && typeMatch && ageMatch && cntMatch;
+    });
 
     // sort
-    // const sortFuncs: Record<string, (a: Item, b: Item) => number> = {
-    //   aToZ: (a, b) => a.city.localeCompare(b.city),
-    //   zToA: (a, b) => b.city.localeCompare(a.city),
-    //   priceLH: (a, b) => a.price - b.price,
-    //   priceHL: (a, b) => b.price - a.price,
-    //   sizeLH: (a, b) => a.size - b.size,
-    //   sizeHL: (a, b) => b.size - a.size,
-    // };
+    const sortFuncs: Record<string, (a: User, b: User) => number> = {
+      fAtoZ: (a, b) => a.firstname.localeCompare(b.firstname),
+      fZtoA: (a, b) => b.firstname.localeCompare(a.firstname),
+      lAtoZ: (a, b) => a.lastname.localeCompare(b.lastname),
+      lZtoA: (a, b) => b.lastname.localeCompare(a.lastname),
+      cntLH: (a, b) => (a.flats?.length ?? 0) - (b.flats?.length ?? 0),
+      cntHL: (a, b) => (b.flats?.length ?? 0) - (a.flats?.length ?? 0),
+    };
 
-    // if (sortFuncs[this.sort]) {
-    //   this.filteredItems.sort(sortFuncs[this.sort]);
-    // }
+    if (sortFuncs[this.sort]) {
+      this.filteredItems.sort(sortFuncs[this.sort]);
+    }
 
-    // // url
+    // url
     // const params: any = {
-    //   city: this.city,
-    //   pmin: this.priceA,
-    //   pmax: this.priceB,
-    //   smin: this.sizeA,
-    //   smax: this.sizeB,
+    //   type: this.type,
+    //   amin: this.ageA,
+    //   amax: this.ageB,
+    //   cmin: this.cntA,
+    //   cmax: this.cntB,
+    //   isAdmin: this.isAdmin,
     //   sort: this.sort,
     // };
     // Object.keys(params).forEach(

@@ -1,15 +1,18 @@
-import { MongoClient } from "mongodb";
-
-const uri = "mongodb+srv://flatPrj:flatPrj2508@flat-project.ipg6e7g.mongodb.net/GC-flat-project"; // DB 이름 명시 안 해서 이런 듯
-const client = new MongoClient(uri);
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 export async function connectDB() {
   try {
-    await client.connect();
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI is not defined in .env");
+    }
+
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("✅ MongoDB connected");
-    return client.db("GC-flat-project"); // 사용할 DB 이름
   } catch (err) {
-    console.error(err);
-    process.exit(1);
+    console.error("❌ DB connection error:", err);
   }
 }
+
+connectDB();
