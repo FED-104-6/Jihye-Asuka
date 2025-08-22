@@ -9,16 +9,13 @@
         >HOME</a
       >
       <a routerLink="all-users" routerLinkActive="active">All users</a>
-      <p>Log out</p>
     </nav>
     <div id="admin-user">
-      <div id="img-box">
-        <img src="/assets/sample.jpg" alt="" />
-      </div>
       <div id="inform">
         <p>JIHYE PARK</p>
         <p>qkrwlgp1526@gmail.com</p>
       </div>
+      <button id="logout-btn" (click)="adminLogout()">Log out</button>
     </div>
   </div>
   <div id="child-content">

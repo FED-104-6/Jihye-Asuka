@@ -2,21 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../../services/user.service';
-
-interface User {
-  _id?: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  birthdate: Date | string; // DB에서 string으로 올 수 있음
-  createdat: Date | string;
-  age: number;
-  type: string[];
-  admin: boolean;
-  flats?: any[]; // populate된 flat 배열
-}
+import { User, UserService } from '../../../services/user.service';
 
 function getAge(birthDate: Date): number {
   const today = new Date();
@@ -67,7 +53,6 @@ export class AllUsers {
           ...user,
           birthdate: new Date(user.birthdate),
           age: getAge(new Date(user.birthdate)),
-          flats: user.flats || [],
         }));
         this.filteredItems = [...this.allUserDB];
       },
@@ -104,6 +89,7 @@ export class AllUsers {
         this.filteredItems = this.filteredItems.filter(
           (u) => u._id !== user._id
         );
+        window.location.reload();
       },
       error: (err) => console.error(err),
     });
@@ -123,6 +109,7 @@ export class AllUsers {
           this.allUserDB[index].admin = updatedUser.admin;
           this.filteredItems[index].admin = updatedUser.admin;
         }
+        window.location.reload();
       },
       error: (err) => console.error(err),
     });
@@ -162,7 +149,7 @@ export class AllUsers {
 
     // filtering
     this.filteredItems = this.allUserDB.filter((user) => {
-      const userAge = user.age;
+      const userAge = user.age ?? 0;
       const flatCnt = user.flats?.length ?? 0;
 
       const adminMatch = this.isAdmin === null || this.isAdmin == user.admin;

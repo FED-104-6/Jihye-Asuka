@@ -2,20 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FlatService } from '../../services/flat.service';
-
-interface Flat {
-  _id?: string;     
-  city: string;
-  stName: string;
-  stNum: number;
-  size: number;
-  hasAC: boolean;
-  year: number;
-  price: number;
-  availDate: Date;
-  user: string;     
-}
+import { Flat, FlatService } from '../../services/flat.service';
 
 @Component({
   selector: 'app-home',
@@ -46,11 +33,10 @@ export class Home {
   ngOnInit() {
     this.flatService.getFlats().subscribe({
       next: (data) => {
-        this.allFlatDB = data;
-        console.log(data);
-        this.filteredItems = this.allFlatDB.map((flat) => ({
+        this.allFlatDB = data.map((flat) => ({
           ...flat,
         }));
+        this.filteredItems = [...this.allFlatDB];
       },
       error: (err) => console.error(err),
     });
@@ -67,6 +53,10 @@ export class Home {
 
   getAllFlats() {
     return this.filteredItems;
+  }
+  viewFlatDetail(flat: Flat) {
+    if (!flat._id) return;
+    this.router.navigate(['/flat-view', flat._id]);
   }
 
   filterReset() {
@@ -112,21 +102,21 @@ export class Home {
     }
 
     // url
-    const params: any = {
-      city: this.city,
-      pmin: this.priceA,
-      pmax: this.priceB,
-      smin: this.sizeA,
-      smax: this.sizeB,
-      sort: this.sort,
-    };
-    Object.keys(params).forEach(
-      (key) => (params[key] == null || params[key] === '') && delete params[key]
-    );
+  //   const params: any = {
+  //     city: this.city,
+  //     pmin: this.priceA,
+  //     pmax: this.priceB,
+  //     smin: this.sizeA,
+  //     smax: this.sizeB,
+  //     sort: this.sort,
+  //   };
+  //   Object.keys(params).forEach(
+  //     (key) => (params[key] == null || params[key] === '') && delete params[key]
+  //   );
 
-    this.router.navigate([], {
-      queryParams: params,
-      queryParamsHandling: 'merge',
-    });
+  //   this.router.navigate([], {
+  //     queryParams: params,
+  //     queryParamsHandling: 'merge',
+  //   });
   }
 }

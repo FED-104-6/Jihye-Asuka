@@ -139,35 +139,29 @@
       <span>Name</span>
       <p>{{ selectedUser?.firstname }} {{ selectedUser?.lastname }}</p>
     </div>
-
     <div>
       <span>Email</span>
       <p>{{ selectedUser?.email }}</p>
     </div>
-
     <div>
       <span>Birth Date</span>
-      <p>{{ selectedUser?.birthdate | date : "mediumDate" }}</p>
+      <p>{{ selectedUser?.birthdate | date: "mediumDate" }}</p>
     </div>
-
     <div>
       <span>User Type</span>
       <p>{{ selectedUser?.type }}</p>
     </div>
-
     <div>
       <span>Is Admin</span>
       <p>{{ selectedUser?.admin }}</p>
     </div>
-
     <div>
       <span>Flats</span>
       <p>{{ selectedUser?.flats?.length || 0 }} units</p>
     </div>
-
     <div>
       <span>Created At</span>
-      <p>{{ selectedUser?.createdat | date : "medium" }}</p>
+      <p>{{ selectedUser?.createdat | date: "medium" }}</p>
     </div>
   </div>
 </aside>
@@ -184,52 +178,55 @@
 </div>
 
 <!-- user content -->
-<table *ngIf="filteredItems.length > 0" class="user-wrap">
-  <thead>
-    <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>User Type</th>
-      <th>Age</th>
-      <th>Flat Counter</th>
-      <th>Is Admin</th>
-      <th>Manage</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of getAllUsers(); let i = index" class="user-item">
-      <td>{{ user.firstname }}</td>
-      <td>{{ user.lastname }}</td>
-      <td>{{ user.email }}</td>
-      <td>{{ user.type }}</td>
-      <td>{{ user.age }}</td>
-      <td>{{ user?.flats?.length || 0 }}</td>
-      <td>
-        <div class="admin-manage">
-          <p>
-            {{ user.admin }}
-          </p>
-          <img
-            (click)="toggleAdmin(user)"
-            class="btn-hover"
-            src="/assets/change.png"
-            alt=""
-            title="change admin"
-          />
-        </div>
-      </td>
-      <td>
-        <div class="user-manage">
-          <button (click)="openUserProfile(user)">View profile</button>
-          <button class="remove-manage" (click)="removeUser(user)">
-            Remove
-          </button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div class="user-wrap" *ngIf="filteredItems.length === 0">
-  <p id="no-result">No results found. ✅</p>
-</div>
+@if (filteredItems.length > 0) {
+  <table class="user-wrap">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>User Type</th>
+        <th>Age</th>
+        <th>Flat Counter</th>
+        <th>Admin</th>
+        <th>Manage</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of getAllUsers(); track user._id) {
+        <tr class="user-item">
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.type }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user?.flats?.length || 0 }}</td>
+          <td>
+            <div class="admin-manage">
+              <p>{{ user.admin }}</p>
+              <img
+                (click)="toggleAdmin(user)"
+                class="btn-hover"
+                src="/assets/change.png"
+                alt=""
+                title="change admin"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="user-manage">
+              <button (click)="openUserProfile(user)">View profile</button>
+              <button class="remove-manage" (click)="removeUser(user)">
+                Remove
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
+  <div class="user-wrap">
+    <p id="no-result">No results found. ✅</p>
+  </div>
+}

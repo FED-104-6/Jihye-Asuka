@@ -174,7 +174,7 @@ table tbody td .admin-manage img {
   background-color: green;
 }
 table tbody td button.remove-manage {
-  background-color: rgb(181, 30, 30);
+  background-color: var(--not-too-red);
 }
 
 .user-wrap #no-result {

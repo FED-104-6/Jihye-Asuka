@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface User {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
 export interface Flat {
   _id?: string;
   city: string;
@@ -12,7 +18,7 @@ export interface Flat {
   year: number;
   price: number;
   availDate: Date;
-  user: string; // User의 ObjectId
+  owner: User;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,4 +30,8 @@ export class FlatService {
   getFlats(): Observable<Flat[]> {
     return this.http.get<Flat[]>(this.apiUrl);
   }
+
+  getFlatById(id: string): Observable<Flat> {
+  return this.http.get<Flat>(`${this.apiUrl}/flats/${id}`);
+}
 }

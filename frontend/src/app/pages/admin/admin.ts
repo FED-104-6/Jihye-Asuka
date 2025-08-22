@@ -8,5 +8,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin.css'
 })
 export class Admin {
-
+  adminLogout() {
+    
+  }
 }

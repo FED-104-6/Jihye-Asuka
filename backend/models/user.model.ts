@@ -6,7 +6,6 @@ export interface IUser extends Document {
   email: string;
   password: string;
   birthdate: Date;
-  age?: number;
   type: string[];
   admin: boolean;
   flats?: mongoose.Types.ObjectId[];
@@ -18,7 +17,6 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   birthdate: { type: Date, required: true },
-  age: { type: Number },
   type: [{ type: String }],
   admin: { type: Boolean, default: false },
   flats: [{ type: Schema.Types.ObjectId, ref: "Flat" }] 
