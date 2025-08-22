@@ -10,9 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services/login.service';
-// import { Auth, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
-// import { AuthService } from '../../../services/login.service';
+import { User, UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -23,33 +21,45 @@ import { AuthService } from '../../../services/login.service';
 })
 export class Register {
   errorMessage = '';
-  
+  newUser: User = {
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    birthdate: new Date(),
+    type: ['buyer'],
+    age: 0,
+    admin: false,
+    createdat: new Date(),
+  };
+
+  registerForm = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      confirmPw: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
+      birthdate: new FormControl('', [Validators.required]),
+    },
+    {
+      validators: Register.passwordMatchValidator,
+    }
+  );
+
+  constructor(private router: Router, private userService: UserService) {}
+
   ngOnInit() {
-  const now = new Date();
-  const today = now.toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
+    this.registerForm.patchValue({ birthdate: today });
+  }
 
-  this.registerForm.patchValue({
-    birthdate: today
-  });
-}
-
-  registerForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    confirmPw: new FormControl('', [Validators.required]),
-    firstname: new FormControl('', [Validators.required]),
-    lastname: new FormControl('', [Validators.required]),
-    birthdate: new FormControl('', [Validators.required]),
-  }, {
-    validators: Register.passwordMatchValidator,
-  });
-
-  // ✅ 최신 방식으로 Auth 등 DI
-  // private auth = inject(Auth);
-  // private router = inject(Router);
-  // private authService = inject(AuthService);
-
-  static passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+  static passwordMatchValidator(
+    group: AbstractControl
+  ): ValidationErrors | null {
     const originPw = group.get('password')?.value;
     const confirmPw = group.get('confirmPw')?.value;
     return originPw === confirmPw ? null : { passwordMismatch: true };
@@ -79,29 +89,33 @@ export class Register {
   }
 
   register() {
-  // async register() {
     this.errorMessage = this.getFormErrors();
     if (this.errorMessage) return;
 
-    // const email = this.registerForm.get('email')?.value?.trim() ?? '';
-    // const password = this.registerForm.get('password')?.value ?? '';
-    // const firstname = this.registerForm.get('firstname')?.value ?? '';
-    // const lastname = this.registerForm.get('lastname')?.value ?? '';
+    const formValues = this.registerForm.value;
+    const firstname = formValues.firstname ?? '';
+    const lastname = formValues.lastname ?? '';
+    const email = formValues.email ?? '';
+    const password = formValues.password ?? '';
+    const birthdateStr = formValues.birthdate ?? new Date().toISOString();
+    const birthdate = new Date(birthdateStr);
 
-    // try {
-    //   const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-    //   const user = userCredential.user;
+    this.newUser = {
+      ...this.newUser,
+      firstname,
+      lastname,
+      email,
+      password,
+      birthdate,
+    };
 
-    //   if (user) {
-    //     // ✅ 최신 modular API에서 updateProfile은 Auth에서 가져와야 함
-    //     await updateProfile(user, { displayName: `${firstname} ${lastname}` });
-
-    //     alert('Welcome. Please log in again.');
-    //     this.router.navigate(['/login']);
-    //   }
-    // } catch (error: any) {
-    //   console.error(error); // for debugging
-    //   this.errorMessage = 'Register failed.';
-    // }
+    this.userService.createUser(this.newUser).subscribe({
+      next: (user) => {
+        console.log('Created user:', user);
+        alert('welcome: ' + user.firstname);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => console.error('Error creating user:', err),
+    });
   }
 }

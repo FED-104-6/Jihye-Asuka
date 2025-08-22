@@ -11,6 +11,7 @@ import { Admin } from './pages/admin/admin';
 import { AllUsers } from './pages/admin/all-users/all-users';
 import { EditFlat } from './pages/flat/edit-flat/edit-flat';
 import { FlatView } from './pages/flat/flat-view/flat-view';
+import { Messages } from './pages/my-page/messages/messages';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'my-flats', component: MyFlats },
   { path: 'my-profile', component: MyProfile },
   { path: 'edit-profile', component: EditProfile },
+  { path: 'messages', component: Messages },
 
   { path: 'new-flat', component: NewFlat },
   { path: 'edit-flat', component: EditFlat },

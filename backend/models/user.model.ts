@@ -9,6 +9,7 @@ export interface IUser extends Document {
   type: string[];
   admin: boolean;
   flats?: mongoose.Types.ObjectId[];
+  favorites?: mongoose.Types.ObjectId[];
 }
 
 const userSchema = new Schema<IUser>({
@@ -19,7 +20,8 @@ const userSchema = new Schema<IUser>({
   birthdate: { type: Date, required: true },
   type: [{ type: String }],
   admin: { type: Boolean, default: false },
-  flats: [{ type: Schema.Types.ObjectId, ref: "Flat" }] 
+  flats: [{ type: Schema.Types.ObjectId, ref: "Flat" }], 
+  favorites: [{ type: Schema.Types.ObjectId, ref: "Flat" }] 
 });
 
 export const User = mongoose.model<IUser>("User", userSchema, "user");

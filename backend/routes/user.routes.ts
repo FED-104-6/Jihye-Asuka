@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'; // JWT 토큰 생성/검증
 import { User } from '../models/user.model';
 
 const router = Router();
@@ -13,14 +15,53 @@ router.get('/', async (req, res) => {
   }
 });
 
-// register
-router.post('/', async (req, res) => {
+// login
+router.post('/login', async (req, res) => {
   try {
-    const user = new User(req.body);
-    await user.save();
-    res.json(user);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.status(401).json({ message: 'Invalid credentials' });
+
+    const token = jwt.sign(
+      { id: user._id, email: user.email, admin: user.admin },
+      process.env.JWT_SECRET || 'secretkey',
+      { expiresIn: '1h' }
+    );
+
+    res.json({ user, token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// register
+router.post('/register', async (req, res) => {
+  try {
+    const { firstname, lastname, email, password, birthdate, type } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      firstname,
+      lastname,
+      email,
+      password: hashedPassword,
+      birthdate,
+      type: type || ['buyer'],
+      admin: false,
+      flats: [],
+    });
+
+    res.status(201).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -58,6 +99,28 @@ router.patch('/:id/admin', async (req, res) => {
     }
 
     res.json({ message: 'Admin status updated', user: updatedUser });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.patch('/:id/favorites', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { favorites } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { favorites },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ message: 'Admin status updated', user: updatedUser });
+
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

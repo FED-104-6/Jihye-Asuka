@@ -86,45 +86,56 @@
 <!-- flat content -->
 <div class="flat-wrap">
   @if (filteredItems.length > 0) {
-    <table>
-      <thead>
-        <tr id="category">
-          <th></th>
-          <th>Address</th>
-          <th>Size</th>
-          <th>Price</th>
-          <th>Owner</th>
-          <th>Marked</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (flat of getAllFlats(); track flat._id) {
-          <tr class="btn-hover flat-item">
-            <td>
-              <img class="flat-fav" src="/assets/fav-white.png" alt="" />
-            </td>
-            <td>
-              <p class="address">
-                {{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}
-              </p>
-            </td>
-            <td>
-              <p class="size">{{ flat.size }}m²</p>
-            </td>
-            <td>
-              <p class="price">${{ flat.price | number: '1.0-0' }} CAD</p>
-            </td>
-            <td>
-              <p>{{ flat.owner.email }} ({{ flat.owner.firstname }})</p>
-            </td>
-            <td>
-              <button (click)="viewFlatDetail(flat)">View Detail</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
+  <table>
+    <thead>
+      <tr id="category">
+        <th></th>
+        <th>Address</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Owner</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let flat of getAllFlats(); trackBy: trackById"
+        class="btn-hover flat-item"
+      >
+        <td>
+          <ng-container *ngIf="currentUser$ | async as user">
+            <img
+              *ngIf="flat._id"
+              [src]="getFavoriteIcon(flat._id, user.favorites)"
+              (click)="setFavorite(flat._id, user.favorites)"
+              class="flat-fav"
+              alt=""
+            />
+          </ng-container>
+        </td>
+        <td>
+          <p class="address">
+            {{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}
+          </p>
+        </td>
+        <td>
+          <p class="size">{{ flat.size }}m²</p>
+        </td>
+        <td>
+          <p class="price">
+            ${{ flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
+          </p>
+        </td>
+        <td>
+          <p>{{ flat.owner.email }} ({{ flat.owner.firstname }})</p>
+        </td>
+        <td>
+          <button (click)="viewFlatDetail(flat)">View Detail</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   } @else {
-    <p id="no-result">No results found. ✅</p>
+  <p id="no-result">No flats found. ✅</p>
   }
 </div>

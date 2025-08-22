@@ -32,6 +32,6 @@ export class FlatService {
   }
 
   getFlatById(id: string): Observable<Flat> {
-  return this.http.get<Flat>(`${this.apiUrl}/flats/${id}`);
+  return this.http.get<Flat>(`${this.apiUrl}/${id}`);
 }
 }

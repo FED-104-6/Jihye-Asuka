@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +14,22 @@ import { Router } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
-  isLoggedIn = true;
   isMenuOpen = false;
-  isUserAdmin = true;
+  isLoggedIn$: Observable<boolean>;
+  currentUser$: Observable<User | null>;
 
-  closeMenu() {
-    this.isMenuOpen = false; 
+  constructor(private authService: AuthService) {
+    this.currentUser$ = this.authService.currentUser$;
+    this.isLoggedIn$ = this.authService.isLoggedIn$
   }
 
-  logout() {}
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+  logout() {
+    alert('logout');
+    this.authService.logout();
+    window.location.href = '/home';
+  }
 }

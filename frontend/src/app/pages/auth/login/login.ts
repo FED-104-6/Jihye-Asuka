@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,7 +8,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services/login.service';
+import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,13 +26,10 @@ export class Login {
     password: new FormControl('', [Validators.required]),
   });
 
-  // private auth: Auth = inject(Auth);             // ✅ 최신 방식으로 Auth 주입
-  private router = inject(Router);
-  private authService = inject(AuthService);
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   // validation
   getFormErrors(): string {
-    console.log("enter");
     for (const field in this.loginForm.controls) {
       const control = this.loginForm.get(field);
       if (control && control.errors) {
@@ -46,26 +44,23 @@ export class Login {
     return '';
   }
 
-  login() {
-  // async login() {
+  login(): void {
     this.errorMessage = this.getFormErrors();
     if (this.errorMessage) return;
 
-  //   const email = this.loginForm.get('email')?.value?.trim() ?? '';
-  //   const password = this.loginForm.get('password')?.value ?? '';
+    const credentials = {
+      email: this.loginForm.value.email ?? '',
+      password: this.loginForm.value.password ?? '',
+    };
 
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
-  //     const user = userCredential.user;
-
-  //     if (user) {
-  //       const displayName = user.displayName ?? email;
-  //       alert(`Welcome ${displayName}`);
-  //       this.router.navigate(['/home']);
-        // this.authService.login();
-  //     }
-  //   } catch (error) {
-  //     this.errorMessage = 'Email or password is incorrect.';
-  //   }
+    this.userService.loginUser(credentials).subscribe({
+      next: (res) => {
+        this.authService.login(res.token, res.user);
+        window.location.href = '/home';
+      },
+      error: (err) => {
+        this.errorMessage = 'Invalid email or password.';
+      },
+    });
   }
 }

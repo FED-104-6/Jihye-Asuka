@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Flat, FlatService } from '../../services/flat.service';
+import { Observable } from 'rxjs';
+import { User, UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +15,8 @@ import { Flat, FlatService } from '../../services/flat.service';
 })
 export class Home {
   allFlatDB: Flat[] = [];
-  isLoggedIn = false;
   isFilterOpen = false;
+  currentUser$: Observable<User | null>;
 
   // filter
   city: string = '';
@@ -27,8 +30,12 @@ export class Home {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private flatService: FlatService
-  ) {}
+    private flatService: FlatService,
+    private userService: UserService,
+    private authService: AuthService
+  ) {
+    this.currentUser$ = this.authService.currentUser$;
+  }
 
   ngOnInit() {
     this.flatService.getFlats().subscribe({
@@ -54,6 +61,44 @@ export class Home {
   getAllFlats() {
     return this.filteredItems;
   }
+  trackById(index: number, item: Flat) {
+    return item._id;
+  }
+  isNotMyFlat(ownerId: string, userId?: string): boolean {
+    if (!ownerId || !userId) return true;
+    return ownerId !== userId;
+  }
+  // 즐겨찾기 이미지 결정
+  // 아이콘 선택
+  getFavoriteIcon(flatId: string, favorites: string[] = []): string {
+    console.log(favorites);
+    return favorites.includes(flatId)
+      ? '/assets/fav-yellow.png'
+      : '/assets/fav-white.png';
+  }
+  setFavorite(flatId: string, favorites: string[] = []) {
+    const user = this.authService.currentUserSnapshot();
+    if (!user) return;
+
+    // favorites 배열 업데이트
+    const updatedFavorites = [...favorites];
+    const index = updatedFavorites.indexOf(flatId);
+    if (index >= 0) {
+      updatedFavorites.splice(index, 1); // 제거
+    } else {
+      updatedFavorites.push(flatId); // 추가
+    }
+
+    // 서버에 업데이트
+    this.userService.updateFavorites(user._id!, updatedFavorites).subscribe({
+      next: (updatedUser) => {
+        // BehaviorSubject 갱신 → UI 자동 업데이트
+        this.authService.setUser(updatedUser);
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
     this.router.navigate(['/flat-view', flat._id]);
@@ -102,21 +147,21 @@ export class Home {
     }
 
     // url
-  //   const params: any = {
-  //     city: this.city,
-  //     pmin: this.priceA,
-  //     pmax: this.priceB,
-  //     smin: this.sizeA,
-  //     smax: this.sizeB,
-  //     sort: this.sort,
-  //   };
-  //   Object.keys(params).forEach(
-  //     (key) => (params[key] == null || params[key] === '') && delete params[key]
-  //   );
+    //   const params: any = {
+    //     city: this.city,
+    //     pmin: this.priceA,
+    //     pmax: this.priceB,
+    //     smin: this.sizeA,
+    //     smax: this.sizeB,
+    //     sort: this.sort,
+    //   };
+    //   Object.keys(params).forEach(
+    //     (key) => (params[key] == null || params[key] === '') && delete params[key]
+    //   );
 
-  //   this.router.navigate([], {
-  //     queryParams: params,
-  //     queryParamsHandling: 'merge',
-  //   });
+    //   this.router.navigate([], {
+    //     queryParams: params,
+    //     queryParamsHandling: 'merge',
+    //   });
   }
 }

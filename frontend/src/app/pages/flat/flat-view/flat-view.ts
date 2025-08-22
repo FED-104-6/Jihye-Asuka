@@ -1,34 +1,35 @@
 import { Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { CurrencyPipe } from '@angular/common';
+import { Flat, FlatService } from '../../../services/flat.service';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-flat-view',
-  imports: [DatePipe, CurrencyPipe],
+  imports: [CommonModule],
   templateUrl: './flat-view.html',
-  styleUrl: './flat-view.css'
+  styleUrl: './flat-view.css',
 })
 export class FlatView {
-  //TODO: get flat information from database to display it
-  flat = {
-    address: {
-      stNum: 233,
-      stName: 'Robson St',
-      city: 'Vancouver BC'
-    },
-    price: 950,
-    size: 60,
-    hasAC: 'Yes',
-    built: 2012,
-    dateAvailable: '2025-08-26',
-    owner: {
-      email: 'owner@example.com'
-    },
-    isFavorite: false
-  };
+  flat?: Flat;
 
-  toggleFavorite(){
-    this.flat.isFavorite = !this.flat.isFavorite;
-    //TODO: save or remove depend on the value
+  constructor(
+    private route: ActivatedRoute,
+    private flatService: FlatService
+  ) {}
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.flatService.getFlatById(id).subscribe({
+        next: (data) => {
+          this.flat = data;
+        },
+        error: (err) => console.error(err),
+      });
+    }
+  }
+
+  toggleFavorite() {
+    // this.flat.isFavorite = !this.flat.isFavorite;
   }
 }
