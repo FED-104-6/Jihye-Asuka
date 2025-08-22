@@ -34,33 +34,37 @@ nav a.active {
 
 #admin-user {
   width: 230px;
-  height: 90px;
+  height: 140px;
   position: absolute;
+  background-color: rgb(58, 58, 58);
+  padding: 0 20px;
   bottom: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 10px;
-  background-color: rgb(58, 58, 58);
-}
-#admin-user #img-box {
-  width: 40px;
-  height: 40px;
-  object-fit: cover;
-  overflow: hidden;
-  border-radius: 50%;
-}
-#admin-user #img-box img {
-  width: 40px;
 }
 #admin-user #inform p {
+  width: 190px;
   color: white;
   font-size: 12px;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+  overflow: hidden; 
 
   &:first-child {
     font-weight: 600;
     font-size: 14px;
   }
+}
+#admin-user #logout-btn {
+  width: fit-content;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 7px;
+  margin-top: 15px;
+  font-size: 12px;
+  background-color: var(--not-too-red);
 }
 
 @media (min-width: 980px) {

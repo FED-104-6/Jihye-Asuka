@@ -84,31 +84,47 @@
 </div>
 
 <!-- flat content -->
-<div class="flat-wrap" *ngIf="filteredItems.length > 0">
-  <div id="category">
-    <p>Address</p>
-    <p>Size</p>
-    <p>Price</p>
-    <p>Owner</p>
-  </div>
-
-  <a
-    href=""
-    class="btn-hover flat-item"
-    *ngFor="let flat of getAllFlats(); let i = index"
-  >
-    <div class="flat-inform">
-      <div class="flat-img">
-        <img src="/assets/home.png" alt="" />
-      </div>
-      <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
-      <p class="size">{{ flat.size }}m²</p>
-      <p class="price">${{ flat.price | number : "1.0-0" }} CAD</p>
-      <!-- <p>{{ flat.ownerEmail }} ({{ flat.ownerName }})</p> -->
-      <img class="flat-fav" src="/assets/fav-white.png" alt="" />
-    </div>
-  </a>
-</div>
-<div class="flat-wrap" *ngIf="filteredItems.length === 0">
-  <p id="no-result">No results found. ✅</p>
+<div class="flat-wrap">
+  @if (filteredItems.length > 0) {
+    <table>
+      <thead>
+        <tr id="category">
+          <th></th>
+          <th>Address</th>
+          <th>Size</th>
+          <th>Price</th>
+          <th>Owner</th>
+          <th>Marked</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (flat of getAllFlats(); track flat._id) {
+          <tr class="btn-hover flat-item">
+            <td>
+              <img class="flat-fav" src="/assets/fav-white.png" alt="" />
+            </td>
+            <td>
+              <p class="address">
+                {{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}
+              </p>
+            </td>
+            <td>
+              <p class="size">{{ flat.size }}m²</p>
+            </td>
+            <td>
+              <p class="price">${{ flat.price | number: '1.0-0' }} CAD</p>
+            </td>
+            <td>
+              <p>{{ flat.owner.email }} ({{ flat.owner.firstname }})</p>
+            </td>
+            <td>
+              <button (click)="viewFlatDetail(flat)">View Detail</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p id="no-result">No results found. ✅</p>
+  }
 </div>

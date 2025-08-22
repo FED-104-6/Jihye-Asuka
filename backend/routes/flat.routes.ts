@@ -5,11 +5,22 @@ import { User } from '../models/user.model';
 const router = Router();
 
 // req, res 있는 게 '라우팅'
-// 모든 flat 조회
+// find all flat
 router.get('/', async (req, res) => {
   try {
-    const flats = await Flat.find().populate('user');
+    const flats = await Flat.find().populate('owner');
     res.json(flats);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// find one flat
+router.get('/:id', async (req, res) => {
+  try {
+    const flat = await Flat.findById(req.params.id).populate('owner'); 
+    if (!flat) return res.status(404).json({ error: 'Flat not found' });
+    res.json(flat);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
