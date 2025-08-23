@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -27,7 +29,7 @@ export class EditProfile {
     ]),
     password: new FormControl("", [
       Validators.required,
-      Validators.pattern('^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{6,}$')
+      Validators.pattern('^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=[\\]{};\'"\\|,.<>/?]).{6,}$')
     ]),
     confirmPassword: new FormControl("", [
       Validators.required
@@ -77,16 +79,53 @@ export class EditProfile {
     return null;
   }
 
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
+  ) { }
 
-  constructor(private router: Router) { }
   goToMyProfilePage() {
     this.router.navigate(['/my-profile'])
   }
 
-  onSubmit() {
-    if (this.updateForm.valid) {
-      //TODO: Update User information to database
-      this.goToMyProfilePage()
+  ngOnInit() {
+    const currentUser = this.authService.getUser();
+    if (currentUser) {
+      this.updateForm.patchValue({
+        firstName: currentUser.firstname,
+        lastName: currentUser.lastname,
+        email: currentUser.email,
+        birthdate: new Date(currentUser.birthdate).toISOString().split('T')[0]
+      });
     }
+  }
+
+  onSubmit() {
+    console.log('onSubmit called');
+    if (this.updateForm.invalid) return;
+
+    const currentUser = this.authService.getUser();
+    if (!currentUser) return;
+
+    const updatedData = {
+      firstname: this.updateForm.value.firstName || '',
+      lastname: this.updateForm.value.lastName || '',
+      email: this.updateForm.value.email || '',
+      birthdate: this.updateForm.value.birthdate ? new Date(this.updateForm.value.birthdate) : undefined,
+      password: this.updateForm.value.password || ''
+    };
+
+    this.userService.updateUser(currentUser._id!, updatedData).subscribe({
+      next: (user) => {
+        console.log('updateprofile:', updatedData)
+        this.authService.setUser(user);
+        this.goToMyProfilePage();
+      },
+      error: (err) => {
+        console.error('Failed to update profile', err);
+        alert('Failed to update profile. Please try again.');
+      }
+    });
   }
 }

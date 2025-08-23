@@ -14,14 +14,14 @@ export interface User {
   type: string[];
   admin: boolean;
   flats?: any[]; // populate된 flats
-  favorites?: any[]; 
+  favorites?: any[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private apiUrl = 'http://localhost:3000/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
@@ -47,5 +47,9 @@ export class UserService {
       `${this.apiUrl}/login`,
       credentials
     );
+  }
+
+  updateUser(userId: string, updatedData: Partial<User>): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/edit-profile`, updatedData);
   }
 }
