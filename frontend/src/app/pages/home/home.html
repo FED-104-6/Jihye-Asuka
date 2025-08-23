@@ -100,7 +100,7 @@
     <tbody>
       <tr
         *ngFor="let flat of getAllFlats(); trackBy: trackById"
-        class="btn-hover flat-item"
+        class=" flat-item"
       >
         <td>
           <ng-container *ngIf="currentUser$ | async as user">
@@ -108,7 +108,7 @@
               *ngIf="flat._id"
               [src]="getFavoriteIcon(flat._id, user.favorites)"
               (click)="setFavorite(flat._id, user.favorites)"
-              class="flat-fav"
+              class="btn-hover flat-fav"
               alt=""
             />
           </ng-container>

@@ -26,7 +26,18 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// flat 추가 (유저에 연결)
+// get all flats by userId
+router.get('/owner/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params; 
+    const flats = await Flat.find({ owner: userId });
+    res.json(flats);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// flat add with connect user
 router.post('/', async (req, res) => {
   try {
     const { userId, ...flatData } = req.body;
@@ -41,6 +52,20 @@ router.post('/', async (req, res) => {
     res.json(flat);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+// delete
+router.delete('/:id', async (req, res) => {
+  try {
+    const flatId = req.params.id;
+    const deleteFlat = await Flat.findByIdAndDelete(flatId);
+    if (!deleteFlat) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ message: 'User deleted', user: deleteFlat });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 });
 

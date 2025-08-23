@@ -68,10 +68,10 @@ export class Home {
     if (!ownerId || !userId) return true;
     return ownerId !== userId;
   }
-  // 즐겨찾기 이미지 결정
+  // favorites
   // 아이콘 선택
   getFavoriteIcon(flatId: string, favorites: string[] = []): string {
-    console.log(favorites);
+    // console.log(favorites);
     return favorites.includes(flatId)
       ? '/assets/fav-yellow.png'
       : '/assets/fav-white.png';

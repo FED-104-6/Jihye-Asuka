@@ -115,7 +115,9 @@ export class Register {
         alert('welcome: ' + user.firstname);
         this.router.navigate(['/login']);
       },
-      error: (err) => console.error('Error creating user:', err),
+      error: (err) => {
+        this.errorMessage = 'This email is already in use.';
+      },
     });
   }
 }

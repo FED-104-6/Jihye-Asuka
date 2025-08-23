@@ -30,8 +30,15 @@ export class FlatService {
   getFlats(): Observable<Flat[]> {
     return this.http.get<Flat[]>(this.apiUrl);
   }
-
   getFlatById(id: string): Observable<Flat> {
-  return this.http.get<Flat>(`${this.apiUrl}/${id}`);
-}
+    return this.http.get<Flat>(`${this.apiUrl}/${id}`);
+  }
+  getFlatsByUserId(userId: string): Observable<Flat[]> {
+    const cleanId = userId.replace(/"/g, '');
+    return this.http.get<Flat[]>(`${this.apiUrl}/owner/${cleanId}`);
+  }
+
+  deleteFlat(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }

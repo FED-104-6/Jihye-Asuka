@@ -1,37 +1,47 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { Flat, FlatService } from '../../../services/flat.service';
+import { map, Observable, of } from 'rxjs';
+import { User } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-my-favorites',
   imports: [CommonModule],
   templateUrl: './my-favorites.html',
-  styleUrl: './my-favorites.css'
+  styleUrl: './my-favorites.css',
 })
 export class MyFavorites {
-  favFlats = [
-    {
-      id: 1,
-      address: '233 Robson St, Vancouver BC',
-      size: '56m²',
-      price: '$24,000 CAD',
-      owner: 'Linda',
-      ownerEmail: 'linda@gmail.com',
-      image: '/assets/home.png',
-      fav: true
-    },
-    {
-      id: 2,
-      address: '1200 W Georgia St, Vancouver BC',
-      size: '72m²',
-      price: '$38,000 CAD',
-      owner: 'Tom',
-      ownerEmail: 'tom@example.com',
-      image: '/assets/home.png',
-      fav: true
-    }
-  ];
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+  ) {}
 
-  toggleFavorite() {
+  favFlats$!: Observable<Flat[]>;
+  currentUser: User | null = null;
+
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.currentUser = {
+          ...user,
+        };
+
+        this.favFlats$ = of(this.currentUser.favorites ?? []);
+
+        console.log(user.favorites);
+        console.log(this.favFlats$);
+      }
+    });
+  }
+
+  viewFlatDetail(flat: Flat) {
+    if (!flat._id) return;
+    this.router.navigate(['/flat-view', flat._id]);
+  }
+
+  removeFav(flat: Flat) {
     //TODO: save or remove depend on the value
   }
 }

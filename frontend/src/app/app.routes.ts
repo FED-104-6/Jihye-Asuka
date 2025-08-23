@@ -26,7 +26,7 @@ export const routes: Routes = [
   { path: 'messages', component: Messages },
 
   { path: 'new-flat', component: NewFlat },
-  { path: 'edit-flat', component: EditFlat },
+  { path: 'edit-flat/:id', component: EditFlat },
   { path: 'flat-view/:id', component: FlatView },
 
   {

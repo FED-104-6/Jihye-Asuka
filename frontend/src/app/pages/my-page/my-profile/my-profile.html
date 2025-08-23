@@ -7,19 +7,19 @@
 
     <div class="form-row">
         <label for="first-name">First name:</label>
-        <div class="value">{{ firstName }}</div>
+        <div class="value">{{ currentUser?.firstname }}</div>
     </div>
 
     <!-- last name -->
     <div class="form-row">
         <label for="last-name">Last name:</label>
-        <div class="value">{{ lastName }}</div>
+        <div class="value">{{ currentUser?.lastname }}</div>
     </div>
 
     <!-- Email -->
     <div class="form-row">
         <label for="email">Email:</label>
-        <div class="value">{{ email }}</div>
+        <div class="value">{{ currentUser?.email }}</div>
     </div>
 
     <!-- password -->
@@ -31,6 +31,6 @@
     <!-- Birthday -->
     <div class="form-row">
         <label for="birthdate">Date of birth:</label>
-        <div class="value">{{ birthDate | date:'yyyy/MM/dd' }}</div>
+        <div class="value">{{ currentUser?.birthdate | date:'yyyy/MM/dd' }}</div>
     </div>
 </div>

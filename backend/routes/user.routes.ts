@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'; // JWT 토큰 생성/검증
 import { User } from '../models/user.model';
 
 const router = Router();
@@ -8,8 +7,23 @@ const router = Router();
 // find all
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find().populate('flats'); // flats까지 가져오기
+    const users = await User.find().populate('flats');
     res.json(users);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+// find user by id
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .populate('flats')
+      .populate({
+        path: 'favorites',
+        populate: { path: 'owner' }, // 중첩 가능 
+      });
+    if (!user) return res.status(404).json({ error: 'Flat not found' });
+    res.json(user);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
@@ -27,13 +41,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch)
       return res.status(401).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email, admin: user.admin },
-      process.env.JWT_SECRET || 'secretkey',
-      { expiresIn: '1h' }
-    );
-
-    res.json({ user, token });
+    res.json({ user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -79,8 +87,37 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// change user
+router.patch('/:id/edit/all', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updates = { ...req.body.user };
+
+    if (!updates.password) {
+      delete updates.password;
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      updates.password = await bcrypt.hash(updates.password, salt);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updates },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ message: 'User updated successfully', user: updatedUser });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // change admin
-router.patch('/:id/admin', async (req, res) => {
+router.patch('/:id/edit/admin', async (req, res) => {
   try {
     const userId = req.params.id;
     const { admin } = req.body; // boolean expected
@@ -104,7 +141,7 @@ router.patch('/:id/admin', async (req, res) => {
   }
 });
 
-router.patch('/:id/favorites', async (req, res) => {
+router.patch('/:id/edit/favorites', async (req, res) => {
   try {
     const userId = req.params.id;
     const { favorites } = req.body;
@@ -120,7 +157,6 @@ router.patch('/:id/favorites', async (req, res) => {
     }
 
     res.json({ message: 'Admin status updated', user: updatedUser });
-
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

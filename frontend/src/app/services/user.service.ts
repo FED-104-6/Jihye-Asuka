@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export interface User {
   _id?: string;
@@ -14,7 +14,7 @@ export interface User {
   type: string[];
   admin: boolean;
   flats?: any[]; // populate된 flats
-  favorites?: any[]; 
+  favorites?: any[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -32,11 +32,23 @@ export class UserService {
   deleteUser(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  updateUser(user: Partial<User>): Observable<User> {
+    return this.http
+      .patch<{ message: string; user: User }>(
+        `${this.apiUrl}/${user._id}/edit/all`,
+        { user }
+      )
+      .pipe(map((res) => res.user));
+  }
   updateAdminStatus(userId: string, admin: boolean): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/admin`, { admin });
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/edit/admin`, {
+      admin,
+    });
   }
   updateFavorites(userId: string, favorites: string[]): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/favorites`, { favorites });
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/edit/favorites`, {
+      favorites,
+    });
   }
 
   loginUser(credentials: {
