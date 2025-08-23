@@ -113,7 +113,7 @@ export class Register {
       next: (user) => {
         console.log('Created user:', user);
         alert('welcome: ' + user.firstname);
-        this.router.navigate(['/login']);
+        window.location.href = '/login';
       },
       error: (err) => {
         this.errorMessage = 'This email is already in use.';

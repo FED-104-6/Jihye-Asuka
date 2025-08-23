@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Observable, Subject, take } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { User, UserService } from '../../../services/user.service';
 
@@ -23,13 +22,7 @@ export class EditProfile {
   errorMessage = '';
   currentUser: User | null = null;
 
-  constructor(
-    private router: Router,
-    private userService: UserService,
-    private authService: AuthService
-  ) {}
-
-  updateForm = new FormGroup(
+  editUserForm = new FormGroup(
     {
       firstName: new FormControl<string | null>(null, [
         Validators.required,
@@ -55,11 +48,17 @@ export class EditProfile {
     { validators: passwordOptionalMatchValidator }
   );
 
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
+
   ngOnInit(): void {
     this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.currentUser = user;
-        this.updateForm.patchValue({
+        this.editUserForm.patchValue({
           firstName: user.firstname,
           lastName: user.lastname,
           email: user.email,
@@ -72,22 +71,22 @@ export class EditProfile {
   }
 
   get firstName() {
-    return this.updateForm.get('firstName');
+    return this.editUserForm.get('firstName');
   }
   get lastName() {
-    return this.updateForm.get('lastName');
+    return this.editUserForm.get('lastName');
   }
   get email() {
-    return this.updateForm.get('email');
+    return this.editUserForm.get('email');
   }
   get password() {
-    return this.updateForm.get('password');
+    return this.editUserForm.get('password');
   }
   get confirmPassword() {
-    return this.updateForm.get('confirmPassword');
+    return this.editUserForm.get('confirmPassword');
   }
   get birthdate() {
-    return this.updateForm.get('birthdate');
+    return this.editUserForm.get('birthdate');
   }
 
   static passwordMatchValidator(
@@ -119,8 +118,8 @@ export class EditProfile {
   // }
 
   getFormErrors(): string {
-    for (const field in this.updateForm.controls) {
-      const control = this.updateForm.get(field);
+    for (const field in this.editUserForm.controls) {
+      const control = this.editUserForm.get(field);
       if (control?.errors) {
         if (control.errors['required']) return `Fill in the ${field} field.`;
         if (control.errors['email']) return 'The email format is invalid.';
@@ -129,7 +128,7 @@ export class EditProfile {
       }
     }
 
-    if (this.updateForm.errors?.['passwordMismatch']) {
+    if (this.editUserForm.errors?.['passwordMismatch']) {
       return 'The password and confirm password do not match.';
     }
     return '';
@@ -139,8 +138,8 @@ export class EditProfile {
     this.errorMessage = this.getFormErrors();
     if (this.errorMessage) return;
 
-    if (this.updateForm.valid) {
-      const formValue = this.updateForm.value;
+    if (this.editUserForm.valid) {
+      const formValue = this.editUserForm.value;
 
       const updatedUser: Partial<User> = {
         _id: this.currentUser?._id,
@@ -156,8 +155,7 @@ export class EditProfile {
       this.userService.updateUser(updatedUser).subscribe({
         next: (user) => {
           this.authService.setUser(user);
-          alert('edit: ' + user.firstname);
-          this.router.navigate(['/home']);
+          alert('edit: ' + user.firstname), (window.location.href = '/home');
         },
         error: (err) => console.error('Error creating user:', err),
       });

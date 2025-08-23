@@ -3,7 +3,7 @@
     ><img id="logo" src="assets/logo.png" alt=""
   /></a>
   <div id="login-content">
-    <small id="warn-msg" *ngIf="errorMessage">{{ errorMessage }}</small>
+    <small class="warn-msg" *ngIf="errorMessage">{{ errorMessage }}</small>
     <form [formGroup]="loginForm" name="login" (ngSubmit)="login()">
       <input type="email" formControlName="email" placeholder="email" />
       <input

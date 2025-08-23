@@ -16,7 +16,7 @@ import { AuthService } from '../../services/auth.service';
 export class Home {
   allFlatDB: Flat[] = [];
   isFilterOpen = false;
-  currentUser$: Observable<User | null>;
+  currentUser: User | null = null;
 
   // filter
   city: string = '';
@@ -33,11 +33,15 @@ export class Home {
     private flatService: FlatService,
     private userService: UserService,
     private authService: AuthService
-  ) {
-    this.currentUser$ = this.authService.currentUser$;
-  }
+  ) {}
 
   ngOnInit() {
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.currentUser = user;
+      }
+    });
+    
     this.flatService.getFlats().subscribe({
       next: (data) => {
         this.allFlatDB = data.map((flat) => ({
@@ -101,7 +105,7 @@ export class Home {
 
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
-    this.router.navigate(['/flat-view', flat._id]);
+    window.location.href = `/flat-view/${flat._id}`;
   }
 
   filterReset() {

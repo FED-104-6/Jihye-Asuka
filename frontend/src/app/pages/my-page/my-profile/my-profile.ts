@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { User, UserService } from '../../../services/user.service';
+import { User } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -11,11 +11,10 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './my-profile.css',
 })
 export class MyProfile {
-  currentUser: User | null = null;
+  currentUser!: User;
 
   constructor(
     private router: Router,
-    private userService: UserService,
     private authService: AuthService
   ) {}
 

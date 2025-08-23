@@ -4,10 +4,6 @@
   align-items: center;
   gap: 40px;
 }
-#warn-msg {
-  color: red;
-  text-align: center;
-}
 .container form {
   padding: 40px;
   background-color: #f5f5f5;
@@ -33,12 +29,6 @@
 .form-row input {
   width: 500px;
   padding: 0.5rem;
-}
-
-.error {
-  color: red;
-  font-size: 0.9em;
-  display: block;
 }
 
 /* btn */

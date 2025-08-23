@@ -103,7 +103,7 @@
         class=" flat-item"
       >
         <td>
-          <ng-container *ngIf="currentUser$ | async as user">
+          <ng-container *ngIf="currentUser as user">
             <img
               *ngIf="flat._id"
               [src]="getFavoriteIcon(flat._id, user.favorites)"
