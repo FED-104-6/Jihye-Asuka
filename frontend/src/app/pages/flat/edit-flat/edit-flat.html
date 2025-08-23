@@ -87,9 +87,9 @@
                     <div class="form-row">
                         <div class="label">Built In</div>
                         <div class="value">
-                            <input type="number" formControlName="built">
+                            <input type="number" formControlName="year">
                         </div>
-                        <div class="error" *ngIf="built?.invalid && built?.touched">
+                        <div class="error" *ngIf="year?.invalid && year?.touched">
                             Built must be positive number.
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     <div class="form-row">
                         <div class="label">Date Available</div>
                         <div class="value">
-                            <input type="date" formControlName="dateAvailable">
+                            <input type="date" formControlName="availDate">
                         </div>
                     </div>
                 </div>
