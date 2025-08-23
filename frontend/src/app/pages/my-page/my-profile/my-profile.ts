@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -10,25 +11,29 @@ import { DatePipe } from '@angular/common';
 })
 
 export class MyProfile {
-  //TODO: get current user information from database to display user data
-  firstName: string = "Asuka";
-  lastName: string = "Fukuchi";
-  email: string = "abc123@gmail.com";
-  birthDate = "1997/11/17";
+  firstName: string = "";
+  lastName: string = "";
+  email: string = "";
+  //password: string = "";
+  birthDate = "";
 
-  constructor(private router: Router) {}
-  // private userService: UserService
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
-  ngOnInit(){
-    // this.userService.getCurrentUser().subscribe(user => {
-    //   this.firstName = user.firstName;
-    //   this.lastName = user.lastName;
-    //   this.email = user.email;
-    //   this.birthDate = user.birthDate;
-    // });
+  ngOnInit() {
+    const currentUser = this.authService.getUser();
+    if (currentUser) {
+      this.firstName = currentUser.firstname;
+      this.lastName = currentUser.lastname;
+      this.email = currentUser.email;
+      //this.password = currentUser.password;
+      this.birthDate =  new Date(currentUser.birthdate).toISOString().split('T')[0];
+    }
   }
 
-  goToEditPage(){
+  goToEditPage() {
     this.router.navigate(['/edit-profile'])
   }
 }
