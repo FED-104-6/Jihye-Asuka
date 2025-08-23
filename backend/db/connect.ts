@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-dotenv.config();
+import path from "path";
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 export async function connectDB() {
   try {
+    console.log("🔹 MONGODB_URI:", process.env.MONGODB_URI);
+
     if (!process.env.MONGODB_URI) {
       throw new Error("MONGODB_URI is not defined in .env");
     }
