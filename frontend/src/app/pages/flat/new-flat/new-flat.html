@@ -6,7 +6,7 @@
             <div class="form-row">
                 <label for="stNum" class="label">What is the street number of your house?</label>
                 <div class="value">
-                    <input type="number" formControlName="stNum" placeholder="Street Number">
+                    <input type="number" formControlName="stNum" id="stNum" placeholder="Street Number">
                 </div>
                 <div class="error" *ngIf="stNum?.invalid && stNum?.touched">
                     Street number is required.
@@ -19,7 +19,7 @@
             <div class="form-row">
                 <label for="stName" class="label">What street is your house on?</label>
                 <div class="value">
-                    <input type="text" formControlName="stName" placeholder="Street Name">
+                    <input type="text" formControlName="stName" id="stName"placeholder="Street Name">
                 </div>
                 <div class="error" *ngIf="stName?.invalid && stName?.touched">
                     Street name must be at least 2 chalacters.
@@ -32,10 +32,10 @@
             <div class="form-row">
                 <label for="city" class="label">Which city is your house located in?</label>
                 <div class="value">
-                    <input type="text" formControlName="city" placeholder="City">
+                    <input type="text" formControlName="city" id="city" placeholder="City">
                 </div>
                 <div class="error" *ngIf="city?.invalid && city?.touched">
-                    Street name must be at least 2 chalacters.
+                    City must be at least 2 chalacters.
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     <div class="form-row">
                         <label for="price" class="label">How much is the monthly rent?</label>
                         <div class="value">
-                            <input type="number" formControlName="price">
+                            <input type="number" formControlName="price" id="price">
                         </div>
                         <div class="error" *ngIf="price?.invalid && price?.touched">
                             Price must be positive number.
@@ -62,7 +62,7 @@
                     <div class="form-row">
                         <label for="size" class="label">How big is the house?</label>
                         <div class="value">
-                            <input type="number" formControlName="size">
+                            <input type="number" formControlName="size" id="size">
                         </div>
                         <div class="error" *ngIf="size?.invalid && size?.touched">
                             Size must be positive number.
@@ -88,11 +88,11 @@
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">apartment</i></div>
                     <div class="form-row">
-                        <label for="built" class="label">When was your house built?</label>
+                        <label for="year" class="label">When was your house built?</label>
                         <div class="value">
-                            <input type="number" formControlName="built">
+                            <input type="number" formControlName="year" id="year">
                         </div>
-                        <div class="error" *ngIf="built?.invalid && built?.touched">
+                        <div class="error" *ngIf="year?.invalid && year?.touched">
                             Built must be positive number.
                         </div>
                     </div>
@@ -101,9 +101,9 @@
                 <div class="flat-info">
                     <div class="icon"><i class="material-icons">today</i></div>
                     <div class="form-row">
-                        <label for="dateAvailable" class="label">When do you start accepting tenants?</label>
+                        <label for="availDate" class="label">When do you start accepting tenants?</label>
                         <div class="value">
-                            <input type="date" formControlName="dateAvailable">
+                            <input type="date" formControlName="availDate" id="availDate">
                         </div>
                     </div>
                 </div>

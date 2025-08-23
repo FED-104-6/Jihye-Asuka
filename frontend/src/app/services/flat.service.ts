@@ -25,13 +25,25 @@ export interface Flat {
 export class FlatService {
   private apiUrl = 'http://localhost:3000/flats';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getFlats(): Observable<Flat[]> {
     return this.http.get<Flat[]>(this.apiUrl);
   }
 
   getFlatById(id: string): Observable<Flat> {
-  return this.http.get<Flat>(`${this.apiUrl}/${id}`);
-}
+    return this.http.get<Flat>(`${this.apiUrl}/${id}`);
+  }
+
+  addFlat(flat: Flat): Observable<Flat> {
+    return this.http.post<Flat>(this.apiUrl, flat);
+  }
+
+  updateFlat(flat: Flat): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${flat._id}`, flat);
+  }
+
+  deleteFlat(flatId: string) {
+    return this.http.delete(`${this.apiUrl}/${flatId}`);
+  }
 }
