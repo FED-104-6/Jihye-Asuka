@@ -68,10 +68,7 @@ export class Home {
   trackById(index: number, item: Flat) {
     return item._id;
   }
-  isNotMyFlat(ownerId: string, userId?: string): boolean {
-    if (!ownerId || !userId) return true;
-    return ownerId !== userId;
-  }
+
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
     window.location.href = `/flat-view/${flat._id}`;

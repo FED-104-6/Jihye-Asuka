@@ -37,7 +37,6 @@ export class FlatService {
     const cleanId = userId.replace(/"/g, '');
     return this.http.post<Flat>(`${this.apiUrl}/create/${cleanId}`, newFlat);
   }
-
   updateFlat(flat: Partial<Flat>): Observable<Flat> {
     return this.http
       .patch<{ message: string; flat: Flat }>(
