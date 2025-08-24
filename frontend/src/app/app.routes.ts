@@ -11,7 +11,7 @@ import { Admin } from './pages/admin/admin';
 import { AllUsers } from './pages/admin/all-users/all-users';
 import { EditFlat } from './pages/flat/edit-flat/edit-flat';
 import { FlatView } from './pages/flat/flat-view/flat-view';
-import { Messages } from './pages/my-page/messages/messages';
+import { Messages } from './pages/my-page/my-messages/my-messages';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,18 +19,18 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'register', component: Register },
 
-  { path: 'my-favorites', component: MyFavorites },
-  { path: 'my-flats', component: MyFlats },
-  { path: 'my-profile', component: MyProfile },
-  { path: 'view-profile/:id', component: MyProfile },
-  { path: 'edit-profile', component: EditProfile },
-  { path: 'edit-profile/:id', component: EditProfile },
-  { path: 'messages', component: Messages },
+  { path: 'user/favorites', component: MyFavorites },
+  { path: 'user/flats', component: MyFlats },
+  { path: 'user/messages', component: Messages },
+  { path: 'user/profile', component: MyProfile },
+  { path: 'user/edit', component: EditProfile },
 
-  { path: 'new-flat', component: NewFlat },
-  { path: 'edit-flat/:id', component: EditFlat },
-  { path: 'flat-view/:id', component: FlatView },
-
+  { path: 'flat/create', component: NewFlat },
+  { path: 'flat/edit/:id', component: EditFlat },
+  { path: 'flat/view/:id', component: FlatView },
+  
+  { path: 'admin/profile/:id', component: MyProfile },
+  { path: 'admin/edit/:id', component: EditProfile },
   {
     path: 'admin',
     component: Admin,

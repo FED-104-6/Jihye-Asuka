@@ -19,7 +19,16 @@ export class MsgService {
 
   constructor(private http: HttpClient) {}
 
+  getInboxById(userId: string): Observable<Message[]> {
+    const cleanId = userId.replace(/"/g, '');
+    return this.http.get<Message[]>(`${this.apiUrl}/inbox/${cleanId}`);
+  }
+  getOutboxById(userId: string): Observable<Message[]> {
+    const cleanId = userId.replace(/"/g, '');
+    return this.http.get<Message[]>(`${this.apiUrl}/outbox/${cleanId}`);
+  }
+
   createMsg(newMsg: Message): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}`, newMsg)
+    return this.http.post<Message>(`${this.apiUrl}`, newMsg);
   }
 }

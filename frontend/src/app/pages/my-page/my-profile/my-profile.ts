@@ -12,6 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class MyProfile {
   currentUser!: User;
+  whatAdminCanOnlySee: string | null = null;
 
   constructor(
     private router: Router,
@@ -21,24 +22,30 @@ export class MyProfile {
   ) {}
 
   ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id'); 
-    
-    if (!userId) {
+    this.whatAdminCanOnlySee = this.route.snapshot.paramMap.get('id');
+
+    if (!this.whatAdminCanOnlySee) {
       this.authService.currentUser$.subscribe((loggedUser) => {
         if (loggedUser) {
           this.currentUser = loggedUser;
         }
       });
     } else {
-      this.userService.getUserById(userId).subscribe((user) => {
-        if(user) {
-          this.currentUser = user;
-        }
-      });
+      this.userService
+        .getUserById(this.whatAdminCanOnlySee)
+        .subscribe((user) => {
+          if (user) {
+            this.currentUser = user;
+          }
+        });
     }
   }
 
   goToEditPage() {
-    window.location.href = `/edit-profile/${this.currentUser._id}`;
+    if (!this.whatAdminCanOnlySee) {
+      window.location.href = '/user/edit';
+    } else {
+      window.location.href = `/admin/edit/${this.currentUser._id}`;
+    }
   }
 }

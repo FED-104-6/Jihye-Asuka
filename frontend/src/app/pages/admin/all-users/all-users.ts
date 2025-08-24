@@ -75,7 +75,7 @@ export class AllUsers {
   }
 
   openUserProfile(user: User) {
-    window.location.href = `/view-profile/${user._id}`;
+    window.location.href = `/admin/profile/${user._id}`;
   }
   removeUser(user: User) {
     if (!user._id) return;

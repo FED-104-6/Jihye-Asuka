@@ -1,0 +1,27 @@
+<!-- flat content -->
+<div class="flat-wrap">
+  <div id="flat-control">
+    <p>Messages</p>
+    <p>
+      <span>📨 Sent</span>
+      <span>📤 Inbox</span>
+    </p>
+  </div>
+
+  <h2>Inbox</h2>
+  <div *ngFor="let flatId of inboxFlatIds">
+    <h3>Flat {{ flatId }}</h3>
+    <h3>{{ inboxByFlat[flatId].flat }}</h3>
+    <div *ngFor="let msg of inboxByFlat[flatId]">
+      <p>{{ isSenderMe(msg) ? "Me" : "Owner" }}: {{ msg.content }}</p>
+    </div>
+  </div>
+
+  <h2>Outbox</h2>
+  <div *ngFor="let flatId of outboxFlatIds">
+    <h3>Flat {{ flatId }}</h3>
+    <div *ngFor="let msg of outboxByFlat[flatId]">
+      <p>{{ isSenderMe(msg) ? "Me" : "Owner" }}: {{ msg.content }}</p>
+    </div>
+  </div>
+</div>

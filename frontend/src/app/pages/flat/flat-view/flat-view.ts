@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
 import { Message, MsgService } from '../../../services/message.service';
-import { firstValueFrom } from 'rxjs';
+import { filter, firstValueFrom, map, switchMap } from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -40,25 +40,29 @@ export class FlatView {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.flatService.getFlatById(id).subscribe({
-        next: (data) => {
-          this.currentFlat = data;
+    if (!id) return;
+
+    this.authService.currentUser$
+      .pipe(
+        filter((user): user is User => !!user), // remove undefined 
+        switchMap((user) =>
+          this.flatService.getFlatById(id).pipe(
+            map((flat) => ({ user, flat })) 
+          )
+        )
+      )
+      .subscribe({
+        next: ({ user, flat }) => {
+          this.currentUser = user;
+          this.currentFlat = flat;
+
+          // after knowing user and flat
+          this.openOwnerInform = this.currentUser.flats.some(
+            (f) => f._id !== this.currentFlat?._id
+          );
         },
         error: (err) => console.error(err),
       });
-    }
-
-    this.authService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.currentUser = user;
-
-        // after knowing user
-        this.openOwnerInform = this.currentUser.flats.some(
-          (flat) => flat._id !== this.currentFlat?._id
-        );
-      }
-    });
   }
 
   get content() {
@@ -98,8 +102,7 @@ export class FlatView {
     this.msgService.createMsg(newMsg).subscribe({
       next: (msg) => {
         this.showAlert = true;
-        setTimeout(() => (this.showAlert = false), 3000); // 3초 후 DOM에서 제거
-        this.msgForm.reset();
+        setTimeout(() => (this.showAlert = false), 3000);
         this.msgForm.reset();
       },
       error: (err) => console.error('Error making flat:', err),

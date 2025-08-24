@@ -14,17 +14,17 @@
         </p>
 
         <ul *ngIf="isMenuOpen" id="menu-items">
-          <li><a routerLink="/my-flats" routerLinkActive="active" (click)="closeMenu()">My flats</a></li>
+          <li><a routerLink="/user/flats" routerLinkActive="active" (click)="closeMenu()">My flats</a></li>
           <li>
-            <a routerLink="/my-favorites" routerLinkActive="active" (click)="closeMenu()">My favorites</a>
+            <a routerLink="/user/favorites" routerLinkActive="active" (click)="closeMenu()">My favorites</a>
           </li>
           <li>
-            <a routerLink="/my-profile" routerLinkActive="active" (click)="closeMenu()">My profile</a>
+            <a routerLink="/user/profile" routerLinkActive="active" (click)="closeMenu()">My profile</a>
           </li>
           <li>
-            <a routerLink="/edit-profile" routerLinkActive="active" (click)="closeMenu()">Edit profile</a>
+            <a routerLink="/user/edit" routerLinkActive="active" (click)="closeMenu()">Edit profile</a>
           </li>
-          <li><a routerLink="/messages" routerLinkActive="active" (click)="closeMenu()">Messages</a></li>
+          <li><a routerLink="/user/messages" routerLinkActive="active" (click)="closeMenu()">Messages</a></li>
           <li class="btn-hover" id="logout" (click)="logout()">Log out</li>
         </ul>
 

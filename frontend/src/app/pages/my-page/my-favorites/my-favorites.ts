@@ -36,7 +36,7 @@ export class MyFavorites {
 
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
-    window.location.href =  `/flat-view/${flat._id}`;
+    window.location.href =  `/flat/view/${flat._id}`;
   }
 
   // favorites

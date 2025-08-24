@@ -25,11 +25,11 @@ export class App {
     return !(
       url === '/login' ||
       url === '/register' ||
-      url.startsWith('/admin')
+      url.startsWith('/admin/all-users')
     );
   }
   get showFooter() {
     const url = this.router.url;
-    return !url.startsWith('/admin');
+    return !url.startsWith('/admin/all-users');
   }
 }

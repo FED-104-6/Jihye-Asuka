@@ -1,0 +1,81 @@
+/* flat content */
+.flat-wrap {
+  min-width: 1200px;
+  min-height: 688px;
+}
+
+#flat-control {
+  min-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 100px 0 50px;
+  gap: 50px;
+}
+#flat-control p:first-child {
+  font-size: 60px;
+  font-weight: 900;
+}
+#flat-control p:last-child {
+  min-width: 400px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 3px;
+  display: flex;
+  overflow: hidden;
+}
+#flat-control p:last-child span {
+  width: calc(100% / 2);
+  line-height: 40px;
+  text-align: center;
+}
+#flat-control p:last-child span:first-child {
+  color: white;
+  background-color: var(--gray-black);
+}
+#flat-control p:last-child span:last-child {
+  background-color: #f1f1f1;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0px 10px;
+}
+table tr {
+  height: 60px;
+  font-size: 13px;
+}
+table thead th {
+  font-weight: 500;
+  color: lightgray;
+  text-align: center;
+}
+table tbody tr {
+  background-color: rgb(241, 241, 241);
+}
+table tbody tr td {
+  text-align: center;
+}
+
+table tbody td button {
+  background-color: var(--gray-black);
+  color: white;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 3px;
+}
+table tbody tr td .manage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#add-flat {
+  background-color: var(--gray-black);
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+}

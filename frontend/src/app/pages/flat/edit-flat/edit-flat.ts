@@ -120,7 +120,7 @@ export class EditFlat {
 
     this.flatService.updateFlat(updatedFlat).subscribe({
       next: () => {
-        alert('edit complete!'), window.location.href = '/my-flats';
+        alert('edit complete!'), window.location.href = '/user/flats';
       },
       error: (err) => console.error('Error updating flat:', err),
     });
