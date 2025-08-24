@@ -13,6 +13,8 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class MyFavorites {
   favFlats: Flat[] = [];
+  flat?: Flat;
+  flatId!: string;
   currentUser?: User | null = null;
 
   constructor(
@@ -24,7 +26,7 @@ export class MyFavorites {
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.authService.getUser() as any;
+    this.currentUser = this.authService.getUser();
     if (!this.currentUser) {
       this.router.navigate(['/login']);
       return;
@@ -37,21 +39,27 @@ export class MyFavorites {
     });
   }
 
-  toggleFavorite(flat: Flat) {
-    if (!this.currentUser || !flat._id) return;
+  toggleFavorite(event: Event, flat: Flat) {
+    event.stopPropagation();
+    if (!this.currentUser || !flat?._id) return;
+    console.log('currentUser:', this.currentUser);
+    console.log('flatId:', flat?._id);
 
-    let updatedFavorites: string[];
-    if (this.currentUser.favorites?.includes(flat._id)) {
-      updatedFavorites = this.currentUser.favorites.filter(id => id !== flat._id);
+    const flatId = flat._id;
+    if (this.currentUser.favorites?.includes(flatId)) {
+      this.currentUser.favorites = this.currentUser.favorites.filter(id => id !== flatId);
     } else {
-      updatedFavorites = [...(this.currentUser.favorites || []), flat._id];
+      this.currentUser.favorites = [...(this.currentUser.favorites || []), flatId];
     }
+    console.log(this.currentUser.favorites)
 
-    this.userService.updateFavorites(this.currentUser._id!, updatedFavorites).subscribe(updatedUser => {
-      this.currentUser = updatedUser;
-
-      this.favFlats = this.favFlats.filter(f => updatedFavorites.includes(f._id!));
-    });
+    this.userService.updateFavorites(this.currentUser._id!, this.currentUser.favorites)
+      .subscribe({
+        next: (res: any) => {
+          this.currentUser = res.user;;
+        },
+        error: err => console.error(err)
+      });
   }
 
   goToFlatView(flat: Flat) {
