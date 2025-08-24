@@ -22,7 +22,9 @@ export const routes: Routes = [
   { path: 'my-favorites', component: MyFavorites },
   { path: 'my-flats', component: MyFlats },
   { path: 'my-profile', component: MyProfile },
+  { path: 'view-profile/:id', component: MyProfile },
   { path: 'edit-profile', component: EditProfile },
+  { path: 'edit-profile/:id', component: EditProfile },
   { path: 'messages', component: Messages },
 
   { path: 'new-flat', component: NewFlat },

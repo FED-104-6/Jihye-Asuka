@@ -126,7 +126,7 @@
 </aside>
 
 <!-- user profile (detail) -->
-<aside [ngClass]="{ open: isUserSelected }">
+<!-- <aside [ngClass]="{ open: isUserSelected }">
   <img
     class="btn-hover aside-close"
     src="/assets/close.png"
@@ -164,7 +164,7 @@
       <p>{{ selectedUser?.createdat | date: "medium" }}</p>
     </div>
   </div>
-</aside>
+</aside> -->
 
 <!-- user title -->
 <div id="user-control">
@@ -200,7 +200,7 @@
           <td>{{ user.email }}</td>
           <td>{{ user.type }}</td>
           <td>{{ user.age }}</td>
-          <td>{{ user?.flats?.length || 0 }}</td>
+          <td>{{ user.flats.length || 0 }}</td>
           <td>
             <div class="admin-manage">
               <p>{{ user.admin }}</p>

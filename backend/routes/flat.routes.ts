@@ -82,11 +82,24 @@ router.patch('/edit/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const flatId = req.params.id;
-    const deleteFlat = await Flat.findByIdAndDelete(flatId);
-    if (!deleteFlat) {
-      return res.status(404).json({ error: 'User not found' });
+
+    const flat = await Flat.findById(flatId);
+    if (!flat) return res.status(404).json({ error: 'Flat not found' });
+
+    await Flat.findByIdAndDelete(flatId);
+
+    if (flat.owner) {
+      await User.findByIdAndUpdate(flat.owner, {
+        $pull: { flats: flat._id }
+      });
     }
-    res.json({ message: 'User deleted', user: deleteFlat });
+
+    await User.updateMany(
+      { favorites: flat._id },
+      { $pull: { favorites: flat._id } }
+    );
+
+    res.json({ message: 'Flat deleted successfully', flat });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

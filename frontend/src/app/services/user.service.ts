@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { Flat } from './flat.service';
 
 export interface User {
   _id?: string;
@@ -13,8 +14,8 @@ export interface User {
   age?: number;
   type: string[];
   admin: boolean;
-  flats?: any[]; // populate된 flats
-  favorites?: any[];
+  flats: Flat[];
+  favorites: Flat[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -26,6 +27,10 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`);
+  }
+
   createUser(newUser: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/register`, newUser);
   }
@@ -45,7 +50,7 @@ export class UserService {
       admin,
     });
   }
-  updateFavorites(userId: string, favorites: string[]): Observable<User> {
+  updateFavorites(userId: string, favorites: Flat[]): Observable<User> {
     return this.http.patch<User>(`${this.apiUrl}/${userId}/edit/favorites`, {
       favorites,
     });

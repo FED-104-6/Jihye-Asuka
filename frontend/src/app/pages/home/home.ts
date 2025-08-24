@@ -41,7 +41,7 @@ export class Home {
         this.currentUser = user;
       }
     });
-    
+
     this.flatService.getFlats().subscribe({
       next: (data) => {
         this.allFlatDB = data.map((flat) => ({
@@ -72,42 +72,45 @@ export class Home {
     if (!ownerId || !userId) return true;
     return ownerId !== userId;
   }
-  // favorites
-  // 아이콘 선택
-  getFavoriteIcon(flatId: string, favorites: string[] = []): string {
-    // console.log(favorites);
-    return favorites.includes(flatId)
-      ? '/assets/fav-yellow.png'
-      : '/assets/fav-white.png';
-  }
-  setFavorite(flatId: string, favorites: string[] = []) {
-    const user = this.authService.currentUserSnapshot();
-    if (!user) return;
-
-    // favorites 배열 업데이트
-    const updatedFavorites = [...favorites];
-    const index = updatedFavorites.indexOf(flatId);
-    if (index >= 0) {
-      updatedFavorites.splice(index, 1); // 제거
-    } else {
-      updatedFavorites.push(flatId); // 추가
-    }
-
-    // 서버에 업데이트
-    this.userService.updateFavorites(user._id!, updatedFavorites).subscribe({
-      next: (updatedUser) => {
-        // BehaviorSubject 갱신 → UI 자동 업데이트
-        this.authService.setUser(updatedUser);
-      },
-      error: (err) => console.error(err),
-    });
-  }
-
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
     window.location.href = `/flat-view/${flat._id}`;
   }
 
+  // favorites
+  getFavoriteIcon(flatId: string): string {
+    const isMine = this.currentUser?.flats.some((flat) => flat._id === flatId);
+    const isFavorite = this.currentUser?.favorites.some(
+      (fav) => fav._id === flatId
+    );
+
+    if (isMine) {
+      return '';
+    } else {
+      return isFavorite ? '/assets/fav-yellow.png' : '/assets/fav-white.png';
+    }
+  }
+  setFavorite(flat: Flat) {
+    const updatedFavorites = [...this.currentUser!.favorites];
+    const index = updatedFavorites.findIndex((fav) => fav._id === flat._id);
+    if (index >= 0) {
+      updatedFavorites.splice(index, 1);
+    } else {
+      updatedFavorites.push(flat);
+    }
+
+    this.userService
+      .updateFavorites(this.currentUser!._id!, updatedFavorites)
+      .subscribe({
+        next: (updatedUser) => {
+          this.authService.setUser(updatedUser);
+          window.location.reload();
+        },
+        error: (err) => console.error(err),
+      });
+  }
+
+  // filter
   filterReset() {
     this.city = this.sort = '';
     this.priceA = this.priceB = null;

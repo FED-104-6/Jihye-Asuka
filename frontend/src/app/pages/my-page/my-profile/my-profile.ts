@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { User } from '../../../services/user.service';
+import { User, UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -15,18 +15,30 @@ export class MyProfile {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.currentUser = user;
-      }
-    });
+    const userId = this.route.snapshot.paramMap.get('id'); 
+    
+    if (!userId) {
+      this.authService.currentUser$.subscribe((loggedUser) => {
+        if (loggedUser) {
+          this.currentUser = loggedUser;
+        }
+      });
+    } else {
+      this.userService.getUserById(userId).subscribe((user) => {
+        if(user) {
+          this.currentUser = user;
+        }
+      });
+    }
   }
 
   goToEditPage() {
-    this.router.navigate(['/edit-profile']);
+    window.location.href = `/edit-profile/${this.currentUser._id}`;
   }
 }

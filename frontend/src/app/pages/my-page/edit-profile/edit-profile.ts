@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { User, UserService } from '../../../services/user.service';
 
@@ -50,24 +50,43 @@ export class EditProfile {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private userService: UserService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.currentUser = user;
-        this.editUserForm.patchValue({
-          firstName: user.firstname,
-          lastName: user.lastname,
-          email: user.email,
-          birthdate: user.birthdate
-            ? new Date(user.birthdate).toISOString().split('T')[0]
-            : '',
-        });
-      }
-    });
+    const userId = this.route.snapshot.paramMap.get('id');
+
+    if (!userId) {
+      this.authService.currentUser$.subscribe((loggedUser) => {
+        if (loggedUser) {
+          this.currentUser = loggedUser;
+          this.editUserForm.patchValue({
+            firstName: loggedUser.firstname,
+            lastName: loggedUser.lastname,
+            email: loggedUser.email,
+            birthdate: loggedUser.birthdate
+              ? new Date(loggedUser.birthdate).toISOString().split('T')[0]
+              : '',
+          });
+        }
+      });
+    } else {
+      this.userService.getUserById(userId).subscribe((user) => {
+        if (user) {
+          this.currentUser = user;
+          this.editUserForm.patchValue({
+            firstName: user.firstname,
+            lastName: user.lastname,
+            email: user.email,
+            birthdate: user.birthdate
+              ? new Date(user.birthdate).toISOString().split('T')[0]
+              : '',
+          });
+        }
+      });
+    }
   }
 
   get firstName() {
@@ -155,7 +174,8 @@ export class EditProfile {
       this.userService.updateUser(updatedUser).subscribe({
         next: (user) => {
           this.authService.setUser(user);
-          alert('edit: ' + user.firstname), (window.location.href = '/home');
+          alert('edit: ' + user.firstname), 
+          window.location.href = '/home';
         },
         error: (err) => console.error('Error creating user:', err),
       });

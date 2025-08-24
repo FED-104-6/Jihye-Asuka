@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User, UserService } from '../../../services/user.service';
+import { Flat } from '../../../services/flat.service';
 
 @Component({
   selector: 'app-register',
@@ -31,6 +32,8 @@ export class Register {
     age: 0,
     admin: false,
     createdat: new Date(),
+    flats: [] as Flat[],
+    favorites: [] as Flat[],
   };
 
   registerForm = new FormGroup(
@@ -113,7 +116,7 @@ export class Register {
       next: (user) => {
         console.log('Created user:', user);
         alert('welcome: ' + user.firstname);
-        window.location.href = '/login';
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         this.errorMessage = 'This email is already in use.';

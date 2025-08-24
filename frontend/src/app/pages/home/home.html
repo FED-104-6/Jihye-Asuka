@@ -76,10 +76,12 @@
       <img src="/assets/filter.png" alt="" />
       Filter
     </div>
-    <a href="/new-flat" id="new" class="btn-hover">
-      <img src="/assets/add.png" alt="" />
-      New Flat
-    </a>
+    @if(currentUser){
+      <a href="/new-flat" id="new" class="btn-hover">
+        <img src="/assets/add.png" alt="" />
+        New Flat
+      </a>
+    }
   </div>
 </div>
 
@@ -106,8 +108,8 @@
           <ng-container *ngIf="currentUser as user">
             <img
               *ngIf="flat._id"
-              [src]="getFavoriteIcon(flat._id, user.favorites)"
-              (click)="setFavorite(flat._id, user.favorites)"
+              [src]="getFavoriteIcon(flat._id)"
+              (click)="setFavorite(flat)"
               class="btn-hover flat-fav"
               alt=""
             />

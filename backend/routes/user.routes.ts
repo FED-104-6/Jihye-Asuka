@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user.model';
+import { Flat } from '../models/flat.model';
 
 const router = Router();
 
@@ -77,11 +78,20 @@ router.post('/register', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
+
     const deletedUser = await User.findByIdAndDelete(userId);
     if (!deletedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.json({ message: 'User deleted', user: deletedUser });
+
+    const deletedFlats = await Flat.deleteMany({ owner: userId });
+
+    await User.updateMany(
+      { favorites: { $in: deletedUser.flats } },
+      { $pull: { favorites: { $in: deletedUser.flats } } }
+    );
+
+    res.json({ message: 'User and their flats deleted', user: deletedUser });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

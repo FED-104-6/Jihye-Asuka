@@ -75,8 +75,7 @@ export class AllUsers {
   }
 
   openUserProfile(user: User) {
-    this.isUserSelected = !this.isUserSelected;
-    this.selectedUser = user;
+    window.location.href = `/view-profile/${user._id}`;
   }
   removeUser(user: User) {
     if (!user._id) return;
