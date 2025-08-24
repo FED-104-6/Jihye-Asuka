@@ -3,9 +3,17 @@
     <!-- Header -->
     <div class="flat-header">
         <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
-        <img class="flat-fav"
-            [src]="currentUser?.favorites?.includes(flat._id) ? '../../../../../public/assets/fav-yellow.png' : '../../../../../public/assets/fav-white.png'"
-            alt="favorite" (click)="toggleFavorite(currentUser!, flat._id!)" />
+        <i *ngIf="currentUser"
+            class="material-icons flat-fav"
+            [style.color]="currentUser?.favorites?.includes(flat._id) ? 'gold' : 'gray'"
+            (click)="toggleFavorite($event)">
+            {{ currentUser?.favorites?.includes(flat._id) ? 'star' : 'star_outline' }}
+        </i>
+        <i *ngIf="flat.owner?._id === currentUser?._id"
+            class="material-icons"
+            (click)="goToEdit()">
+            edit
+        </i>
     </div>
 
     <!-- Main Info -->

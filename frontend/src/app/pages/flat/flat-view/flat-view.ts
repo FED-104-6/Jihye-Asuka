@@ -34,17 +34,26 @@ export class FlatView {
     }
   }
 
-  toggleFavorite(user: User, flatId: string) {
-    let updatedFavorites: string[];
+  toggleFavorite(event: Event) {
+  event.stopPropagation();
+  if (!this.currentUser || !this.flat?._id) return;
 
-    if (user.favorites?.includes(flatId)) {
-      updatedFavorites = user.favorites.filter(id => id !== flatId);
-    } else {
-      updatedFavorites = [...(user.favorites || []), flatId];
-    }
+  const flatId = this.flat._id;
+  const updatedFavorites = this.currentUser.favorites?.includes(flatId)
+    ? this.currentUser.favorites.filter(id => id !== flatId)
+    : [...(this.currentUser.favorites || []), flatId];
 
-    this.userService.updateFavorites(user._id!, updatedFavorites).subscribe(updatedUser => {
-      this.currentUser = updatedUser;
+  this.userService.updateFavorites(this.currentUser._id!, updatedFavorites)
+    .subscribe({
+      next: (updatedUser: User) => {
+        this.currentUser = updatedUser;
+      },
+      error: err => console.error(err)
     });
+}
+
+  goToEdit() {
+    if (!this.flat?._id || this.flat.owner._id !== this.currentUser?._id) return;
+    this.router.navigate(['/edit-flat', this.flat._id]);
   }
 }
