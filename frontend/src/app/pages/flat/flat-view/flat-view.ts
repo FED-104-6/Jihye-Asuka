@@ -22,11 +22,11 @@ export class FlatView {
 
   flat?: Flat;
   flatId!: string;
-  currentUser?: User| null = null;
+  currentUser?: User | null = null;
 
   ngOnInit() {
     this.flatId = this.route.snapshot.paramMap.get('id')!;
-    this.currentUser = this.authService.getUser(); 
+    this.currentUser = this.authService.getUser();
     if (this.flatId) {
       this.flatService.getFlatById(this.flatId).subscribe(flat => {
         this.flat = flat;
@@ -35,22 +35,27 @@ export class FlatView {
   }
 
   toggleFavorite(event: Event) {
-  event.stopPropagation();
-  if (!this.currentUser || !this.flat?._id) return;
+    event.stopPropagation();
+    if (!this.currentUser || !this.flat?._id) return;
+    console.log('currentUser:', this.currentUser);
+    console.log('flatId:', this.flat?._id);
 
-  const flatId = this.flat._id;
-  const updatedFavorites = this.currentUser.favorites?.includes(flatId)
-    ? this.currentUser.favorites.filter(id => id !== flatId)
-    : [...(this.currentUser.favorites || []), flatId];
+    const flatId = this.flat._id;
+    if (this.currentUser.favorites?.includes(flatId)) {
+      this.currentUser.favorites = this.currentUser.favorites.filter(id => id !== flatId);
+    } else {
+      this.currentUser.favorites = [...(this.currentUser.favorites || []), flatId];
+    }
+    console.log(this.currentUser.favorites)
 
-  this.userService.updateFavorites(this.currentUser._id!, updatedFavorites)
-    .subscribe({
-      next: (updatedUser: User) => {
-        this.currentUser = updatedUser;
-      },
-      error: err => console.error(err)
-    });
-}
+    this.userService.updateFavorites(this.currentUser._id!, this.currentUser.favorites)
+      .subscribe({
+        next: (res: any) => {
+          this.currentUser = res.user;;
+        },
+        error: err => console.error(err)
+      });
+  }
 
   goToEdit() {
     if (!this.flat?._id || this.flat.owner._id !== this.currentUser?._id) return;
