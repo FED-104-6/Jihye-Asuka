@@ -85,10 +85,6 @@ export class EditProfile {
     private userService: UserService
   ) { }
 
-  goToMyProfilePage() {
-    this.router.navigate(['/my-profile'])
-  }
-
   ngOnInit() {
     const currentUser = this.authService.getUser();
     if (currentUser) {
@@ -120,7 +116,7 @@ export class EditProfile {
       next: (user) => {
         console.log('updateprofile:', updatedData)
         this.authService.setUser(user);
-        this.goToMyProfilePage();
+        this.router.navigate(['/home'])
       },
       error: (err) => {
         console.error('Failed to update profile', err);
