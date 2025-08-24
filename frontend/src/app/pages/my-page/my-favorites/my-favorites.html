@@ -11,13 +11,13 @@
          <!-- [routerLink]="['/flat-view', flat.id]" -->
         <div class="flat-inform">
             <div class="flat-img">
-                <img [src]="flat.image" alt="Flat Image" />
+                <img src="../../../../../public/assets/houseExample.png" alt="Flat Image" />
             </div>
-            <p class="address">{{ flat.address }}</p>
+            <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
             <p class="size">{{ flat.size }}</p>
             <p class="price">{{ flat.price }}</p>
-            <p>{{ flat.ownerEmail }} ({{ flat.owner }})</p>
-            <img class="flat-fav" [src]="flat.fav ? '/assets/fav-white.png' : '/assets/fav.png'" alt="Favorite Icon" />
+            <p>{{ flat.owner.email }} ({{ flat.owner }})</p>
+            <img class="flat-fav" [src]="currentUser?.favorites?.includes(flat._id) ? '../../../../../public/assets/fav-yellow.png' : '../../../../../public/assets/fav-white.png'" alt="Favorite Icon" />
         </div>
     </a>
 </div>
