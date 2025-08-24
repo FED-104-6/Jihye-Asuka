@@ -7,7 +7,7 @@
         <p>Date Available</p>
     </div>
 
-    <a *ngFor="let flat of myFlats" class="btn-hover flat-item">
+    <a *ngFor="let flat of myFlats" class="btn-hover flat-item" (click)="goToFlatView(flat)">
         <div class="flat-inform">
             <div class="flat-img">
                 <img src="../../../../../public/assets/houseExample.png" alt="flat" />

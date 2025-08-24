@@ -37,6 +37,11 @@ export class MyFlats {
     });
   }
 
+  goToFlatView(flat: Flat) {
+    if (!flat._id) return;
+    this.router.navigate(['/flat-view', flat._id]);
+  }
+
   goToFlatEdit(flat: Flat, event?: Event) {
     event?.stopPropagation();
     if (!flat._id) return;

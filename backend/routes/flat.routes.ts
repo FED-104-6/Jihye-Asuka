@@ -44,4 +44,14 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const flat = await Flat.findByIdAndDelete(req.params.id);
+    if (!flat) return res.status(404).json({ error: 'Flat not found' });
+    res.json({ message: 'Flat deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;
