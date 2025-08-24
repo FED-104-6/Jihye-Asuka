@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FlatService, Flat } from '../../../services/flat.service';
+import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-my-flats',
@@ -10,39 +13,45 @@ import { Router } from '@angular/router';
   styleUrl: './my-flats.css'
 })
 export class MyFlats {
-  //test Data
-  myFlats = [
-    {
-      address: {
-        stNum: 233,
-        stName: 'Robson St',
-        city: 'Vancouver BC'
-      },
-      size: 56,
-      price: 24000,
-      dateAvailable: '2025-08-16',
-      img: '/assets/home.png'
-    },
-    {
-      address: {
-        stNum: 101,
-        stName: 'Main St',
-        city: 'Vancouver BC'
-      },
-      size: 70,
-      price: 30000,
-      dateAvailable: '2025-09-01',
-      img: '/assets/home.png'
+  myFlats: Flat[] = [];
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private flatService: FlatService,
+    private userService: UserService,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit() {
+    const currentUser = this.authService.getUser() as any;
+    if (!currentUser) {
+      this.router.navigate(['/login']);
+      return;
     }
-  ];
 
-  constructor(private router: Router) {}
+    const userId = currentUser._id;
 
-  goToFlatEdit(flat: any) {
-    this.router.navigate(['/flat-view', flat.id])
+    this.flatService.getFlats().subscribe(flats => {
+      this.myFlats = flats.filter(flat => flat.owner && flat.owner._id === userId);
+    });
   }
 
-  onDelete(flat: any) {
-    //
+  goToFlatEdit(flat: Flat, event?: Event) {
+    event?.stopPropagation();
+    if (!flat._id) return;
+    this.router.navigate(['/edit-flat', flat._id]);
+  }
+
+  onDelete(flat: Flat, event?: Event) {
+    event?.stopPropagation();
+    if (!confirm('Are you sure you want to delete this flat?')) return;
+
+    this.flatService.deleteFlat(flat._id!).subscribe({
+      next: () => {
+        this.myFlats = this.myFlats.filter(f => f._id !== flat._id);
+      },
+      error: err => console.error(err)
+    });
   }
 }
