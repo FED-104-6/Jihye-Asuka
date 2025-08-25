@@ -19,7 +19,7 @@
             <div class="form-row">
                 <label for="stName" class="label">What street is your house on?</label>
                 <div class="value">
-                    <input type="text" formControlName="stName" id="stName"placeholder="Street Name">
+                    <input type="text" formControlName="stName" id="stName" placeholder="Street Name">
                 </div>
                 <div class="error" *ngIf="stName?.invalid && stName?.touched">
                     Street name must be at least 2 chalacters.
@@ -76,11 +76,14 @@
                         <label>Does your house have an air conditioner?</label>
                         <div class="radio-group">
                             <label>
-                                <input type="radio" formControlName="hasAC" value="yes"> Yes
+                                <input type="radio" formControlName="hasAC" [value]="true"> Yes
                             </label>
                             <label>
-                                <input type="radio" formControlName="hasAC" value="no"> No
+                                <input type="radio" formControlName="hasAC" [value]="false"> No
                             </label>
+                            <div class="error" *ngIf="hasAC?.invalid && hasAC?.touched">
+                                Please select Yes or No.
+                            </div>
                         </div>
                     </div>
                 </div>
