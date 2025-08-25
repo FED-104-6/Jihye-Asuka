@@ -3,17 +3,19 @@
     <!-- Header -->
     <div class="flat-header">
         <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
-        <i *ngIf="currentUser"
-            class="material-icons flat-fav"
-            [style.color]="currentUser?.favorites?.includes(flat._id) ? 'gold' : 'gray'"
-            (click)="toggleFavorite($event)">
-            {{ currentUser?.favorites?.includes(flat._id) ? 'star' : 'star_outline' }}
-        </i>
-        <i *ngIf="flat.owner?._id === currentUser?._id"
-            class="material-icons"
-            (click)="goToEdit()">
-            edit
-        </i>
+        <div class="icon-group">
+            <i *ngIf="currentUser"
+                class="material-icons flat-fav"
+                [style.color]="currentUser?.favorites?.includes(flat._id) ? 'gold' : 'gray'"
+                (click)="toggleFavorite($event)">
+                {{ currentUser?.favorites?.includes(flat._id) ? 'star' : 'star_outline' }}
+            </i>
+            <i *ngIf="flat.owner?._id === currentUser?._id"
+                class="material-icons"
+                (click)="goToEdit()">
+                edit
+            </i>
+        </div>
     </div>
 
     <!-- Main Info -->
@@ -40,7 +42,7 @@
                 <div class="icon"><i class="material-icons">thermostat</i></div>
                 <div class="right">
                     <div class="label">hasAC</div>
-                    <div class="value">>{{ flat.hasAC ? 'Yes' : 'No' }}</div>
+                    <div class="value">{{ flat.hasAC ? 'Yes' : 'No' }}</div>
                 </div>
             </div>
 

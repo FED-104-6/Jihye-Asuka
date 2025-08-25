@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlatService, Flat } from '../../../services/flat.service';
@@ -17,7 +17,8 @@ export class FlatView {
     private route: ActivatedRoute,
     private flatService: FlatService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   flat?: Flat;
@@ -26,10 +27,13 @@ export class FlatView {
 
   ngOnInit() {
     this.flatId = this.route.snapshot.paramMap.get('id')!;
+    console.log('id from route:', this.flatId);
     this.currentUser = this.authService.getUser();
     if (this.flatId) {
       this.flatService.getFlatById(this.flatId).subscribe(flat => {
+        console.log('flat data:', flat);
         this.flat = flat;
+        this.cdr.detectChanges(); 
       });
     }
   }
