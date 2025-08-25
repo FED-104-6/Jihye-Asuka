@@ -13,7 +13,6 @@ import { UserService } from '../../../services/user.service';
 })
 
 export class EditProfile {
-  //TODO: get current user information from database to display user data for reducing user task
   updateForm = new FormGroup({
     firstName: new FormControl("", [
       Validators.required,
