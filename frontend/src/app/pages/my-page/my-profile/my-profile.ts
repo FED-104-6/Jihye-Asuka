@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-my-profile',
-  imports: [DatePipe],
+  imports: [CommonModule],
   templateUrl: './my-profile.html',
   styleUrl: './my-profile.css'
 })
@@ -14,7 +14,6 @@ export class MyProfile {
   firstName: string = "";
   lastName: string = "";
   email: string = "";
-  //password: string = "";
   birthDate = "";
 
   constructor(
@@ -28,7 +27,6 @@ export class MyProfile {
       this.firstName = currentUser.firstname;
       this.lastName = currentUser.lastname;
       this.email = currentUser.email;
-      //this.password = currentUser.password;
       this.birthDate =  new Date(currentUser.birthdate).toISOString().split('T')[0];
     }
   }
