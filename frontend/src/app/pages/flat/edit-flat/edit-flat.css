@@ -53,6 +53,12 @@
   width: 100%;
 }
 
+.radio-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
 .error {
   color: red;
   font-size: 0.9em;
@@ -86,4 +92,27 @@
 .flat-actions button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .flat-container {
+        padding: 15px 10px;
+    }
+
+    .flat-info {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .flat-info .label {
+        font-size: 13px;
+    }
+
+    .flat-info .value input {
+        width: 100%;
+    }
+
+    .radio-group {
+        flex-direction: column;
+    }
 }

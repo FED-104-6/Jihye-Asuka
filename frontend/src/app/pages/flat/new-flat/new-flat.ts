@@ -26,7 +26,7 @@ export class NewFlat {
     availDate: new FormControl("", [
       Validators.required
     ]),
-    hasAC: new FormControl<boolean | null>(null, [
+    hasAC: new FormControl<boolean>(false, [
       Validators.required
     ]),
     price: new FormControl<number>(1000, [
