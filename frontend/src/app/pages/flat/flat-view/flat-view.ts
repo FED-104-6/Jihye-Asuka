@@ -93,10 +93,10 @@ export class FlatView {
 
     const newMsg: Message = {
       content: formValue.content ?? '',
-      sender: this.currentUser._id!,
-      recipient: this.currentFlat?.owner._id!,
+      sender: this.currentUser!,
+      recipient: this.currentFlat?.owner!,
       createdAt: new Date(),
-      flat: this.currentFlat?._id!,
+      flat: this.currentFlat!,
     };
 
     this.msgService.createMsg(newMsg).subscribe({

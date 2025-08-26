@@ -13,11 +13,11 @@
   margin: 100px 0 50px;
   gap: 50px;
 }
-#flat-control p:first-child {
+#flat-control p {
   font-size: 60px;
   font-weight: 900;
 }
-#flat-control p:last-child {
+#flat-control nav {
   min-width: 400px;
   height: 40px;
   font-size: 15px;
@@ -26,18 +26,16 @@
   display: flex;
   overflow: hidden;
 }
-#flat-control p:last-child span {
+#flat-control nav a {
   width: calc(100% / 2);
   line-height: 40px;
   text-align: center;
-}
-#flat-control p:last-child span:first-child {
-  color: white;
-  background-color: var(--gray-black);
-}
-#flat-control p:last-child span:last-child {
   background-color: #f1f1f1;
   font-weight: 600;
+}
+#flat-control nav a.active {
+  color: white;
+  background-color: var(--gray-black);
 }
 
 table {

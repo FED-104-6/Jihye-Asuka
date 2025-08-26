@@ -3,12 +3,18 @@ import { Flat, FlatService } from '../../../services/flat.service';
 import { CommonModule } from '@angular/common';
 import { filter, forkJoin, Observable, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Message, MsgService } from '../../../services/message.service';
+import {
+  Message,
+  MessageGroup,
+  MsgService,
+} from '../../../services/message.service';
 import { AuthService } from '../../../services/auth.service';
+import { User } from '../../../services/user.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-messages',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './my-messages.html',
   styleUrl: './my-messages.css',
 })
@@ -20,11 +26,8 @@ export class Messages {
   // Record<Type, Type>
   // Record는 일반 객체랑 구조는 같지만, 타입스크립트가 타입 체크를 엄격하게 해주는 것
   // 객체 초기화는 중괄호로 하는 게 좋다 -- key 접근을 위해
-  inboxByFlat: Record<string, Message[]> = {};
-  outboxByFlat: Record<string, Message[]> = {};
-
-  inboxFlatIds: string[] = [];
-  outboxFlatIds: string[] = [];
+  inboxByFlat: Record<string, MessageGroup> = {};
+  outboxByFlat: Record<string, MessageGroup> = {};
 
   constructor(
     private msgService: MsgService,
@@ -49,43 +52,40 @@ export class Messages {
         this.msgService.getInboxById(this.currentUserId),
         this.msgService.getOutboxById(this.currentUserId),
       ]).subscribe(([inbox, outbox]) => {
-        this.groupByFlat(inbox, 'inbox');
-        this.groupByFlat(outbox, 'outbox');
+        // 서비스로 자식한테 전해줘야 됨 
+        this.msgService.setInbox(this.groupByFlat(inbox));
+        this.msgService.setOutbox(this.groupByFlat(outbox));
       });
     });
   }
 
-  private groupByFlat(msgs: Message[], type: 'inbox' | 'outbox') {
-    const grouped: Record<string, Message[]> = {};
+  private groupByFlat(messages: Message[]): Record<string, MessageGroup> {
+    const grouped: Record<string, MessageGroup> = {};
 
-    msgs.forEach((msg) => {
-      const flatId = (msg.flat as any)._id.toString();
-      if (!grouped[flatId]) grouped[flatId] = [];
-      grouped[flatId].push(msg);
+    messages.forEach((msg) => {
+      // flat이 populate된 객체라고 가정
+      // - Record라는 이름의 객체에 넣을 필드값
+      const flatId = msg.flat._id!;
+
+      // - 필드 안에 넣을 컨텐츠 --> 객체
+      // - id에 맞는 flat 글을 띄워야 되므로 객체에 flat 저장
+      // - 그리고 이제 해당 글의 메세지를 객체에 배열로 담아 저장
+      // - 따라서 string(글 Id) : object(글 내용Flat / 메세지[]) 이렇게 담기는 거임
+      if (!grouped[flatId]) {
+        grouped[flatId] = {
+          flat: msg.flat as unknown as Flat, // 첫 메시지에서 flat 객체 가져옴
+          messages: [],
+        };
+      }
+
+      grouped[flatId].messages.push(msg);
     });
 
-    Object.keys(grouped).forEach((flatId) => {
-      grouped[flatId].sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      );
-    });
-
-    if (type === 'inbox') {
-      this.inboxByFlat = grouped;
-      this.inboxFlatIds = Object.keys(grouped);
-    } else {
-      this.outboxByFlat = grouped;
-      this.outboxFlatIds = Object.keys(grouped);
-    }
+    return grouped;
   }
   isSenderMe(msg: Message): boolean {
-    const senderId = (msg.sender as any)._id.toString();
+    const senderId = msg.sender._id;
     return senderId === this.currentUserId;
   }
 
-  viewFlatDetail(flat: Flat) {
-    if (!flat._id) return;
-    window.location.href = `/flat/view/${flat._id}`;
-  }
 }

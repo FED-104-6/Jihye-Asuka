@@ -5,6 +5,7 @@
         <img src="/assets/logo.png" alt="" />
       </a>
       <a *ngIf="(currentUser$ | async)?.admin" id="admin" routerLink="/admin">Admin</a>
+      <button>Reload btn (just in case)</button>
     </div>
 
     <div id="mypage" *ngIf="currentUser$ | async as user">

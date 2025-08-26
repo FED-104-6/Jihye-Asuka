@@ -1,0 +1,65 @@
+<div id="msg-modal" [ngClass]="{ open: isMessageOpen }">
+  <img
+    id="msg-close"
+    class="btn-hover"
+    src="/assets/close.png"
+    (click)="isMessageOpen = !isMessageOpen"
+    alt=""
+  />
+  <div
+    id="msg-wrap"
+    *ngFor="let group of outboxByFlat$ | async | keyvalue"
+    #scrollContainer
+  >
+    <div class="msg-item" *ngFor="let msg of group.value.messages">
+      <p class="sender-inform">
+        <span>{{ msg.createdAt | date : "yy.MM.dd HH:mma" }}</span>
+      </p>
+      <p class="msg-content">
+        {{ msg.content }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr id="category">
+      <th>Address</th>
+      <th>Size</th>
+      <th>Price</th>
+      <th>Owner</th>
+      <th>View Detail</th>
+      <th>Manage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let msg of outboxByFlat$ | async | keyvalue" class="flat-item">
+      <td>
+        <p class="address">
+          {{ msg.value.flat.stNum }} {{ msg.value.flat.stName }},
+          {{ msg.value.flat.city }}
+        </p>
+      </td>
+      <td>
+        <p class="size">{{ msg.value.flat.size }}m²</p>
+      </td>
+      <td>
+        <p class="price">
+          {{ msg.value.flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
+        </p>
+      </td>
+      <td>
+        <p>{{ msg.value.flat.owner }} ({{ msg.value.flat.owner.firstname }})</p>
+      </td>
+      <td>
+        <button (click)="viewFlatDetail(msg.value.flat)">View Detail</button>
+      </td>
+      <td>
+        <button (click)="openModal()">
+          View Messages ( {{ msg.value.messages.length }} )
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

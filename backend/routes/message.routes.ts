@@ -10,8 +10,11 @@ router.get('/inbox/:userId', async (req, res) => {
     const inbox = await Message.find({ recipient: userId })
       .populate('sender')
       .populate('recipient')
-      .populate('flat')
-      .sort({ createdAt: -1 });
+      .populate({
+        path: 'flat',
+        populate: { path: 'owner' }, // 중첩 
+      })
+      .sort({ createdAt: 1 });
     res.status(200).json(inbox);
   } catch (err) {
     console.error(err);

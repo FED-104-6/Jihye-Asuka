@@ -47,7 +47,7 @@
           <div class="value">{{ flat?.year }}</div>
         </div>
       </div>
-
+      
       <div class="flat-info">
         <div class="icon"><i class="material-icons">today</i></div>
         <div class="right">
@@ -56,12 +56,15 @@
         </div>
       </div>
     </div>
-
+    
     <!-- Contact -->
     <div class="owner-section" *ngIf="openOwnerInform">
       <div class="flat-info">
-        <h3>Owner Inform</h3>
-        <p><strong>Email:</strong> {{ flat.owner.email }}</p>
+        <div class="icon"><i class="material-icons">person</i></div>
+        <div class="right">
+          <div class="label">Email</div>
+          <div class="value">{{ flat.owner.email }}</div>
+        </div>
       </div>
 
       <form

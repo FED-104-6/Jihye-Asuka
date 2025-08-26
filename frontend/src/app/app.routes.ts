@@ -12,6 +12,8 @@ import { AllUsers } from './pages/admin/all-users/all-users';
 import { EditFlat } from './pages/flat/edit-flat/edit-flat';
 import { FlatView } from './pages/flat/flat-view/flat-view';
 import { Messages } from './pages/my-page/my-messages/my-messages';
+import { Inbox } from './pages/my-page/my-messages/inbox/inbox';
+import { Outbox } from './pages/my-page/my-messages/outbox/outbox';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -21,14 +23,22 @@ export const routes: Routes = [
 
   { path: 'user/favorites', component: MyFavorites },
   { path: 'user/flats', component: MyFlats },
-  { path: 'user/messages', component: Messages },
+  {
+    path: 'user/messages',
+    component: Messages, 
+    children: [
+      { path: 'inbox', component: Inbox },
+      { path: 'outbox', component: Outbox },
+      { path: '', redirectTo: 'inbox', pathMatch: 'full' }, // 기본 진입시 inbox 보여주기
+    ],
+  },
   { path: 'user/profile', component: MyProfile },
   { path: 'user/edit', component: EditProfile },
 
   { path: 'flat/create', component: NewFlat },
   { path: 'flat/edit/:id', component: EditFlat },
   { path: 'flat/view/:id', component: FlatView },
-  
+
   { path: 'admin/profile/:id', component: MyProfile },
   { path: 'admin/edit/:id', component: EditProfile },
   {
