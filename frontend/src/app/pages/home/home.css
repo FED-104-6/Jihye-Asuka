@@ -21,7 +21,7 @@
   border-radius: 3px;
   font-size: 12px;
   font-weight: 500;
-  background-color: rgb(224, 224, 224);
+  background-color: var(--filter-gray);
 
   display: flex;
   align-items: center;
@@ -131,7 +131,7 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
-  background-color: rgb(241, 241, 241);
+  background-color: var(--table-tr-gray);
 }
 table tbody tr td {
   text-align: center;

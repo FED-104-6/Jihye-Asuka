@@ -53,15 +53,11 @@
 
 .flat-actions button,
 .flat-actions button:disabled {
-  background-color: #007BFF;
+  background-color: var(--gray-black);
   color: #fff;
   padding: 10px 18px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-}
-
-.flat-actions button:hover {
-  background-color: #0056b3;
 }

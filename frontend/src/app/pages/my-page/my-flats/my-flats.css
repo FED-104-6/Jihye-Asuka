@@ -36,7 +36,7 @@
   background-color: var(--gray-black);
 }
 #flat-control p:last-child span:last-child {
-  background-color: #f1f1f1;
+  background-color: var(--table-tr-gray);
   font-weight: 600;
 }
 
@@ -54,7 +54,7 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
-  background-color: rgb(241, 241, 241);
+  background-color: var(--table-tr-gray);
 }
 table tbody tr td {
   text-align: center;

@@ -31,7 +31,7 @@ form[name="register"] button {
 }
 
 form[name="register"] input {
-    background-color: rgb(232, 232, 232);
+    background-color: var(--table-tr-gray);
 }
 
 #signin-btn {

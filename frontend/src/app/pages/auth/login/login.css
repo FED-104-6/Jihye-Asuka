@@ -31,7 +31,7 @@ form[name="login"] button {
 }
 
 form[name="login"] input {
-    background-color: rgb(232, 232, 232);
+    background-color: var(--table-tr-gray);
 }
 
 #login-btn {

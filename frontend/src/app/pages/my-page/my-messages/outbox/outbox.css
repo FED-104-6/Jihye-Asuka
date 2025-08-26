@@ -58,7 +58,7 @@
 }
 #msg-modal #msg-wrap .msg-content {
   width: fit-content;
-  background-color: rgb(232, 232, 232);
+  background-color: var(--filter-gray);
   padding: 7px 10px;
   border-radius: 0 7px 7px 7px;
   font-size: 13px;
@@ -79,7 +79,7 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
-  background-color: rgb(241, 241, 241);
+  background-color: var(--table-tr-gray);
 }
 table tbody tr td {
   text-align: center;
