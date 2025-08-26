@@ -20,7 +20,7 @@ export interface Message {
 
 @Injectable({ providedIn: 'root' })
 export class MsgService {
-  // send children 
+  // send children
   private inboxSubject = new BehaviorSubject<Record<string, MessageGroup>>({});
   private outboxSubject = new BehaviorSubject<Record<string, MessageGroup>>({});
 

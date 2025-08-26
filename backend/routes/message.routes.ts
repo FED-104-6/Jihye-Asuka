@@ -29,10 +29,11 @@ router.get('/outbox/:userId', async (req, res) => {
     const outbox = await Message.find({ sender: userId })
       .populate('sender')
       .populate('recipient')
-      .populate('flat')
-      .sort({
-        createdAt: -1,
-      });
+      .populate({
+        path: 'flat',
+        populate: { path: 'owner' },
+      })
+      .sort({ createdAt: 1 });
     res.status(200).json(outbox);
   } catch (err) {
     console.error(err);

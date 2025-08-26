@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
-import { Flat, FlatService } from '../../../services/flat.service';
 import { CommonModule } from '@angular/common';
 import { filter, forkJoin, Observable, switchMap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
   Message,
   MessageGroup,
   MsgService,
 } from '../../../services/message.service';
 import { AuthService } from '../../../services/auth.service';
-import { User } from '../../../services/user.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -52,7 +49,7 @@ export class Messages {
         this.msgService.getInboxById(this.currentUserId),
         this.msgService.getOutboxById(this.currentUserId),
       ]).subscribe(([inbox, outbox]) => {
-        // 서비스로 자식한테 전해줘야 됨 
+        // 서비스로 자식한테 전해줘야 됨
         this.msgService.setInbox(this.groupByFlat(inbox));
         this.msgService.setOutbox(this.groupByFlat(outbox));
       });
@@ -73,7 +70,7 @@ export class Messages {
       // - 따라서 string(글 Id) : object(글 내용Flat / 메세지[]) 이렇게 담기는 거임
       if (!grouped[flatId]) {
         grouped[flatId] = {
-          flat: msg.flat as unknown as Flat, // 첫 메시지에서 flat 객체 가져옴
+          flat: msg.flat, // 첫 메시지에서 flat 객체 가져옴
           messages: [],
         };
       }
@@ -87,5 +84,4 @@ export class Messages {
     const senderId = msg.sender._id;
     return senderId === this.currentUserId;
   }
-
 }
