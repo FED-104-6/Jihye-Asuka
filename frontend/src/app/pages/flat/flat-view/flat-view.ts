@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlatService, Flat } from '../../../services/flat.service';
@@ -27,24 +27,29 @@ export class FlatView {
 
   ngOnInit() {
     this.flatId = this.route.snapshot.paramMap.get('id')!;
-    console.log('id from route:', this.flatId);
-    this.currentUser = this.authService.getUser();
-    if (this.flatId) {
-      this.flatService.getFlatById(this.flatId).subscribe(flat => {
-        console.log('flat data:', flat);
-        this.flat = flat;
-        this.cdr.detectChanges(); 
+
+    this.flatService.getFlatById(this.flatId).subscribe(flat => {
+      this.flat = flat;
+
+      this.userService.getUsers().subscribe(users => {
+        const authUser = this.authService.getUser();
+
+        if (!authUser) return;
+        this.currentUser = users.find(u => u._id === authUser._id) || null;
+        this.cdr.detectChanges();
       });
-    }
+    });
   }
 
   toggleFavorite(event: Event) {
     event.stopPropagation();
+
     if (!this.currentUser || !this.flat?._id) return;
     console.log('currentUser:', this.currentUser);
     console.log('flatId:', this.flat?._id);
 
     const flatId = this.flat._id;
+
     if (this.currentUser.favorites?.includes(flatId)) {
       this.currentUser.favorites = this.currentUser.favorites.filter(id => id !== flatId);
     } else {

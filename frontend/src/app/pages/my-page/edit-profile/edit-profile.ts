@@ -86,6 +86,7 @@ export class EditProfile {
 
   ngOnInit() {
     const currentUser = this.authService.getUser();
+
     if (currentUser) {
       this.updateForm.patchValue({
         firstName: currentUser.firstname,

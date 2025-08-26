@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlatService, Flat } from '../../../services/flat.service';
@@ -22,25 +22,50 @@ export class MyFavorites {
     private route: ActivatedRoute,
     private flatService: FlatService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.authService.getUser();
-    if (!this.currentUser) {
+    const oldUser = this.authService.getUser();
+
+    if (!oldUser) {
       this.router.navigate(['/login']);
       return;
     }
 
-    const favoriteIds = this.currentUser.favorites || [];
+    this.userService.getUsers().subscribe(users => {
+      const latestUser = users.find(u => u._id === oldUser._id);
+      if (!latestUser) return;
 
-    this.flatService.getFlats().subscribe(flats => {
-      this.favFlats = flats.filter(flat => flat._id && favoriteIds.includes(flat._id));
+      this.currentUser = latestUser;
+      const favoriteIds = latestUser.favorites || [];
+
+      this.flatService.getFlats().subscribe(flats => {
+        this.favFlats = flats.filter(flat => flat._id && favoriteIds.includes(flat._id));
+        this.cdr.detectChanges();
+      });
     });
   }
 
+  // ngOnInit() {
+  //   this.currentUser = this.authService.getUser();
+  //   console.log(this.currentUser)
+  //   if (!this.currentUser) {
+  //     this.router.navigate(['/login']);
+  //     return;
+  //   }
+
+  //   const favoriteIds = this.currentUser.favorites || [];
+
+  //   this.flatService.getFlats().subscribe(flats => {
+  //     this.favFlats = flats.filter(flat => flat._id && favoriteIds.includes(flat._id));
+  //   });
+  // }
+
   toggleFavorite(event: Event, flat: Flat) {
     event.stopPropagation();
+
     if (!this.currentUser || !flat?._id) return;
     console.log('currentUser:', this.currentUser);
     console.log('flatId:', flat?._id);

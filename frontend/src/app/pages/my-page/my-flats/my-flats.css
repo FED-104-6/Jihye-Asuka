@@ -1,3 +1,25 @@
+/* add btn */
+.my-flats-header {
+  width: 1200px;
+  margin: 20px auto;
+  text-align: right;
+}
+
+.add-flat-btn {
+  background-color: var(--light-gray-black);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-flat-btn:hover {
+  background-color: var(--gray-black);
+}
+
+
 /* flat content */
 #flat-wrap {
   width: 1200px;

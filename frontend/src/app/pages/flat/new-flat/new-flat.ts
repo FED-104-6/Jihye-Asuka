@@ -82,7 +82,7 @@ export class NewFlat {
         availDate: new Date(this.newFlatForm.value.availDate!),
         owner: currentUser as any
       };
-      
+
       this.flatService.addFlat(newFlat).subscribe({
         next: () => {
           alert('Your flat has been successfully registered!');

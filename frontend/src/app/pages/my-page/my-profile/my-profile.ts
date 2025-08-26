@@ -23,6 +23,7 @@ export class MyProfile {
 
   ngOnInit() {
     const currentUser = this.authService.getUser();
+    
     if (currentUser) {
       this.firstName = currentUser.firstname;
       this.lastName = currentUser.lastname;

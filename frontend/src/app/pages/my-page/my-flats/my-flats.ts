@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,11 +20,13 @@ export class MyFlats {
     private route: ActivatedRoute,
     private flatService: FlatService,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     const currentUser = this.authService.getUser() as any;
+
     if (!currentUser) {
       this.router.navigate(['/login']);
       return;
@@ -34,6 +36,7 @@ export class MyFlats {
 
     this.flatService.getFlats().subscribe(flats => {
       this.myFlats = flats.filter(flat => flat.owner && flat.owner._id === userId);
+      this.cdr.detectChanges();
     });
   }
 
@@ -44,12 +47,14 @@ export class MyFlats {
 
   goToFlatEdit(flat: Flat, event?: Event) {
     event?.stopPropagation();
+
     if (!flat._id) return;
     this.router.navigate(['/edit-flat', flat._id]);
   }
 
   onDelete(flat: Flat, event?: Event) {
     event?.stopPropagation();
+
     if (!confirm('Are you sure you want to delete this flat?')) return;
 
     this.flatService.deleteFlat(flat._id!).subscribe({
@@ -58,5 +63,9 @@ export class MyFlats {
       },
       error: err => console.error(err)
     });
+  }
+
+  goToAddFlat() {
+    this.router.navigate(['/new-flat']);
   }
 }
