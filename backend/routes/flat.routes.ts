@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 const router = Router();
 
 // req, res 있는 게 '라우팅'
-// find all flat
+// find all
 router.get('/', async (req, res) => {
   try {
     const flats = await Flat.find().populate('owner');
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 // find one flat
 router.get('/:id', async (req, res) => {
   try {
-    const flat = await Flat.findById(req.params.id).populate('owner'); 
+    const flat = await Flat.findById(req.params.id).populate('owner');
     if (!flat) return res.status(404).json({ error: 'Flat not found' });
     res.json(flat);
   } catch (err: any) {
@@ -26,13 +26,25 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// flat 추가 (유저에 연결)
-router.post('/', async (req, res) => {
+// find all by userId
+router.get('/owner/:userId', async (req, res) => {
   try {
-    const { userId, ...flatData } = req.body;
+    const { userId } = req.params;
+    const flats = await Flat.find({ owner: userId });
+    res.json(flats);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// add flat
+router.post('/create/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const flatData = req.body;
 
     // flat 생성
-    const flat = new Flat({ ...flatData, user: userId });
+    const flat = new Flat({ ...flatData, owner: userId });
     await flat.save();
 
     // user에도 flat 추가
@@ -44,11 +56,50 @@ router.post('/', async (req, res) => {
   }
 });
 
+// change flat
+router.patch('/edit/:id', async (req, res) => {
+  try {
+    const flatId = req.params.id;
+    const updates = { ...req.body };
+
+    const updatedFlat = await Flat.findByIdAndUpdate(
+      flatId,
+      { $set: updates },
+      { new: true }
+    );
+
+    if (!updatedFlat) {
+      return res.status(404).json({ error: 'Flat not found' });
+    }
+
+    res.json({ message: 'Flat updated successfully', flat: updatedFlat });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// delete
 router.delete('/:id', async (req, res) => {
   try {
-    const flat = await Flat.findByIdAndDelete(req.params.id);
+    const flatId = req.params.id;
+
+    const flat = await Flat.findById(flatId);
     if (!flat) return res.status(404).json({ error: 'Flat not found' });
-    res.json({ message: 'Flat deleted successfully' });
+
+    await Flat.findByIdAndDelete(flatId);
+
+    if (flat.owner) {
+      await User.findByIdAndUpdate(flat.owner, {
+        $pull: { flats: flat._id }
+      });
+    }
+
+    await User.updateMany(
+      { favorites: flat._id },
+      { $pull: { favorites: flat._id } }
+    );
+
+    res.json({ message: 'Flat deleted successfully', flat });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }

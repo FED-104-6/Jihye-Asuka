@@ -1,10 +1,25 @@
-# Flat Project
-This project is a front-end focused web application built with Angular, Express, and MongoDB.  
-It was developed during the FED 104 course at Greystone College.
+# 🏠 Flat Project
+
+A simple website that shows apartment listings along with landlord information (name, email).  
+Users can send and receive messages, and also bookmark/manage favorite flats.
+
+---
+
+## 📑 Table of Contents
+
+- [About](#-flat-project)
+- [Skills](#-skills)
+- [Features](#-features)
+- [Screenshots](#-screenshots)
+- [Project Structure](#-project-structure)
+- [How to Run](#-how-to-run)
+- [Contact](#-contact)
+
+---
 
 ## 🛠 Skills
 
-Frontend
+**Frontend**
 
 <p align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" width="40" height="40"/>
@@ -14,10 +29,113 @@ Frontend
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" width="40" height="40"/>
 </p>
 
-etc
+**Backend & Tools**
 
 <p align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express" width="40" height="40"/>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" width="40" height="40"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" width="40" height="40"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" width="40" height="40"/>
 </p>
 
+---
+
+## ✨ Features
+
+- 🏠 View apartment listings with details
+- 👤 Display landlord info (name, email)
+- ⭐ Bookmark favorite flats
+- 💬 Send & receive messages between users
+
+---
+
+## 🖼 Screenshots
+
+_(Add your UI images here)_  
+![Home Page](./screenshots/home.png)  
+![Flat Detail](./screenshots/detail.png)  
+![Messages](./screenshots/messages.png)
+
+---
+
+## 📂 Project Structure
+
+```
+flat-project/
+├── backend/ # Backend (Node.js + Express + MongoDB)
+│ ├── db/ # Database connection (connect.ts)
+│ ├── models/ # Data models (flat, message, user)
+│ └── routes/ # API routes (flat, message, user)
+└── frontend/ # Frontend (Angular)
+└── src/app/
+├── components/ # Reusable UI components (header, footer)
+├── pages/ # Page-level views (admin, auth, flat, home, my-page)
+└── services/ # Angular services (auth, flat, message, user)
+```
+
+---
+
+## 📦 Dependencies
+
+### Frontend
+
+- Angular CLI ^20.1.5
+- Angular Compiler CLI ^20.1.0
+- TypeScript ~5.8.2
+- Karma / Jasmine (for testing)
+
+### Backend
+
+- Node.js (LTS)
+- Express
+- Mongoose
+- dotenv
+- cors
+- jsonwebtoken
+- bcrypt
+- TypeScript ^5.9.2
+- ts-node, nodemon (for development)
+
+---
+
+## 🚀 How to Run
+
+1. Clone repository
+
+   ```bash
+   git clone https://github.com/username/flat-project.git
+   cd flat-project
+   ```
+
+2. Install dependencies (both frontend & backend)
+
+   ````
+   bash
+   cd frontend && npm install
+   cd ../backend && npm install
+   cd ..   ```
+
+   ````
+
+3. Set environment variables <br>
+  Create a .env file inside /backend:
+
+    ```bash
+    MONGO_URI=your_mongodb_connection_string
+    PORT=5000
+    JWT_SECRET=your_jwt_secret_key
+    ```
+
+4. Run the project (from root folder)
+
+    ```bash
+    npm run dev
+    ```
+    The dev script at the root will start both frontend (Angular) and backend (Express + Mongoose) simultaneously.
+
+---
+
+## 📬 Contact
+- Jihye Park — qkrwlgp1526@gmail.com
+- Asuka Fukuchi — afukuchi24@gmail.com

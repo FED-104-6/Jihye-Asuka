@@ -1,3 +1,35 @@
+/* opening show */
+#banner {
+  width: 100dvw;
+  min-width: 1200px;
+  height: 500px;
+  background-color: var(--gray-black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+#banner img {
+  height: 70px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1s ease-out forwards;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#banner p {
+  color: #555;
+}
+
 /* flat header */
 #flat-control {
   width: 1200px;
@@ -5,7 +37,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 50px 0 30px;
+  margin: 50px auto 30px;
   gap: 10px;
 }
 #flat-control #title {
@@ -21,7 +53,7 @@
   border-radius: 3px;
   font-size: 12px;
   font-weight: 500;
-  background-color: rgb(224, 224, 224);
+  background-color: var(--filter-gray);
 
   display: flex;
   align-items: center;
@@ -105,7 +137,8 @@
 /* flat content */
 .flat-wrap {
   width: 1200px;
-  min-height: 658px;
+  padding-bottom: 30px;
+  margin: 0 auto;
 }
 .flat-wrap #no-result {
   width: 100%;
@@ -131,11 +164,7 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
-  background-color: rgb(241, 241, 241);
-  transition: all 0.1s ease;
-  &:hover {
-    background-color: rgb(232, 232, 232);
-  }
+  background-color: var(--table-tr-gray);
 }
 table tbody tr td {
   text-align: center;

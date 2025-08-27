@@ -1,7 +1,12 @@
 .container {
     padding: 20px;
+<<<<<<< HEAD
     background-color: #f5f5f5;
     border-radius: 7px;
+=======
+    background-color: var(--table-tr-gray);
+    border-radius: 12px;
+>>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     position: relative;
     max-width: 700px;

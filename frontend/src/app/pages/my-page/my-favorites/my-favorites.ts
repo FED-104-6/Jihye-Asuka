@@ -1,94 +1,60 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FlatService, Flat } from '../../../services/flat.service';
-import { UserService, User } from '../../../services/user.service';
+import { Router } from '@angular/router';
+import { Flat, FlatService } from '../../../services/flat.service';
+import { map, Observable, of } from 'rxjs';
+import { User, UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-my-favorites',
   imports: [CommonModule],
   templateUrl: './my-favorites.html',
-  styleUrl: './my-favorites.css'
+  styleUrl: './my-favorites.css',
 })
 export class MyFavorites {
-  favFlats: Flat[] = [];
-  flat?: Flat;
-  flatId!: string;
-  currentUser?: User | null = null;
-
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private flatService: FlatService,
-    private userService: UserService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private userService: UserService
+  ) {}
 
-  ngOnInit() {
-    const oldUser = this.authService.getUser();
+  favFlats$!: Observable<Flat[]>;
+  currentUser: User | null = null;
 
-    if (!oldUser) {
-      this.router.navigate(['/login']);
-      return;
-    }
+  ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.currentUser = {
+          ...user,
+        };
 
-    this.userService.getUsers().subscribe(users => {
-      const latestUser = users.find(u => u._id === oldUser._id);
-      if (!latestUser) return;
-
-      this.currentUser = latestUser;
-      const favoriteIds = latestUser.favorites || [];
-
-      this.flatService.getFlats().subscribe(flats => {
-        this.favFlats = flats.filter(flat => flat._id && favoriteIds.includes(flat._id));
-        this.cdr.detectChanges();
-      });
+        this.favFlats$ = of(this.currentUser.favorites ?? []);
+      }
     });
   }
 
-  // ngOnInit() {
-  //   this.currentUser = this.authService.getUser();
-  //   console.log(this.currentUser)
-  //   if (!this.currentUser) {
-  //     this.router.navigate(['/login']);
-  //     return;
-  //   }
-
-  //   const favoriteIds = this.currentUser.favorites || [];
-
-  //   this.flatService.getFlats().subscribe(flats => {
-  //     this.favFlats = flats.filter(flat => flat._id && favoriteIds.includes(flat._id));
-  //   });
-  // }
-
-  toggleFavorite(event: Event, flat: Flat) {
-    event.stopPropagation();
-
-    if (!this.currentUser || !flat?._id) return;
-    console.log('currentUser:', this.currentUser);
-    console.log('flatId:', flat?._id);
-
-    const flatId = flat._id;
-    if (this.currentUser.favorites?.includes(flatId)) {
-      this.currentUser.favorites = this.currentUser.favorites.filter(id => id !== flatId);
-    } else {
-      this.currentUser.favorites = [...(this.currentUser.favorites || []), flatId];
-    }
-    console.log(this.currentUser.favorites)
-
-    this.userService.updateFavorites(this.currentUser._id!, this.currentUser.favorites)
-      .subscribe({
-        next: (res: any) => {
-          this.currentUser = res.user;;
-        },
-        error: err => console.error(err)
-      });
+  viewFlatDetail(flat: Flat) {
+    if (!flat._id) return;
+    window.location.href =  `/flat/view/${flat._id}`;
   }
 
-  goToFlatView(flat: Flat) {
-    if (!flat._id) return;
-    this.router.navigate(['/flat-view', flat._id]);
+  // favorites
+  removeFav(flat: Flat) {
+    const updatedFavorites = [...this.currentUser!.favorites];
+    const index = updatedFavorites.findIndex((fav) => fav._id === flat._id);
+    if (index >= 0) {
+      updatedFavorites.splice(index, 1);
+    }
+
+    this.userService
+      .updateFavorites(this.currentUser!._id!, updatedFavorites)
+      .subscribe({
+        next: (updatedUser) => {
+          this.authService.setUser(updatedUser);
+          window.location.reload();
+        },
+        error: (err) => console.error(err),
+      });
   }
 }

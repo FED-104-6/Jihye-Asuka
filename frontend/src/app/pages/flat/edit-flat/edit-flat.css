@@ -1,14 +1,7 @@
-/* Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 /* Container */
 .flat-container {
   max-width: 600px;
-  margin: 30px auto;
+  margin: 0 auto;
   padding: 20px 25px;
   background-color: #fff;
   border-radius: 10px;
@@ -19,8 +12,7 @@
 
 /* Icon for flat-info */
 .flat-info {
-  display: grid;
-  grid-template-columns: 40px 1fr;
+  display: flex;
   align-items: center;
   gap: 20px;
   padding: 15px 20px;
@@ -49,21 +41,8 @@
 }
 
 .flat-info .form-row input:not([type="radio"]) {
-  height: 1.5rem;
-  width: 100%;
-}
-
-.radio-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 4px;
-}
-
-.error {
-  color: red;
-  font-size: 0.9em;
-  margin-left: 4px;
-  display: block;
+    height: 1.5rem;
+    width: 100%;
 }
 
 /* flat-actions */
@@ -74,45 +53,11 @@
 
 .flat-actions button,
 .flat-actions button:disabled {
-  width: 200px;
-  max-width: 100%;
-  background-color: var(--light-gray-black);
-  color: white;
+  background-color: var(--gray-black);
+  color: #fff;
   padding: 10px 18px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-
-  &:hover {
-    background-color: var(--gray-black);
-  }
-}
-
-.flat-actions button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-@media (max-width: 600px) {
-    .flat-container {
-        padding: 15px 10px;
-    }
-
-    .flat-info {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
-    .flat-info .label {
-        font-size: 13px;
-    }
-
-    .flat-info .value input {
-        width: 100%;
-    }
-
-    .radio-group {
-        flex-direction: column;
-    }
 }

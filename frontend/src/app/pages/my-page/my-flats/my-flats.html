@@ -1,4 +1,5 @@
 <!-- flat content -->
+<<<<<<< HEAD
 <div class="my-flats-header">
   <button class="add-flat-btn" (click)="goToAddFlat()">Add New Flat</button>
 </div>
@@ -25,3 +26,69 @@
         </div>
     </a>
 </div>
+=======
+<div class="flat-wrap">
+  <div id="flat-control">
+    <p>My Flats</p>
+    <p>
+      <span>Total</span>
+      <span>{{ (myFlats$ | async)?.length }}</span>
+    </p>
+  </div>
+
+  <div class="flat-content">
+
+    <table>
+      <thead>
+        <tr id="category">
+          <th>Address</th>
+          <th>Size</th>
+          <th>Price</th>
+          <th>Date Available</th>
+          <th>View Detail</th>
+          <th>Manage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flat of myFlats$ | async" class="flat-item">
+          <td>
+            <p class="address">
+              {{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}
+            </p>
+          </td>
+          <td>
+            <p class="size">{{ flat.size }}m²</p>
+          </td>
+          <td>
+            <p class="price">
+              ${{ flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
+            </p>
+          </td>
+          <td>
+            <p>{{ flat.availDate | date : "yyyy/MM/dd" }}</p>
+          </td>
+  
+          <td>
+            <button (click)="viewFlatDetail(flat)">View Detail</button>
+          </td>
+          <td>
+            <div class="manage">
+              <i class="material-icons btn-hover" (click)="editFlat(flat)"
+                >edit</i
+              >
+              <i class="material-icons btn-hover" (click)="removeFlat(flat)"
+                >delete</i
+              >
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td id="add-flat" class="btn-hover" (click)="addFlat()" colspan="6">
+            +
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+>>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54

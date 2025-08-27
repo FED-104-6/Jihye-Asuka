@@ -15,11 +15,6 @@
     gap: 10px;
 }
 
-#warn-msg {
-  color: red;
-  text-align: center;
-}
-
 form[name="register"] {
   display: flex;
   flex-direction: column;
@@ -36,7 +31,7 @@ form[name="register"] button {
 }
 
 form[name="register"] input {
-    background-color: rgb(232, 232, 232);
+    background-color: var(--table-tr-gray);
 }
 
 #signin-btn {

@@ -1,12 +1,14 @@
 <!-- flat content -->
-<div id="flat-wrap">
-    <div id="category">
-        <p>Address</p>
-        <p>Size</p>
-        <p>Price</p>
-        <p>Owner</p>
-    </div>
+<div class="flat-wrap">
+  <div id="flat-control">
+    <p>My Favorites</p>
+    <p>
+      <span>Total</span>
+      <span>{{ (favFlats$ | async)?.length }}</span>
+    </p>
+  </div>
 
+<<<<<<< HEAD
     <a *ngFor="let flat of favFlats" class="btn-hover flat-item" (click)="goToFlatView(flat)">
         <div class="flat-inform">
             <div class="flat-img">
@@ -25,3 +27,51 @@
         </div>
     </a>
 </div>
+=======
+  <div class="flat-content">
+    <table>
+      <thead>
+        <tr id="category">
+          <th></th>
+          <th>Address</th>
+          <th>Size</th>
+          <th>Price</th>
+          <th>Owner</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flat of favFlats$ | async" class="flat-item">
+          <td>
+            <img
+              class="flat-fav btn-hover"
+              (click)="removeFav(flat)"
+              src="/assets/fav-yellow.png"
+              alt="Favorite Icon"
+            />
+          </td>
+          <td>
+            <p class="address">
+              {{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}
+            </p>
+          </td>
+          <td>
+            <p class="size">{{ flat.size }}m²</p>
+          </td>
+          <td>
+            <p class="price">
+              ${{ flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
+            </p>
+          </td>
+          <td>
+            <p>{{ flat.owner.email }} ({{ flat.owner.firstname }})</p>
+          </td>
+          <td>
+            <button (click)="viewFlatDetail(flat)">View Detail</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+>>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54

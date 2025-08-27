@@ -1,81 +1,102 @@
-@if(flat) {
-<div class="flat-container">
+<ng-container *ngIf="currentUser$ | async as user">
+  <div class="flat-container" *ngIf="currentFlat$ | async as flat">
     <!-- Header -->
     <div class="flat-header">
-        <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
-        <div class="icon-group">
-            <i *ngIf="currentUser"
-                class="material-icons flat-fav"
-                [style.color]="currentUser?.favorites?.includes(flat._id) ? 'gold' : 'gray'"
-                (click)="toggleFavorite($event)">
-                {{ currentUser?.favorites?.includes(flat._id) ? 'star' : 'star_outline' }}
-            </i>
-            <i *ngIf="flat.owner?._id === currentUser?._id"
-                class="material-icons"
-                (click)="goToEdit()">
-                edit
-            </i>
-        </div>
+      <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
+
+      <!-- Edit button (only if current user is owner) -->
+      <ng-container *ngIf="!(openOwnerInform$ | async)">
+        <button class="edit-btn" (click)="goToEditPage(flat._id!)">
+          <i class="material-icons">edit</i>
+        </button>
+      </ng-container>
+
+      <!-- Favorites -->
+      <ng-container *ngIf="openOwnerInform$ | async">
+        <img
+          [src]="getFavoriteIcon(flat._id!, user)"
+          (click)="setFavorite(flat, user)"
+          class="btn-hover flat-fav"
+          alt=""
+        />
+      </ng-container>
     </div>
 
     <!-- Main Info -->
     <div class="flat-detail">
-        <!-- Flat Info -->
-        <div class="flat-info-list">
-            <div class="flat-info">
-                <div class="icon"><i class="material-icons">attach_money</i></div>
-                <div class="form-row">
-                    <div class="label">price</div>
-                    <div class="value">{{ flat.price | currency:'CAD':'symbol':'1.0-0' }}</div>
-                </div>
+      <!-- Flat Info -->
+      <div class="flat-info-list">
+        <div class="flat-info">
+          <div class="icon"><i class="material-icons">attach_money</i></div>
+          <div class="form-row">
+            <div class="label">price</div>
+            <div class="value">
+              {{ flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
             </div>
-
-            <div class="flat-info">
-                <div class="icon"><i class="material-icons">square_foot</i></div>
-                <div class="right">
-                    <div class="label">size</div>
-                    <div class="value">{{ flat.size }}</div>
-                </div>
-            </div>
-
-            <div class="flat-info">
-                <div class="icon"><i class="material-icons">thermostat</i></div>
-                <div class="right">
-                    <div class="label">hasAC</div>
-                    <div class="value">{{ flat.hasAC ? 'Yes' : 'No' }}</div>
-                </div>
-            </div>
-
-            <div class="flat-info">
-                <div class="icon"><i class="material-icons">apartment</i></div>
-                <div class="right">
-                    <div class="label">Built In</div>
-                    <div class="value">{{ flat.year }}</div>
-                </div>
-            </div>
-
-            <div class="flat-info">
-                <div class="icon"><i class="material-icons">today</i></div>
-                <div class="right">
-                    <div class="label">Date Available</div>
-                    <div class="value">{{ flat.availDate | date:'yyyy/MM/dd' }}</div>
-                </div>
-            </div>
+          </div>
         </div>
 
-        <!-- Contact -->
-        <div class="owner-section">
-            <div class="owner-info">
-                <h3>Owner Information</h3>
-                <p><strong>Email:</strong> {{ flat.owner.email }}</p>
-            </div>
-
-            <div class="message-box">
-                <h3>Send a Message</h3>
-                <textarea placeholder="Write your message..."></textarea>
-                <button type="button">Send</button>
-            </div>
+        <div class="flat-info">
+          <div class="icon"><i class="material-icons">square_foot</i></div>
+          <div class="right">
+            <div class="label">size</div>
+            <div class="value">{{ flat.size }}</div>
+          </div>
         </div>
+
+        <div class="flat-info">
+          <div class="icon"><i class="material-icons">thermostat</i></div>
+          <div class="right">
+            <div class="label">hasAC</div>
+            <div class="value">{{ flat.hasAC }}</div>
+          </div>
+        </div>
+
+        <div class="flat-info">
+          <div class="icon"><i class="material-icons">apartment</i></div>
+          <div class="right">
+            <div class="label">Built In</div>
+            <div class="value">{{ flat.year }}</div>
+          </div>
+        </div>
+
+        <div class="flat-info">
+          <div class="icon"><i class="material-icons">today</i></div>
+          <div class="right">
+            <div class="label">Date Available</div>
+            <div class="value">{{ flat.availDate | date : "yyyy/MM/dd" }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="owner-section" *ngIf="openOwnerInform$ | async">
+        <div class="flat-info">
+          <div class="icon"><i class="material-icons">person</i></div>
+          <div class="right">
+            <div class="label">Email</div>
+            <div class="value">{{ flat.owner.email }}</div>
+          </div>
+        </div>
+
+        <form
+          [formGroup]="msgForm"
+          (ngSubmit)="sendMessage(user, flat)"
+          class="message-box"
+        >
+          <h3>Send a Message</h3>
+
+          <div id="message-content-box">
+            <div *ngIf="showAlert" class="toast">✔️</div>
+            <textarea
+              placeholder="Write your message..."
+              formControlName="content"
+            ></textarea>
+          </div>
+
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
-</div>
-}
+  </div>
+</ng-container>

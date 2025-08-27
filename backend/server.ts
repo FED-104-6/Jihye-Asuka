@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import userRoutes from './routes/user.routes';
 import flatRoutes from './routes/flat.routes';
+import msgRoutes from './routes/message.routes';
 import cors from 'cors';
 
 dotenv.config();
@@ -17,6 +18,7 @@ mongoose
   .catch((err) => console.error(err));
 
 // register route
+app.use('/msgs', msgRoutes);
 app.use('/users', userRoutes);
 app.use('/flats', flatRoutes);
 

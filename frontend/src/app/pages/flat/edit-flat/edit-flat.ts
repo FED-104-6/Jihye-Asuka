@@ -1,121 +1,128 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FlatService, Flat } from '../../../services/flat.service';
-import { UserService, User } from '../../../services/user.service';
-import { AuthService } from '../../../services/auth.service';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Flat, FlatService } from '../../../services/flat.service';
 
 @Component({
   selector: 'app-edit-flat',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './edit-flat.html',
-  styleUrl: './edit-flat.css'
+  styleUrl: './edit-flat.css',
 })
-
 export class EditFlat {
-  editFlatForm = new FormGroup({
-    year: new FormControl<number>(2000, [
-      Validators.required,
-      Validators.min(1800)
-    ]),
-    city: new FormControl("", [
-      Validators.required,
-      Validators.minLength(2)
-    ]),
-    availDate: new FormControl("", [
-      Validators.required
-    ]),
-    hasAC: new FormControl<boolean>(false, [
-      Validators.required
-    ]),
-    price: new FormControl<number>(1000, [
-      Validators.required,
-      Validators.min(1)
-    ]),
-    size: new FormControl<number>(50, [
-      Validators.required,
-      Validators.min(1)
-    ]),
-    stName: new FormControl("", [
-      Validators.required,
-      Validators.minLength(2)
-    ]),
-    stNum: new FormControl<number>(1, [
-      Validators.required,
-      Validators.min(1)
-    ])
-  })
+  errorMessage = '';
+  currentFlat: Flat | null = null;
 
-  get year() { return this.editFlatForm.get('year'); }
-  get city() { return this.editFlatForm.get('city'); }
-  get availDate() { return this.editFlatForm.get('availDate'); }
-  get hasAC() { return this.editFlatForm.get('hasAC'); }
-  get price() { return this.editFlatForm.get('price'); }
-  get size() { return this.editFlatForm.get('size'); }
-  get stNum() { return this.editFlatForm.get('stNum'); }
-  get stName() { return this.editFlatForm.get('stName'); }
+  editFlatForm = new FormGroup({
+    stNum: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+    stName: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    city: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    price: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+    size: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+    hasAC: new FormControl(false, [Validators.required]),
+    built: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+    dateAvailable: new FormControl('', [Validators.required]),
+  });
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
-    private flatService: FlatService,
-    private userService: UserService,
-    private authService: AuthService
-  ) { }
+    private flatService: FlatService
+  ) {}
 
-  flatId!: string;
+  ngOnInit(): void {
+    const flatId = this.route.snapshot.paramMap.get('id'); // URL --> /edit-flat/:id 
+    if (!flatId) return;
 
-  ngOnInit() {
-    this.flatId = this.route.snapshot.paramMap.get('id')!;
+    this.flatService.getFlatById(flatId).subscribe((flat) => {
+      this.currentFlat = flat;
 
-    if (this.flatId) {
-      this.flatService.getFlatById(this.flatId).subscribe(flat => {
-        this.editFlatForm.patchValue({
-          year: flat.year,
-          city: flat.city,
-          availDate: flat.availDate.toString().substring(0, 10),
-          hasAC: flat.hasAC,
-          price: flat.price,
-          size: flat.size,
-          stName: flat.stName,
-          stNum: flat.stNum
-        });
+      this.editFlatForm.patchValue({
+        built: flat.year,
+        city: flat.city,
+        dateAvailable: flat.availDate
+          ? new Date(flat.availDate).toISOString().split('T')[0]
+          : '',
+        hasAC: flat.hasAC,
+        price: flat.price,
+        size: flat.size,
+        stName: flat.stName,
+        stNum: flat.stNum,
       });
-    }
+    });
   }
 
-  onSubmit() {
-    if (this.editFlatForm.valid && this.flatId) {
+  get built() {
+    return this.editFlatForm.get('built');
+  }
+  get city() {
+    return this.editFlatForm.get('city');
+  }
+  get dateAvailable() {
+    return this.editFlatForm.get('dateAvailable');
+  }
+  get hasAC() {
+    return this.editFlatForm.get('hasAC');
+  }
+  get price() {
+    return this.editFlatForm.get('price');
+  }
+  get size() {
+    return this.editFlatForm.get('size');
+  }
+  get stNum() {
+    return this.editFlatForm.get('stNum');
+  }
+  get stName() {
+    return this.editFlatForm.get('stName');
+  }
 
-      const currentUser = this.authService.getUser();
-      if (!currentUser) return;
-
-      const updatedFlat = {
-        id: this.flatId,
-        city: this.editFlatForm.value.city!,
-        stName: this.editFlatForm.value.stName!,
-        stNum: this.editFlatForm.value.stNum!,
-        size: this.editFlatForm.value.size!,
-        hasAC: this.editFlatForm.value.hasAC!,
-        year: this.editFlatForm.value.year!,
-        price: this.editFlatForm.value.price!,
-        availDate: new Date(this.editFlatForm.value.availDate!),
-        owner: currentUser as any
+  getFormErrors(): string {
+    for (const field in this.editFlatForm.controls) {
+      const control = this.editFlatForm.get(field);
+      if (control?.errors) {
+        if (control.errors['required']) return `Fill in the ${field} field.`;
+        if (control.errors['min'])
+          return `${field} must be at least ${control.errors['min'].min}`;
+        if (control.errors['minlength']) return `${field} is too short.`;
       }
-
-      this.flatService.updateFlat(updatedFlat).subscribe({
-        next: () => {
-          alert('Your flat has been successfully updated!');
-          this.router.navigate(['/home']);
-        },
-        error: err => {
-          console.error(err);
-          alert('Failed to update the flat.');
-        }
-      });
-    } else {
-      alert('Please fill in all the required information');
     }
+    return '';
+  }
+
+  editFlat(): void {
+    if (!this.currentFlat) return; 
+    if (!this.editFlatForm.valid) {
+      this.errorMessage = this.getFormErrors();
+      return;
+    }
+
+    const formValue = this.editFlatForm.value;
+
+    const updatedFlat: Partial<Flat> = {
+      _id: this.currentFlat._id ?? '',
+      year: formValue.built ?? 0,
+      city: formValue.city ?? '',
+      availDate: formValue.dateAvailable
+        ? new Date(formValue.dateAvailable)
+        : this.currentFlat.availDate ?? new Date(),
+      hasAC: formValue.hasAC ?? false,
+      price: formValue.price ?? 0,
+      size: formValue.size ?? 0,
+      stName: formValue.stName ?? '',
+      stNum: formValue.stNum ?? 0,
+    };
+
+    this.flatService.updateFlat(updatedFlat).subscribe({
+      next: () => {
+        alert('edit complete!'), window.location.href = '/user/flats';
+      },
+      error: (err) => console.error('Error updating flat:', err),
+    });
   }
 }

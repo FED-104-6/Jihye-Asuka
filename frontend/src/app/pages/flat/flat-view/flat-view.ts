@@ -1,73 +1,134 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FlatService, Flat } from '../../../services/flat.service';
-import { UserService, User } from '../../../services/user.service';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { Flat, FlatService } from '../../../services/flat.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { User, UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
+import { Message, MsgService } from '../../../services/message.service';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  firstValueFrom,
+  map,
+  switchMap,
+} from 'rxjs';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-flat-view',
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './flat-view.html',
   styleUrl: './flat-view.css',
 })
 export class FlatView {
+  currentFlat$!: Observable<Flat>;
+  currentUser$!: Observable<User>;
+  openOwnerInform$!: Observable<boolean>;
+  showAlert = false;
+
+  msgForm = new FormGroup({
+    content: new FormControl('', [Validators.required]),
+  });
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private flatService: FlatService,
-    private userService: UserService,
+    private msgService: MsgService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
-  ) { }
-
-  flat?: Flat;
-  flatId!: string;
-  currentUser?: User | null = null;
+    private userService: UserService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.flatId = this.route.snapshot.paramMap.get('id')!;
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return;
 
-    this.flatService.getFlatById(this.flatId).subscribe(flat => {
-      this.flat = flat;
+    // 현재 로그인 유저 Observable
+    this.currentUser$ = this.authService.currentUser$.pipe(
+      filter((user): user is User => !!user)
+    );
 
-      this.userService.getUsers().subscribe(users => {
-        const authUser = this.authService.getUser();
+    // 현재 flat Observable
+    this.currentFlat$ = this.flatService.getFlatById(id);
 
-        if (!authUser) return;
-        this.currentUser = users.find(u => u._id === authUser._id) || null;
-        this.cdr.detectChanges();
-      });
+    // openOwnerInform Observable (현재 유저가 flat 소유자가 아닌 경우)
+    this.openOwnerInform$ = combineLatest([
+      this.currentFlat$,
+      this.currentUser$,
+    ]).pipe(map(([flat, user]) => flat.owner._id !== user._id));
+  }
+
+  // owner - edit
+  goToEditPage(flatId: string) {
+    window.location.href = `/flat/edit/${flatId}`;
+  }
+
+  // favorites
+  getFavoriteIcon(flatId: string, user: User): string {
+    const isMine = user.flats.some((flat) => flat._id === flatId);
+    const isFavorite = user.favorites.some((fav) => fav._id === flatId);
+
+    if (isMine) return '';
+    return isFavorite ? '/assets/fav-yellow.png' : '/assets/fav-white.png';
+  }
+  setFavorite(flat: Flat, user: User) {
+    const updatedFavorites = [...user.favorites];
+    const index = updatedFavorites.findIndex((fav) => fav._id === flat._id);
+    if (index >= 0) updatedFavorites.splice(index, 1);
+    else updatedFavorites.push(flat);
+
+    this.userService.updateFavorites(user._id!, updatedFavorites).subscribe({
+      next: (updatedUser) => {
+        this.authService.setUser(updatedUser);
+        window.location.reload();
+      },
+      error: (err) => console.error(err),
     });
   }
 
-  toggleFavorite(event: Event) {
-    event.stopPropagation();
-
-    if (!this.currentUser || !this.flat?._id) return;
-    console.log('currentUser:', this.currentUser);
-    console.log('flatId:', this.flat?._id);
-
-    const flatId = this.flat._id;
-
-    if (this.currentUser.favorites?.includes(flatId)) {
-      this.currentUser.favorites = this.currentUser.favorites.filter(id => id !== flatId);
-    } else {
-      this.currentUser.favorites = [...(this.currentUser.favorites || []), flatId];
-    }
-    console.log(this.currentUser.favorites)
-
-    this.userService.updateFavorites(this.currentUser._id!, this.currentUser.favorites)
-      .subscribe({
-        next: (res: any) => {
-          this.currentUser = res.user;;
-        },
-        error: err => console.error(err)
-      });
+  // send message
+  get content() {
+    return this.msgForm.get('content');
   }
+  getFormErrors(): string {
+    for (const field in this.msgForm.controls) {
+      const control = this.msgForm.get(field);
+      if (control?.errors) {
+        if (control.errors['required']) return `Fill in the ${field} field.`;
+      }
+    }
+    return '';
+  }
+  sendMessage(currentUser: User, currentFlat: Flat): void {
+    if (!this.msgForm.valid) {
+      alert(this.getFormErrors());
+      return;
+    }
 
-  goToEdit() {
-    if (!this.flat?._id || this.flat.owner._id !== this.currentUser?._id) return;
-    this.router.navigate(['/edit-flat', this.flat._id]);
+    const formValue = this.msgForm.value;
+    const newMsg: Message = {
+      content: formValue.content ?? '',
+      sender: currentUser,
+      recipient: currentFlat.owner,
+      createdAt: new Date(),
+      flat: currentFlat,
+    };
+
+    this.msgService.createMsg(newMsg).subscribe({
+      next: () => {
+        this.showAlert = true;
+        setTimeout(() => (this.showAlert = false), 3000);
+        this.msgForm.reset();
+      },
+      error: (err) => console.error('Error sending message:', err),
+    });
   }
 }

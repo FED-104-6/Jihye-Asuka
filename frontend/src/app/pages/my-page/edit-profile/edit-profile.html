@@ -1,42 +1,35 @@
 <div class="container">
-    <p id="title">Edit Profile</p>
-    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
-
+    <form [formGroup]="editUserForm" (ngSubmit)="editProfile()">
+        <small class="warn-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</small>
         <!-- first name -->
         <div class="form-row">
             <label for="first-name">First name:</label>
             <input type="text" id="first-name" formControlName="firstName">
-            <div class="error" *ngIf="firstName?.invalid && firstName?.touched">
-                First name is required and must be at least 2 characters.
-            </div>
         </div>
 
         <!-- last name -->
         <div class="form-row">
             <label for="last-name">Last name:</label>
             <input type="text" id="last-name" formControlName="lastName">
-            <div class="error" *ngIf="lastName?.invalid && lastName?.touched">
-                Last name is required and must be at least 2 characters.
-            </div>
         </div>
 
         <!-- Email -->
         <div class="form-row">
             <label for="email">Email:</label>
             <input type="email" id="email" formControlName="email">
-            <div class="error" id="overlap-email-error" *ngIf="email?.invalid && email?.touched">
-                Please enter valid email.
-            </div>
         </div>
 
         <!-- password -->
         <div class="form-row">
             <label for="password">Password:</label>
             <input type="password" id="password" formControlName="password">
+<<<<<<< HEAD
             <div class="error" id="password-error" *ngIf="password?.invalid && password?.touched"
                 placeholder="Enter your password">
                 At least 6 characters, including numbers, letters, and symbols
             </div>
+=======
+>>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
         </div>
 
         <!-- Comfirm password -->
@@ -44,22 +37,19 @@
             <label for="confirm-password">Confirm Password:</label>
             <input type="password" id="confirm-password" formControlName="confirmPassword"
                 placeholder="Enter your password again">
-            <div class="error" id="confirm-password-error"
-                *ngIf="updateForm.errors?.['passwordMatch'] && confirmPassword?.touched">
-                Passwords do not match.
-            </div>
         </div>
 
         <!-- Birthday -->
         <div class="form-row">
             <label for="birthdate">Date of birth</label>
             <input type="date" id="birthdate" formControlName="birthdate">
-            <div class="error" id="birthdate-error" *ngIf="birthdate?.invalid && birthdate?.touched">
-                Please enter a valid date of birth. Valid age range is 18-120.
-            </div>
         </div>
 
         <!-- submit -->
+<<<<<<< HEAD
         <button type="submit" [disabled]="updateForm.invalid">Update</button>
+=======
+        <button type="submit">Update</button>
+>>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
     </form>
 </div>

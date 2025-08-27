@@ -21,64 +21,84 @@
 
 
 /* flat content */
-#flat-wrap {
-  width: 1200px;
-  min-height: 658px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
-  gap: 10px;
+.flat-wrap {
+  min-width: 1200px;
+  min-height: 688px;
 }
-#flat-wrap #category {
-  width: 1200px;
+
+#flat-control {
+  min-width: 1200px;
+  height: 500px;
   display: flex;
-  gap: 10px;
-  padding: 0 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 }
-#flat-wrap #category p {
+#flat-control p:first-child {
+  font-size: 60px;
+  font-weight: 900;
+}
+#flat-control p:last-child {
+  min-width: 200px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 3px;
+  display: flex;
+  overflow: hidden;
+}
+#flat-control p:last-child span {
+  width: calc(100% / 2);
+  line-height: 40px;
+  text-align: center;
+}
+#flat-control p:last-child span:first-child {
+  color: white;
+  background-color: var(--gray-black);
+}
+#flat-control p:last-child span:last-child {
+  background-color: #f1f1f1;
+  font-weight: 600;
+}
+
+.flat-content {
+  min-height: 288px;
+  padding-bottom: 30px;
+}
+table {
+  width: 100%;
+  border-spacing: 0px 10px;
+}
+table tr {
+  height: 60px;
   font-size: 13px;
+}
+table thead th {
   font-weight: 500;
   color: lightgray;
   text-align: center;
-
-  &:nth-child(1) {
-    width: 430px;
-  }
-  &:nth-child(2) {
-    width: 130px;
-  }
-  &:nth-child(3) {
-    width: 150px;
-  }
-  &:nth-child(4) {
-    width: 300px;
-  }
 }
-
-.flat-item {
-  width: 1200px;
-  border-radius: 3px;
-  position: relative;
-  background-color: rgb(241, 241, 241);
-  transition: all 0.1s ease;
-  padding: 15px 20px;
-
-  &:hover {
-    background-color: rgb(232, 232, 232);
-  }
+table tbody tr {
+  background-color: var(--table-tr-gray);
 }
-
-.flat-inform {
-  font-size: 13px;
-  display: grid;
-  align-items: center;
-  grid-template-columns: 30px 1fr 130px 150px 300px 30px 30px;
-  gap: 10px;
+table tbody tr td {
   text-align: center;
 }
 
-.flat-img img {
+table tbody td button {
+  background-color: var(--gray-black);
+  color: white;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 3px;
+}
+img.flat-fav {
   width: 30px;
-  object-fit: cover;
+}
+#add-flat {
+  background-color: var(--gray-black);
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
 }

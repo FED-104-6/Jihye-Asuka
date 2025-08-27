@@ -35,6 +35,9 @@ nav div #menu {
   align-items: center;
   gap: 10px;
 }
+nav div #menu .close {
+  display: none;
+}
 nav div #menu p {
   color: white;
 }

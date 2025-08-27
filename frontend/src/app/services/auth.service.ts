@@ -1,28 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private currentUser = new BehaviorSubject<User | null>(null);
+  private currentUser = new BehaviorSubject<User | null>(null); // 초기값 null
   currentUser$ = this.currentUser.asObservable();
-  isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
 
-  constructor() {
-    // 안 하면 localstorage 없다고 ㅈㄹ함
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
-      if (token && user) {
-        this.currentUser.next(JSON.parse(user));
-      }
-    }
+  constructor(private http: HttpClient) {
+    // 서비스 생성 시 localStorage에서 token/userId 있으면 restore
+    this.restoreUser();
   }
 
   setUser(user: User) {
     this.currentUser.next(user);
   }
+
   getUser(): User | null {
     return this.currentUser.value;
   }
@@ -30,7 +25,7 @@ export class AuthService {
   login(token: string, user: User) {
     if (typeof window !== 'undefined') {
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('userId', user._id!);
     }
     this.currentUser.next(user);
   }
@@ -38,7 +33,7 @@ export class AuthService {
   logout() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('userId');
     }
     this.currentUser.next(null);
   }
@@ -47,13 +42,23 @@ export class AuthService {
     return this.currentUser.value;
   }
 
-  // 새로고침 시 localStorage에서 유저 복원
   restoreUser() {
-    const userJson = localStorage.getItem('user');
+    if (typeof window === 'undefined') return;
+
     const token = localStorage.getItem('token');
-    if (userJson && token) {
-      const user: User = JSON.parse(userJson);
-      this.currentUser.next(user);
-    }
+    const userId = localStorage.getItem('userId');
+    if (!token || !userId) return;
+
+    // 서버에서 유저 정보 가져오기
+    this.http.get<User>(`http://localhost:3000/users/${userId}`).subscribe({
+      next: (user) => {
+        this.currentUser.next(user); // BehaviorSubject에 값 업데이트
+      },
+      error: (err) => {
+        console.error('Failed to restore user', err);
+        this.currentUser.next(null);
+      },
+    });
   }
 }
+

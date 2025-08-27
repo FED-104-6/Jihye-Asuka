@@ -20,8 +20,8 @@ const userSchema = new Schema<IUser>({
   birthdate: { type: Date, required: true },
   type: [{ type: String }],
   admin: { type: Boolean, default: false },
-  flats: [{ type: Schema.Types.ObjectId, ref: "Flat" }], 
-  favorites: [{ type: Schema.Types.ObjectId, ref: "Flat" }] 
+  flats: [{ type: Schema.Types.ObjectId, ref: "Flat", default: [] }], 
+  favorites: [{ type: Schema.Types.ObjectId, ref: "Flat", default: [] }] 
 });
 
 export const User = mongoose.model<IUser>("User", userSchema, "user");
