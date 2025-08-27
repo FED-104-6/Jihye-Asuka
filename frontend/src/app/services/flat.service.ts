@@ -20,7 +20,7 @@ export interface Flat {
 export class FlatService {
   private apiUrl = 'http://localhost:3000/flats';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getFlats(): Observable<Flat[]> {
     return this.http.get<Flat[]>(this.apiUrl);
