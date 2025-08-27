@@ -1,9 +1,9 @@
 <div id="register-wrap">
   <a class="btn-hover" href="/home"
-    ><img id="logo" src="assets/logo.png" alt=""
+    ><img id="logo" src="assets/logo-black.png" alt=""
   /></a>
   <div id="register-content">
-    <small id="warn-msg" *ngIf="errorMessage">{{ errorMessage }}</small>
+    <small class="warn-msg" *ngIf="errorMessage">{{ errorMessage }}</small>
     <form [formGroup]="registerForm" name="register" (ngSubmit)="register()">
       <input formControlName="email" type="email" placeholder="email" />
       <input

@@ -1,3 +1,9 @@
+<!-- opening show -->
+<div id="banner">
+  <img src="/assets/logo.png" alt="" />
+  <p>Your space, your home – browse apartments effortlessly.</p>
+</div>
+
 <!-- filter nav -->
 <div id="filter-nav" [ngClass]="{ open: isFilterOpen }">
   <img
@@ -66,17 +72,19 @@
   </div>
 </div>
 
-<!-- flat title -->
+<!-- flat header -->
 <div id="flat-control">
   <div id="title">
-    Listing Flats <span>({{ filteredItems.length }})</span>
+    <ng-container *ngIf="filteredItems$ | async as flats">
+      Listing Flats <span>({{ flats.length }})</span>
+    </ng-container>
   </div>
   <div id="btn-wrap">
     <div id="filter" class="btn-hover" (click)="isFilterOpen = !isFilterOpen">
       <img src="/assets/filter.png" alt="" />
       Filter
     </div>
-    <a href="/new-flat" id="new" class="btn-hover">
+    <a *ngIf="currentUser" href="/flat/create" id="new" class="btn-hover">
       <img src="/assets/add.png" alt="" />
       New Flat
     </a>
@@ -84,9 +92,8 @@
 </div>
 
 <!-- flat content -->
-<div class="flat-wrap">
-  @if (filteredItems.length > 0) {
-  <table>
+<div class="flat-wrap" *ngIf="filteredItems$ | async as flats; else loading">
+  <table *ngIf="flats.length > 0">
     <thead>
       <tr id="category">
         <th></th>
@@ -98,17 +105,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let flat of getAllFlats(); trackBy: trackById"
-        class="btn-hover flat-item"
-      >
+      <tr *ngFor="let flat of flats; trackBy: trackById" class="flat-item">
         <td>
-          <ng-container *ngIf="currentUser$ | async as user">
+          <ng-container *ngIf="currentUser as user">
             <img
               *ngIf="flat._id"
-              [src]="getFavoriteIcon(flat._id, user.favorites)"
-              (click)="setFavorite(flat._id, user.favorites)"
-              class="flat-fav"
+              [src]="getFavoriteIcon(flat._id)"
+              (click)="setFavorite(flat)"
+              class="btn-hover flat-fav"
               alt=""
             />
           </ng-container>
@@ -135,7 +139,13 @@
       </tr>
     </tbody>
   </table>
-  } @else {
-  <p id="no-result">No flats found. ✅</p>
-  }
+
+  <div id="no-result" *ngIf="flats.length == 0">
+    <p>No flats found. ✅</p>
+  </div>
 </div>
+
+<!-- else template -->
+<ng-template #loading>
+  <p>No flats found. ✅</p>
+</ng-template>

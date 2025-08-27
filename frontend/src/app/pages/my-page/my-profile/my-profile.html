@@ -1,36 +1,32 @@
-<div class="container">
-    <div class="btn-container">
-        <button class="edit-btn" (click)="goToEditPage()">
-            <i class="material-icons">edit</i>
-        </button>
-    </div>
+<div class="container" *ngIf="currentUser$ | async as currentUser">
+  <div class="btn-container">
+    <button class="edit-btn" (click)="goToEditPage(currentUser._id!)">
+      <i class="material-icons">edit</i>
+    </button>
+  </div>
 
-    <div class="form-row">
-        <label for="first-name">First name:</label>
-        <div class="value">{{ firstName }}</div>
-    </div>
+  <div class="form-row">
+    <label>First name:</label>
+    <div class="value">{{ currentUser.firstname }}</div>
+  </div>
 
-    <!-- last name -->
-    <div class="form-row">
-        <label for="last-name">Last name:</label>
-        <div class="value">{{ lastName }}</div>
-    </div>
+  <div class="form-row">
+    <label>Last name:</label>
+    <div class="value">{{ currentUser.lastname }}</div>
+  </div>
 
-    <!-- Email -->
-    <div class="form-row">
-        <label for="email">Email:</label>
-        <div class="value">{{ email }}</div>
-    </div>
+  <div class="form-row">
+    <label>Email:</label>
+    <div class="value">{{ currentUser.email }}</div>
+  </div>
 
-    <!-- password -->
-    <div class="form-row">
-        <label for="password">Password:</label>
-        <div class="value">********</div>
-    </div>
+  <div class="form-row">
+    <label>Password:</label>
+    <div class="value">********</div>
+  </div>
 
-    <!-- Birthday -->
-    <div class="form-row">
-        <label for="birthdate">Date of birth:</label>
-        <div class="value">{{ birthDate | date:'yyyy/MM/dd' }}</div>
-    </div>
+  <div class="form-row">
+    <label>Date of birth:</label>
+    <div class="value">{{ currentUser.birthdate | date:'yyyy/MM/dd' }}</div>
+  </div>
 </div>

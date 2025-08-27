@@ -1,18 +1,14 @@
-/* Reset */
-* {
-  box-sizing: border-box;
-}
-
 /*  Container  */
 .flat-container {
-  max-width: 800px; 
-  height: 80vh;
-  margin: 30px auto;  
-  padding: 20px 30px;
-  background-color: #fff;    
+  margin: 0 auto;
+  padding: 30px;
+  background-color: var(--table-tr-gray);
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  font-family: 'Roboto', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 /*  Header  */
@@ -20,15 +16,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
-
 .flat-header .address {
   font-size: 20px;
   font-weight: 600;
   color: #333;
 }
-
 .flat-fav {
   width: 30px;
   height: 30px;
@@ -37,10 +30,8 @@
 
 /*  Main Layout (65% / 35%)  */
 .flat-detail {
-  display: grid;
-  grid-template-columns: 65% 35%; 
+  display: flex;
   gap: 20px;
-  margin-top: 20px;
 }
 
 /*  Flat Info List  */
@@ -51,13 +42,13 @@
 }
 
 .flat-info {
-  display: grid;
-  grid-template-columns: 40px 1fr;
+  width: 300px;
+  display: flex;
   align-items: center;
   gap: 20px;
   padding: 15px 20px;
   margin-bottom: 10px;
-  background-color: #f7f7f7;
+  background-color: white;
   border-radius: 8px;
   min-width: 200px;
 }
@@ -89,20 +80,22 @@
   gap: 20px;
 }
 
-.owner-info {
-  background-color: #f7f7f7;
-  padding: 15px;
-  border-radius: 8px;
-}
-
 /*  Message Box  */
 .message-box {
   background-color: #fff;
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
-}
 
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.message-box #message-content-box {
+  width: 100%;
+  height: 100px;
+  position: relative;
+}
 .message-box textarea {
   width: 100%;
   height: 100px;
@@ -114,7 +107,7 @@
 }
 
 .message-box button {
-  background-color: #007BFF;
+  background-color: var(--gray-black);
   color: white;
   padding: 10px 15px;
   border: none;
@@ -123,6 +116,33 @@
   transition: background-color 0.2s ease;
 }
 
-.message-box button:hover {
-  background-color: #0056b3;
+/* Show Alert */
+.toast {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  background: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  animation: fadeOut 2s forwards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }

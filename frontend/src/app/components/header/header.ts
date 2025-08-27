@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user.service';
 
@@ -15,12 +15,10 @@ import { User } from '../../services/user.service';
 })
 export class Header {
   isMenuOpen = false;
-  isLoggedIn$: Observable<boolean>;
-  currentUser$: Observable<User | null>;
+  currentUser$!: Observable<User | null>; 
 
-  constructor(private authService: AuthService) {
-    this.currentUser$ = this.authService.currentUser$;
-    this.isLoggedIn$ = this.authService.isLoggedIn$
+  constructor(private router: Router, private authService: AuthService) {
+    this.currentUser$ = this.authService.currentUser$; 
   }
 
   closeMenu() {

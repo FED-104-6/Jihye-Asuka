@@ -1,9 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
 
 :root {
-  --btn-grey: rgb(195, 195, 195);
-  --btn-grey-on: rgb(161, 161, 161);
-  --btn-blue: #9ebbce;
+  --table-tr-gray: rgb(241, 241, 241);
+  --filter-gray: rgb(224, 224, 224);
   --gray-black: rgb(30, 30, 30);
   --light-gray-black: rgb(58, 58, 58);
   --not-too-red: rgb(181, 30, 30);
@@ -49,10 +48,20 @@ button {
 
 html,
 body {
-  min-width: 980px;
+  min-width: 1200px;
   height: 100%;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+  display: none;
+}
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.warn-msg {
+  color: red;
+  text-align: center;
 }
