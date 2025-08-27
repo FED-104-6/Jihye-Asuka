@@ -21,6 +21,7 @@ import { User, UserService } from '../../../services/user.service';
 export class EditProfile {
   errorMessage = '';
   currentUser: User | null = null;
+  whatAdminCanOnlySee: string | null = null;
 
   editUserForm = new FormGroup(
     {
@@ -57,6 +58,7 @@ export class EditProfile {
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
+    this.whatAdminCanOnlySee = userId;
 
     if (!userId) {
       this.authService.currentUser$.subscribe((loggedUser) => {
@@ -119,23 +121,6 @@ export class EditProfile {
       : null;
   }
 
-  // static ageRangeValidator(
-  //   control: FormControl
-  // ): { [key: string]: any } | null {
-  //   if (!control.value) return null;
-
-  //   const today = new Date();
-  //   const birthDate = new Date(control.value);
-  //   let age = today.getFullYear() - birthDate.getFullYear();
-  //   const month = today.getMonth() - birthDate.getMonth();
-
-  //   if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-  //     age--;
-  //   }
-
-  //   return age < 18 || age > 120 ? { ageRange: true } : null;
-  // }
-
   getFormErrors(): string {
     for (const field in this.editUserForm.controls) {
       const control = this.editUserForm.get(field);
@@ -171,13 +156,20 @@ export class EditProfile {
           : undefined,
       };
 
-      this.userService.updateUser(updatedUser).subscribe({
-        next: (user) => {
+      const nextCallback = (user: User) => {
+        if (this.whatAdminCanOnlySee) {
+          alert('edit: ' + user.firstname + ' as an admin');
+          this.router.navigate(['/admin/all-users']);
+        } else {
           this.authService.setUser(user);
-          alert('edit: ' + user.firstname), 
+          alert('edit: ' + user.firstname);
           window.location.href = '/home';
-        },
-        error: (err) => console.error('Error creating user:', err),
+        }
+      };
+
+      this.userService.updateUser(updatedUser).subscribe({
+        next: nextCallback,
+        error: (err) => console.error('Error updating user:', err),
       });
     }
   }

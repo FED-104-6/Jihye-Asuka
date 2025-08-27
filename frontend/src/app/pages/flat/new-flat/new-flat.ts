@@ -120,7 +120,7 @@ export class NewFlat {
 
     this.flatService.createFlat(this.currentUser._id!, newFlat).subscribe({
       next: () => {
-        alert('add complete!'), (window.location.href = '/user/flats');
+        alert('add complete!'), (window.location.href = '/home');
       },
       error: (err) => console.error('Error making flat:', err),
     });

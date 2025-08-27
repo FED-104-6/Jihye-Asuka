@@ -6,12 +6,8 @@
     (click)="isMessageOpen = !isMessageOpen"
     alt=""
   />
-  <div
-    id="msg-wrap"
-    *ngFor="let group of outboxByFlat$ | async | keyvalue"
-    #scrollContainer
-  >
-    <div class="msg-item" *ngFor="let msg of group.value.messages">
+  <div id="msg-wrap" #scrollContainer>
+    <div class="msg-item" *ngFor="let msg of messageContent">
       <p class="sender-inform">
         <span>{{ msg.createdAt | date : "yy.MM.dd HH:mma" }}</span>
       </p>
@@ -34,30 +30,34 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let msg of outboxByFlat$ | async | keyvalue" class="flat-item">
+    <tr *ngFor="let group of outboxByFlat$ | async | keyvalue" class="flat-item">
       <td>
         <p class="address">
-          {{ msg.value.flat.stNum }} {{ msg.value.flat.stName }},
-          {{ msg.value.flat.city }}
+          {{ group.value.flat.stNum }} {{ group.value.flat.stName }},
+          {{ group.value.flat.city }}
         </p>
       </td>
       <td>
-        <p class="size">{{ msg.value.flat.size }}m²</p>
+        <p class="size">{{ group.value.flat.size }}m²</p>
       </td>
       <td>
         <p class="price">
-          {{ msg.value.flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
+          {{ group.value.flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
         </p>
       </td>
       <td>
-        <p>{{ msg.value.flat.owner.firstname }} ({{ msg.value.flat.owner.email }})</p>
+        <p>
+          {{ group.value.flat.owner.firstname }} ({{
+            group.value.flat.owner.email
+          }})
+        </p>
       </td>
       <td>
-        <button (click)="viewFlatDetail(msg.value.flat)">View Detail</button>
+        <button (click)="viewFlatDetail(group.value.flat)">View Detail</button>
       </td>
       <td>
-        <button (click)="openModal()">
-          View Messages ( {{ msg.value.messages.length }} )
+        <button (click)="openModal(group.value.flat._id!)">
+          View Messages ( {{ group.value.messages.length }} )
         </button>
       </td>
     </tr>

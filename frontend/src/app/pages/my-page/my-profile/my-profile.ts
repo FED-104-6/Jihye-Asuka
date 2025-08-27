@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CommonModule, DatePipe } from '@angular/common';
 import { User, UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
+import { filter, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-my-profile',
-  imports: [DatePipe],
+  imports: [DatePipe, CommonModule, RouterModule],
   templateUrl: './my-profile.html',
   styleUrl: './my-profile.css',
 })
 export class MyProfile {
-  currentUser!: User;
+  currentUser$!: Observable<User>;
   whatAdminCanOnlySee: string | null = null;
 
   constructor(
@@ -25,27 +26,21 @@ export class MyProfile {
     this.whatAdminCanOnlySee = this.route.snapshot.paramMap.get('id');
 
     if (!this.whatAdminCanOnlySee) {
-      this.authService.currentUser$.subscribe((loggedUser) => {
-        if (loggedUser) {
-          this.currentUser = loggedUser;
-        }
-      });
+      this.currentUser$ = this.authService.currentUser$.pipe(
+        filter((user): user is User => user != null)
+      );
     } else {
-      this.userService
-        .getUserById(this.whatAdminCanOnlySee)
-        .subscribe((user) => {
-          if (user) {
-            this.currentUser = user;
-          }
-        });
+      this.currentUser$ = this.userService.getUserById(
+        this.whatAdminCanOnlySee
+      );
     }
   }
 
-  goToEditPage() {
+  goToEditPage(userId: string) {
     if (!this.whatAdminCanOnlySee) {
-      window.location.href = '/user/edit';
+      this.router.navigate(['/user/edit']);
     } else {
-      window.location.href = `/admin/edit/${this.currentUser._id}`;
+      this.router.navigate([`/admin/edit/${userId}`]);
     }
   }
 }

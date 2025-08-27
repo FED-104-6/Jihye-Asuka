@@ -24,7 +24,7 @@ export class App {
     const url = this.router.url;
     return !(
       url === '/login' ||
-      url === '/register' ||
+      url.startsWith('/register') ||
       url.startsWith('/admin/all-users')
     );
   }

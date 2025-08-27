@@ -54,7 +54,7 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
-  background-color: var(--filter-gray);
+  background-color: var(--table-tr-gray);
 }
 table tbody tr td {
   text-align: center;

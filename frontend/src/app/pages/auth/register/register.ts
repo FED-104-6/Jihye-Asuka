@@ -9,7 +9,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserService } from '../../../services/user.service';
 import { Flat } from '../../../services/flat.service';
 
@@ -47,17 +47,27 @@ export class Register {
       firstname: new FormControl('', [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
       birthdate: new FormControl('', [Validators.required]),
+      adminkey: new FormControl(''),
     },
     {
       validators: Register.passwordMatchValidator,
     }
   );
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     const today = new Date().toISOString().split('T')[0];
     this.registerForm.patchValue({ birthdate: today });
+
+    const adminkey = this.route.snapshot.queryParamMap.get('adminkey');
+    if (adminkey) {
+      this.registerForm.patchValue({ adminkey });
+    }
   }
 
   static passwordMatchValidator(
@@ -96,12 +106,19 @@ export class Register {
     if (this.errorMessage) return;
 
     const formValues = this.registerForm.value;
-    const firstname = formValues.firstname ?? '';
-    const lastname = formValues.lastname ?? '';
+
+    const capitalize = (str: string) =>
+      str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const firstname = capitalize(formValues.firstname ?? '');
+    const lastname = capitalize(formValues.lastname ?? '');
     const email = formValues.email ?? '';
     const password = formValues.password ?? '';
     const birthdateStr = formValues.birthdate ?? new Date().toISOString();
     const birthdate = new Date(birthdateStr);
+
+    // adminkey => admin true
+    const isAdmin = formValues.adminkey === 'SuperSecretAdmin2025';
 
     this.newUser = {
       ...this.newUser,
@@ -110,12 +127,13 @@ export class Register {
       email,
       password,
       birthdate,
+      admin: isAdmin,
     };
 
     this.userService.createUser(this.newUser).subscribe({
       next: (user) => {
         console.log('Created user:', user);
-        alert('welcome: ' + user.firstname);
+        alert(`Welcome: ${user.firstname}${isAdmin ? ' (Admin)' : ''}`);
         this.router.navigate(['/login']);
       },
       error: (err) => {

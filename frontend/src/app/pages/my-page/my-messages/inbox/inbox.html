@@ -6,12 +6,8 @@
     (click)="isMessageOpen = !isMessageOpen"
     alt=""
   />
-  <div
-    id="msg-wrap"
-    *ngFor="let group of inboxByFlat$ | async | keyvalue"
-    #scrollContainer
-  >
-    <div class="msg-item" *ngFor="let msg of group.value.messages">
+  <div id="msg-wrap" #scrollContainer>
+    <div class="msg-item" *ngFor="let msg of messageContent">
       <p class="sender-inform">
         <span>{{ msg.createdAt | date : "yy.MM.dd HH:mma" }}</span>
         <span>{{ msg.sender.firstname }} ({{ msg.sender.email }})</span>
@@ -53,7 +49,7 @@
         <button (click)="viewFlatDetail(group.value.flat)">View Detail</button>
       </td>
       <td>
-        <button (click)="openModal()">
+        <button (click)="openModal(group.value.flat._id!)">
           View Messages ( {{ group.value.messages.length }} )
         </button>
       </td>

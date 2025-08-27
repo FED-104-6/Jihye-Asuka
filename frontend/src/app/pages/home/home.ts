@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Flat, FlatService } from '../../services/flat.service';
-import { Observable } from 'rxjs';
+import { catchError, combineLatest, map, Observable, of } from 'rxjs';
 import { User, UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -14,18 +14,19 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './home.css',
 })
 export class Home {
-  allFlatDB: Flat[] = [];
   isFilterOpen = false;
   currentUser: User | null = null;
 
-  // filter
+  allFlatDB$!: Observable<Flat[]>;
+  filteredItems$!: Observable<Flat[]>;
+
+  // ✅ ngModel
   city: string = '';
   priceA: number | null = null;
   priceB: number | null = null;
   sizeA: number | null = null;
   sizeB: number | null = null;
   sort: string = '';
-  filteredItems: Flat[] = [];
 
   constructor(
     private router: Router,
@@ -37,34 +38,59 @@ export class Home {
 
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
-      if (user) {
-        this.currentUser = user;
-      }
+      if (user) this.currentUser = user;
     });
 
-    this.flatService.getFlats().subscribe({
-      next: (data) => {
-        this.allFlatDB = data.map((flat) => ({
-          ...flat,
-        }));
-        this.filteredItems = [...this.allFlatDB];
-      },
-      error: (err) => console.error(err),
-    });
+    // flats observable
+    const flats$ = this.flatService.getFlats().pipe(
+      catchError((err) => {
+        console.error(err);
+        return of([] as Flat[]);
+      })
+    );
 
-    this.route.queryParams.subscribe((params) => {
-      this.city = params['city'] || '';
-      this.priceA = params['priceA'] ? Number(params['priceA']) : null;
-      this.priceB = params['priceB'] ? Number(params['priceB']) : null;
-      this.sizeA = params['sizeA'] ? Number(params['sizeA']) : null;
-      this.sizeB = params['sizeB'] ? Number(params['sizeB']) : null;
-      this.sort = params['sort'] || '';
-    });
+    // filteredItems observable
+    this.filteredItems$ = combineLatest([flats$, this.route.queryParams]).pipe(
+      map(([flats, params]) => {
+        let result = [...flats];
+
+        const city = params['city'] || '';
+        const priceA = params['priceA'] ? Number(params['priceA']) : null;
+        const priceB = params['priceB'] ? Number(params['priceB']) : null;
+        const sizeA = params['sizeA'] ? Number(params['sizeA']) : null;
+        const sizeB = params['sizeB'] ? Number(params['sizeB']) : null;
+        const sort = params['sort'] || '';
+
+        // filtering
+        result = result.filter((flat) => {
+          const cityMatch =
+            !city || flat.city.toLowerCase().includes(city.toLowerCase());
+          const priceMatch =
+            (priceA === null || flat.price >= priceA) &&
+            (priceB === null || flat.price <= priceB);
+          const sizeMatch =
+            (sizeA === null || flat.size >= sizeA) &&
+            (sizeB === null || flat.size <= sizeB);
+
+          return cityMatch && priceMatch && sizeMatch;
+        });
+
+        // sorting
+        const sortFuncs: Record<string, (a: Flat, b: Flat) => number> = {
+          aToZ: (a, b) => a.city.localeCompare(b.city),
+          zToA: (a, b) => b.city.localeCompare(a.city),
+          priceLH: (a, b) => a.price - b.price,
+          priceHL: (a, b) => b.price - a.price,
+          sizeLH: (a, b) => a.size - b.size,
+          sizeHL: (a, b) => b.size - a.size,
+        };
+        if (sortFuncs[sort]) result.sort(sortFuncs[sort]);
+
+        return result;
+      })
+    );
   }
 
-  getAllFlats() {
-    return this.filteredItems;
-  }
   trackById(index: number, item: Flat) {
     return item._id;
   }
@@ -107,65 +133,27 @@ export class Home {
       });
   }
 
-  // filter
   filterReset() {
-    this.city = this.sort = '';
-    this.priceA = this.priceB = null;
-    this.sizeA = this.sizeB = null;
-    this.filteredItems = [...this.allFlatDB];
+    this.city = '';
+    this.priceA = null;
+    this.priceB = null;
+    this.sizeA = null;
+    this.sizeB = null;
+    this.sort = '';
+
     this.router.navigate([], { queryParams: {} });
   }
+
   filterApply() {
-    // edit minus
-    if (this.priceA !== null && this.priceA < 0) this.priceA = 0;
-    if (this.priceB !== null && this.priceB < 0) this.priceB = 0;
-    if (this.sizeA !== null && this.sizeA < 0) this.sizeA = 0;
-    if (this.sizeB !== null && this.sizeB < 0) this.sizeB = 0;
-
-    // filtering
-    this.filteredItems = this.allFlatDB.filter((flat) => {
-      const cityMatch =
-        !this.city || flat.city.toLowerCase().includes(this.city.toLowerCase());
-      const priceMatch =
-        (this.priceA === null || flat.price >= this.priceA) &&
-        (this.priceB === null || flat.price <= this.priceB);
-      const sizeMatch =
-        (this.sizeA === null || flat.size >= this.sizeA) &&
-        (this.sizeB === null || flat.size <= this.sizeB);
-
-      return cityMatch && priceMatch && sizeMatch;
+    this.router.navigate([], {
+      queryParams: {
+        city: this.city || null,
+        priceA: this.priceA || null,
+        priceB: this.priceB || null,
+        sizeA: this.sizeA || null,
+        sizeB: this.sizeB || null,
+        sort: this.sort || null,
+      },
     });
-
-    // sort
-    const sortFuncs: Record<string, (a: Flat, b: Flat) => number> = {
-      aToZ: (a, b) => a.city.localeCompare(b.city),
-      zToA: (a, b) => b.city.localeCompare(a.city),
-      priceLH: (a, b) => a.price - b.price,
-      priceHL: (a, b) => b.price - a.price,
-      sizeLH: (a, b) => a.size - b.size,
-      sizeHL: (a, b) => b.size - a.size,
-    };
-
-    if (sortFuncs[this.sort]) {
-      this.filteredItems.sort(sortFuncs[this.sort]);
-    }
-
-    // url
-    //   const params: any = {
-    //     city: this.city,
-    //     pmin: this.priceA,
-    //     pmax: this.priceB,
-    //     smin: this.sizeA,
-    //     smax: this.sizeB,
-    //     sort: this.sort,
-    //   };
-    //   Object.keys(params).forEach(
-    //     (key) => (params[key] == null || params[key] === '') && delete params[key]
-    //   );
-
-    //   this.router.navigate([], {
-    //     queryParams: params,
-    //     queryParamsHandling: 'merge',
-    //   });
   }
 }

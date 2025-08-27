@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user.model';
 import { Flat } from '../models/flat.model';
+import { Message } from '../models/message.model';
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.get('/:id', async (req, res) => {
       .populate('flats')
       .populate({
         path: 'favorites',
-        populate: { path: 'owner' }, // 중첩 가능 
+        populate: { path: 'owner' }, // 중첩 가능
       });
     if (!user) return res.status(404).json({ error: 'Flat not found' });
     res.json(user);
@@ -52,7 +53,7 @@ router.post('/login', async (req, res) => {
 // register
 router.post('/register', async (req, res) => {
   try {
-    const { firstname, lastname, email, password, birthdate, type } = req.body;
+    const { firstname, lastname, email, password, birthdate, type, admin } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -63,7 +64,7 @@ router.post('/register', async (req, res) => {
       password: hashedPassword,
       birthdate,
       type: type || ['buyer'],
-      admin: false,
+      admin,
       flats: [],
     });
 
@@ -84,18 +85,27 @@ router.delete('/:id', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    const deletedFlatIds = deletedUser.flats;
+
     const deletedFlats = await Flat.deleteMany({ owner: userId });
+    const deletedMessages = await Message.deleteMany({ sender: userId });
 
     await User.updateMany(
-      { favorites: { $in: deletedUser.flats } },
-      { $pull: { favorites: { $in: deletedUser.flats } } }
+      { favorites: { $in: deletedFlatIds } },
+      { $pull: { favorites: { $in: deletedFlatIds } } }
     );
 
-    res.json({ message: 'User and their flats deleted', user: deletedUser });
+    res.json({
+      message: 'User, their flats and related messages deleted',
+      user: deletedUser,
+      deletedFlatsCount: deletedFlats.deletedCount,
+      deletedMessagesCount: deletedMessages.deletedCount
+    });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // change user
 router.patch('/:id/edit/all', async (req, res) => {

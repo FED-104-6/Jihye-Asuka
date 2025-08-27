@@ -12,7 +12,7 @@ router.get('/inbox/:userId', async (req, res) => {
       .populate('recipient')
       .populate({
         path: 'flat',
-        populate: { path: 'owner' }, // 중첩 
+        populate: { path: 'owner' },
       })
       .sort({ createdAt: 1 });
     res.status(200).json(inbox);

@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { MessageGroup, MsgService } from '../../../../services/message.service';
-import { Observable } from 'rxjs';
+import {
+  Message,
+  MessageGroup,
+  MsgService,
+} from '../../../../services/message.service';
+import { map, Observable, take } from 'rxjs';
 import { Flat } from '../../../../services/flat.service';
 
 @Component({
@@ -12,6 +16,7 @@ import { Flat } from '../../../../services/flat.service';
 })
 export class Outbox {
   outboxByFlat$: Observable<Record<string, MessageGroup>>;
+  messageContent: Message[] | null = null;
   isMessageOpen = false;
 
   constructor(private msgState: MsgService) {
@@ -19,15 +24,23 @@ export class Outbox {
   }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  openModal() {
-    this.isMessageOpen = true;
+  openModal(flatId: string) {
+    this.outboxByFlat$
+      .pipe(
+        take(1),
+        map((outbox) => outbox[flatId]?.messages ?? []) 
+      )
+      .subscribe((messages) => {
+        this.messageContent = messages; 
+        this.isMessageOpen = true;
 
-    setTimeout(() => {
-      if (this.scrollContainer) {
-        this.scrollContainer.nativeElement.scrollTop =
-          this.scrollContainer.nativeElement.scrollHeight;
-      }
-    }, 0);
+        setTimeout(() => {
+          if (this.scrollContainer) {
+            this.scrollContainer.nativeElement.scrollTop =
+              this.scrollContainer.nativeElement.scrollHeight;
+          }
+        }, 0);
+      });
   }
 
   viewFlatDetail(flat: Flat) {

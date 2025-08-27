@@ -1,9 +1,14 @@
 <div id="root">
   <app-header *ngIf="showHeader"></app-header>
-  <div class="common-back" [ngClass]="{
-    'login-register-height': router.url.includes('login') || router.url.includes('register'),
-    'admin-display-block': router.url.includes('admin/all-users')
-  }">
+  <div
+    class="common-back"
+    [ngClass]="{
+      'login-register-height':
+        router.url.includes('login') ||
+        router.url.includes('register'),
+      'admin-display-block': router.url.includes('admin/all-users')
+    }"
+  >
     <router-outlet></router-outlet>
   </div>
   <app-footer *ngIf="showFooter"></app-footer>
