@@ -6,11 +6,11 @@
 
 #flat-control {
   min-width: 1200px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 100px 0 50px;
   gap: 50px;
 }
 #flat-control p:first-child {
@@ -36,10 +36,14 @@
   background-color: var(--gray-black);
 }
 #flat-control p:last-child span:last-child {
-  background-color: var(--table-tr-gray);
+  background-color: #f1f1f1;
   font-weight: 600;
 }
 
+.flat-content {
+  min-height: 288px;
+  padding-bottom: 30px;
+}
 table {
   width: 100%;
   border-spacing: 0px 10px;
@@ -67,11 +71,8 @@ table tbody td button {
   padding: 7px 10px;
   border-radius: 3px;
 }
-table tbody tr td .manage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+img.flat-fav {
+  width: 30px;
 }
 #add-flat {
   background-color: var(--gray-black);

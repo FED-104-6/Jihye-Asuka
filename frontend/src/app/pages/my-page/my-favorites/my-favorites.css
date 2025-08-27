@@ -6,11 +6,11 @@
 
 #flat-control {
   min-width: 1200px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 100px 0 50px;
   gap: 50px;
 }
 #flat-control p:first-child {
@@ -40,6 +40,10 @@
   font-weight: 600;
 }
 
+.flat-content {
+  min-height: 288px;
+  padding-bottom: 30px;
+}
 table {
   width: 100%;
   border-spacing: 0px 10px;

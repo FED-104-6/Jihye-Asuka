@@ -50,6 +50,11 @@ html,
 body {
   min-width: 1200px;
   height: 100%;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+  display: none;
+}
 }
 body {
   margin: 0;

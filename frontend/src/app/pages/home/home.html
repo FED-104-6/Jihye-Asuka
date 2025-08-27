@@ -1,3 +1,9 @@
+<!-- opening show -->
+<div id="banner">
+  <img src="/assets/logo.png" alt="" />
+  <p>Your space, your home – browse apartments effortlessly.</p>
+</div>
+
 <!-- filter nav -->
 <div id="filter-nav" [ngClass]="{ open: isFilterOpen }">
   <img
@@ -66,7 +72,7 @@
   </div>
 </div>
 
-<!-- flat title -->
+<!-- flat header -->
 <div id="flat-control">
   <div id="title">
     <ng-container *ngIf="filteredItems$ | async as flats">
