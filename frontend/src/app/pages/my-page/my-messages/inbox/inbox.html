@@ -64,7 +64,7 @@
       </td>
       <td>
         <p class="available">
-          {{ group.value.flat.availDate | date : "yy.MM.dd" }}
+          {{ group.value.flat.availDate | date : "yy.MM.dd"  : "UTC"}}
         </p>
       </td>
       <td>
