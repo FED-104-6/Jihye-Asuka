@@ -12,7 +12,6 @@ function getAge(birthDate: Date): number {
   const monthDiff = today.getMonth() - birthDate.getMonth();
   const dayDiff = today.getDate() - birthDate.getDate();
 
-  // 아직 생일 안 지났으면 -1
   if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
     age--;
   }
