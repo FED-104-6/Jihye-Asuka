@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { Flat } from './flat.service';
 
 export interface User {
   _id?: string;
@@ -13,30 +14,46 @@ export interface User {
   age?: number;
   type: string[];
   admin: boolean;
-  flats?: any[]; // populate된 flats
-  favorites?: any[]; 
+  flats: Flat[];
+  favorites: Flat[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private apiUrl = 'http://localhost:3000/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`);
+  }
+
   createUser(newUser: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/register`, newUser);
   }
   deleteUser(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
-  updateAdminStatus(userId: string, admin: boolean): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/admin`, { admin });
+  updateUser(user: Partial<User>): Observable<User> {
+    return this.http
+      .patch<{ message: string; user: User }>(
+        `${this.apiUrl}/${user._id}/edit/all`,
+        { user }
+      )
+      .pipe(map((res) => res.user));
   }
-  updateFavorites(userId: string, favorites: string[]): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/${userId}/favorites`, { favorites });
+  updateAdminStatus(userId: string, admin: boolean): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/edit/admin`, {
+      admin,
+    });
+  }
+  updateFavorites(userId: string, favorites: Flat[]): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/${userId}/edit/favorites`, {
+      favorites,
+    });
   }
 
   loginUser(credentials: {

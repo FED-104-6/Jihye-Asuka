@@ -1,0 +1,95 @@
+#msg-modal {
+  width: 300px;
+  height: 700px;
+  padding: 50px 20px 30px;
+  position: fixed;
+  top: calc(50% - 280px);
+  right: 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: -3px 0px 20px 0px #9a9a9a;
+  display: flex;
+  align-items: flex-end;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(270px);
+  transition: all 0.5s ease;
+}
+#msg-modal.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+#msg-modal #msg-close {
+  width: 16px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+#msg-modal #msg-wrap {
+  width: 260px;
+  max-height: 610px;
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+#msg-modal #msg-wrap .msg-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+#msg-modal #msg-wrap .sender-inform {
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+}
+#msg-modal #msg-wrap .msg-content {
+  width: fit-content;
+  background-color: var(--filter-gray);
+  padding: 7px 10px;
+  border-radius: 0 7px 7px 7px;
+  font-size: 13px;
+}
+
+/* inbox -------------------------------------------------- */
+table {
+  width: 100%;
+  border-spacing: 0px 10px;
+}
+table tr {
+  height: 60px;
+  font-size: 13px;
+}
+table thead th {
+  font-weight: 500;
+  color: lightgray;
+  text-align: center;
+}
+table tbody tr {
+  background-color: var(--table-tr-gray);
+}
+table tbody tr td {
+  text-align: center;
+}
+
+table tbody td button {
+  background-color: var(--gray-black);
+  color: white;
+  font-size: 12px;
+  padding: 7px 10px;
+  border-radius: 3px;
+}
+table tbody tr td .manage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}

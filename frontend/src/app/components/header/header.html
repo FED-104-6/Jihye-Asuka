@@ -1,76 +1,41 @@
 <header>
   <nav>
     <div id="left-menu">
-      <a id="logo" (click)="closeMenu()" routerLink="/home">
+      <a id="logo" (click)="closeMenu()" href="/home">
         <img src="/assets/logo.png" alt="" />
       </a>
-      @if ((isLoggedIn$ | async) && (currentUser$ | async)?.admin) {
-      <a id="admin" routerLink="/admin">Admin</a>
-      }
+      <a *ngIf="(currentUser$ | async)?.admin" id="admin" routerLink="/admin">Admin</a>
     </div>
 
-    <!-- 로그인 여부 -->
-    @if (isLoggedIn$ | async) {
-    <div id="mypage">
-      <div id="menu" class="btn-hover" (click)="isMenuOpen = !isMenuOpen">
-        <!-- 메뉴 닫혔을 때 -->
-        @if (currentUser$ | async; as user) { @if (!isMenuOpen) {
-        <p>{{ user.firstname }} {{ user.lastname }}</p>
-        } }
+    <div id="mypage" *ngIf="currentUser$ | async as user">
+      <div id="menu">
+        <p *ngIf="!isMenuOpen" class="btn-hover" (click)="isMenuOpen = !isMenuOpen">
+          {{ user.firstname }} {{ user.lastname }}
+        </p>
 
-        <!-- 메뉴 열렸을 때 -->
-        @if (isMenuOpen) {
-        <ul id="menu-items">
+        <ul *ngIf="isMenuOpen" id="menu-items">
+          <li><a routerLink="/user/flats" routerLinkActive="active" (click)="closeMenu()">My flats</a></li>
           <li>
-            <a
-              (click)="closeMenu()"
-              routerLink="/my-flats"
-              routerLinkActive="active"
-              >My flats</a
-            >
+            <a routerLink="/user/favorites" routerLinkActive="active" (click)="closeMenu()">My favorites</a>
           </li>
           <li>
-            <a
-              (click)="closeMenu()"
-              routerLink="/my-favorites"
-              routerLinkActive="active"
-              >My favorites</a
-            >
+            <a routerLink="/user/profile" routerLinkActive="active" (click)="closeMenu()">My profile</a>
           </li>
           <li>
-            <a
-              (click)="closeMenu()"
-              routerLink="/my-profile"
-              routerLinkActive="active"
-              >My profile</a
-            >
+            <a routerLink="/user/edit" routerLinkActive="active" (click)="closeMenu()">Edit profile</a>
           </li>
-          <li>
-            <a
-              (click)="closeMenu()"
-              routerLink="/edit-profile"
-              routerLinkActive="active"
-              >Edit profile</a
-            >
-          </li>
-          <li>
-            <a
-              (click)="closeMenu()"
-              routerLink="/messages"
-              routerLinkActive="active"
-              >Messages</a
-            >
-          </li>
+          <li><a routerLink="/user/messages" routerLinkActive="active" (click)="closeMenu()">Messages</a></li>
           <li class="btn-hover" id="logout" (click)="logout()">Log out</li>
         </ul>
-        }
 
-        <img src="/assets/menu.png" alt="" />
+        <img
+          src="/assets/menu.png"
+          (click)="isMenuOpen = !isMenuOpen"
+          class="btn-hover"
+        />
       </div>
     </div>
-    } @else {
-    <!-- 로그인 안 됐을 때 -->
-    <a id="login" routerLink="/login">Log in</a>
-    }
+
+    <a *ngIf="!(currentUser$ | async)" id="login" routerLink="/login">Log in</a>
   </nav>
 </header>

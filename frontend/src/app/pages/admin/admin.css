@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: rgb(30, 30, 30);
+  background-color: var(--gray-black);
   gap: 50px;
 }
 #logo img {

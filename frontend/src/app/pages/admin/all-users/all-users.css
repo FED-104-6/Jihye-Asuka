@@ -17,7 +17,7 @@
   border-radius: 3px;
   font-size: 12px;
   font-weight: 500;
-  background-color: rgb(224, 224, 224);
+  background-color: var(--filter-gray);
 
   display: flex;
   align-items: center;
@@ -59,6 +59,9 @@ aside .aside-close {
   top: 27px;
   right: 29px;
 }
+aside .aside-close img {
+  width: 16px;
+}
 
 /* aside - filter */
 #filter-filtering input {
@@ -89,19 +92,19 @@ aside .aside-close {
   border-radius: 10px;
   overflow: hidden;
 }
-#filter-filtering .choose-both div {
+#filter-filtering .choose-both button {
   width: calc(100% / 2);
   text-align: center;
   padding: 7px 10px;
   font-size: 13px;
   color: #757575;
+  background-color: white;
 
   &:last-child {
     border-left: thin solid lightgray;
   }
 }
-#filter-filtering .choose-both div.type,
-#filter-filtering .choose-both div.admin {
+#filter-filtering .choose-both button.active {
   background-color: var(--light-gray-black);
   color: white;
 }
@@ -140,6 +143,7 @@ aside .aside-close {
 }
 table.user-wrap {
   border-spacing: 0px 10px;
+  padding-bottom: 30px;
 }
 table tr {
   height: 60px;
@@ -151,7 +155,7 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
-  background-color: rgb(241, 241, 241);
+  background-color: var(--table-tr-gray);
 }
 table tbody td .admin-manage,
 table tbody td .user-manage {
