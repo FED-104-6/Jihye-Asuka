@@ -82,11 +82,11 @@
   <div id="btn-wrap">
     <div id="filter" class="btn-hover" (click)="isFilterOpen = !isFilterOpen">
       <img src="/assets/filter.png" alt="" />
-      Filter
+      <p>Filter</p>
     </div>
     <a *ngIf="currentUser" href="/flat/create" id="new" class="btn-hover">
       <img src="/assets/add.png" alt="" />
-      New Flat
+      <p>New Flat</p>
     </a>
   </div>
 </div>
@@ -96,7 +96,7 @@
   <table *ngIf="flats.length > 0">
     <thead>
       <tr id="category">
-        <th></th>
+        <th *ngIf="currentUser as user"></th>
         <th>Address</th>
         <th>Size</th>
         <th>Price</th>
@@ -104,21 +104,22 @@
         <th>Built</th>
         <th>Available</th>
         <th>Owner</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let flat of flats; trackBy: trackById" class="flat-item">
-        <td>
-          <ng-container *ngIf="currentUser as user">
-            <img
-              *ngIf="flat._id"
-              [src]="getFavoriteIcon(flat._id)"
-              (click)="setFavorite(flat)"
-              class="btn-hover flat-fav"
-              alt=""
-            />
-          </ng-container>
+      <tr
+        *ngFor="let flat of flats; trackBy: trackById"
+        class="flat-item btn-hover"
+        (click)="viewFlatDetail(flat)"
+      >
+        <td *ngIf="currentUser as user">
+          <img
+            *ngIf="flat._id"
+            [src]="getFavoriteIcon(flat._id)"
+            (click)="setFavorite(flat, $event)"
+            class="btn-hover flat-fav"
+            alt=""
+          />
         </td>
         <td>
           <p class="address">
@@ -145,14 +146,11 @@
         </td>
         <td>
           <p class="available">
-            {{ flat.availDate | date : "yyyy.MM.dd" }}
+            {{ flat.availDate | date : "yy.MM.dd" }}
           </p>
         </td>
         <td>
           <p>{{ flat.owner.email }} ({{ flat.owner.firstname }})</p>
-        </td>
-        <td>
-          <button (click)="viewFlatDetail(flat)">View Detail</button>
         </td>
       </tr>
     </tbody>

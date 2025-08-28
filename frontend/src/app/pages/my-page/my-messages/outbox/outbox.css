@@ -67,6 +67,8 @@
 /* outbox -------------------------------------------------- */
 table {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   border-spacing: 0px 10px;
 }
 table tr {
@@ -79,10 +81,23 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
+  transition: all 0.3s ease; 
   background-color: var(--table-tr-gray);
+}
+table tbody tr.flat-item:hover {
+  background-color: var(--filter-gray);
 }
 table tbody tr td {
   text-align: center;
+  border-left: 1px solid lightgray;
+
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+    border: none;
+  }
+  &:last-child {
+    border-radius: 0 3px 3px 0;
+  }
 }
 
 table tbody td button {
@@ -97,4 +112,37 @@ table tbody tr td .manage {
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+
+/* tablet */
+@media screen and (max-width: 1023px) {
+  table {
+    font-size: 0.9rem;
+    padding: 0 20px;
+  }
+  th,
+  td {
+    padding: 6px 8px;
+  }
+}
+
+/* mobile */
+@media screen and (max-width: 767px) {
+  table tbody td .manage {
+    gap: 5px;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  th,
+  td {
+    padding: 4px 6px;
+  }
 }

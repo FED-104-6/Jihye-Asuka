@@ -25,7 +25,7 @@ export class App {
     return !(
       url === '/login' ||
       url.startsWith('/register') ||
-      url.startsWith('/admin/all-users')
+      url.startsWith('/admin')
     );
   }
   get showFooter() {

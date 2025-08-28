@@ -1,7 +1,6 @@
-/* opening show */
+/* banner */
 #banner {
-  width: 100dvw;
-  min-width: 1200px;
+  width: 100%;
   height: 500px;
   background-color: var(--gray-black);
   display: flex;
@@ -28,11 +27,12 @@
 }
 #banner p {
   color: #555;
+  text-align: center;
 }
 
 /* flat header */
 #flat-control {
-  width: 1200px;
+  max-width: 1200px;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -136,7 +136,7 @@
 
 /* flat content */
 .flat-wrap {
-  width: 1200px;
+  max-width: 1200px;
   padding-bottom: 30px;
   margin: 0 auto;
 }
@@ -164,10 +164,23 @@ table thead th {
   text-align: center;
 }
 table tbody tr {
+  transition: all 0.3s ease; 
   background-color: var(--table-tr-gray);
+}
+table tbody tr.flat-item:hover {
+  background-color: var(--filter-gray);
 }
 table tbody tr td {
   text-align: center;
+  border-left: 1px solid lightgray;
+
+  &:first-child {
+    border-radius: 3px 0 0 3px;
+    border: none;
+  }
+  &:last-child {
+    border-radius: 0 3px 3px 0;
+  }
 }
 .flat-img {
   display: flex;
@@ -179,6 +192,8 @@ table tbody tr td {
 }
 .flat-fav {
   width: 30px;
+  position: relative;
+  z-index: 1;
 }
 
 table tbody td button {
@@ -187,4 +202,49 @@ table tbody td button {
   font-size: 12px;
   padding: 7px 10px;
   border-radius: 3px;
+}
+
+/* tablet ------------------------------------------------------------------ */
+@media screen and (max-width: 1023px) {
+  #flat-control {
+    padding: 0 20px;
+  }
+  table {
+    font-size: 0.9rem;
+    padding: 0 20px;
+  }
+  th,
+  td {
+    padding: 6px 8px;
+  }
+}
+
+/* mobile ------------------------------------------------------------------ */
+@media screen and (max-width: 767px) {
+  #banner img {
+    height: 60px;
+  }
+  #flat-control {
+    padding: 0 20px;
+  }
+  #flat-control #btn-wrap > * {
+    padding: 8px 10px;
+  }
+  #flat-control #btn-wrap p {
+    display: none;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  th,
+  td {
+    padding: 4px 6px;
+  }
 }

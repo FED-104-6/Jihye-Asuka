@@ -19,7 +19,7 @@
           {{ user.firstname }} {{ user.lastname }}
         </p>
 
-        <ul *ngIf="isMenuOpen" id="menu-items">
+        <ul *ngIf="isMenuOpen" [ngClass]="{ 'open': isMenuOpen }" id="menu-items">
           <li>
             <a
               routerLink="/user/flats"

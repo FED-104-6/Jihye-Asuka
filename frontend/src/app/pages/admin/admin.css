@@ -5,7 +5,7 @@
 #admin-menu {
   position: fixed;
   top: 0;
-  left: -230px;
+  left: 0px;
   width: 230px;
   height: 100vh;
   display: flex;
@@ -13,6 +13,11 @@
   flex-direction: column;
   background-color: var(--gray-black);
   gap: 50px;
+}
+#admin-menu #admin-header {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
 }
 #logo img {
   width: 150px;
@@ -53,9 +58,9 @@ nav a.active {
   width: 190px;
   color: white;
   font-size: 12px;
-  white-space: nowrap; 
+  white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden; 
+  overflow: hidden;
 
   &:first-child {
     font-weight: 600;
@@ -72,19 +77,61 @@ nav a.active {
   background-color: var(--not-too-red);
 }
 
-@media (min-width: 980px) {
-  #admin-menu {
-    left: 0;
-  }
-  #child-content {
-    margin-left: 230px;
-  }
-}
-
 /* right side */
 #child-content {
   width: 100%;
-  min-width: 980px;
+  margin-left: 230px;
   height: 100vh;
   padding: 0 50px;
+}
+
+/* tablet */
+@media (max-width: 1023px) {
+  #admin-back {
+    flex-direction: column;
+  }
+  #admin-menu {
+    width: 100%;
+    height: 60px;
+    position: relative;
+    left: 0;
+    flex-direction: unset;
+    justify-content: space-between;
+    padding-left: 20px;
+  }
+  #admin-menu #admin-header {
+    flex-direction: unset;
+    align-items: center;
+    gap: 20px;
+  }
+  #admin-menu #admin-user {
+    position: unset;
+    height: 100%;
+    flex-direction: unset;
+    width: fit-content;
+    align-items: center;
+    gap: 30px;
+  }
+  #admin-user #inform {
+    gap: 0;
+  }
+  #admin-user #inform p {
+    width: fit-content;
+  }
+  #admin-user #logout-btn {
+    margin-top: 0;
+  }
+  #logo img {
+    width: 100px;
+    margin-top: 0;
+  }
+  nav {
+    font-size: 13px;
+    flex-direction: unset;
+  }
+
+  #child-content {
+    margin-left: 0;
+    padding: 0 20px;
+  }
 }

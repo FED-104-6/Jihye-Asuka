@@ -24,7 +24,9 @@ export class Outbox {
   }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  openModal(flatId: string) {
+  openModal(flatId: string, event: Event) {
+    event.stopPropagation();
+
     this.outboxByFlat$
       .pipe(
         take(1),

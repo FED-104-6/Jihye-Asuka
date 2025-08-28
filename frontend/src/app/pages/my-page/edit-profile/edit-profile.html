@@ -1,44 +1,53 @@
-<div class="container">
-    <form [formGroup]="editUserForm" (ngSubmit)="editProfile()">
-        <small class="warn-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</small>
-        <!-- first name -->
-        <div class="form-row">
-            <label for="first-name">First name:</label>
-            <input type="text" id="first-name" formControlName="firstname">
-        </div>
+<div id="container">
+  <div id="flat-title">
+    <p>Edit Profile</p>
+    <p>Check and manage your information.</p>
+  </div>
+  
+  <form [formGroup]="editUserForm" (ngSubmit)="editProfile()">
+    <small class="warn-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</small>
+    <!-- first name -->
+    <div class="form-row">
+      <label for="first-name">First name:</label>
+      <input type="text" id="first-name" formControlName="firstname" />
+    </div>
 
-        <!-- last name -->
-        <div class="form-row">
-            <label for="last-name">Last name:</label>
-            <input type="text" id="last-name" formControlName="lastname">
-        </div>
+    <!-- last name -->
+    <div class="form-row">
+      <label for="last-name">Last name:</label>
+      <input type="text" id="last-name" formControlName="lastname" />
+    </div>
 
-        <!-- Email -->
-        <div class="form-row">
-            <label for="email">Email:</label>
-            <input type="email" id="email" formControlName="email">
-        </div>
+    <!-- Email -->
+    <div class="form-row">
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email" />
+    </div>
 
-        <!-- password -->
-        <div class="form-row">
-            <label for="password">Password:</label>
-            <input type="password" id="password" formControlName="password">
-        </div>
+    <!-- password -->
+    <div class="form-row">
+      <label for="password">Password:</label>
+      <input type="password" id="password" formControlName="password" />
+    </div>
 
-        <!-- Comfirm password -->
-        <div class="form-row">
-            <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" formControlName="confirmPw"
-                placeholder="Enter your password again">
-        </div>
+    <!-- Comfirm password -->
+    <div class="form-row">
+      <label for="confirm-password">Confirm Password:</label>
+      <input
+        type="password"
+        id="confirm-password"
+        formControlName="confirmPw"
+        placeholder="Enter your password again"
+      />
+    </div>
 
-        <!-- Birthday -->
-        <div class="form-row">
-            <label for="birthdate">Date of birth</label>
-            <input type="date" id="birthdate" formControlName="birthdate">
-        </div>
+    <!-- Birthday -->
+    <div class="form-row">
+      <label for="birthdate">Date of birth</label>
+      <input type="date" id="birthdate" formControlName="birthdate" />
+    </div>
 
-        <!-- submit -->
-        <button type="submit">Update</button>
-    </form>
+    <!-- submit -->
+    <button type="submit">Update</button>
+  </form>
 </div>

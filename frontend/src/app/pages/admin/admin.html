@@ -1,15 +1,17 @@
 <div id="admin-back">
   <div id="admin-menu">
-    <a id="logo" href="/home"><img src="/assets/logo.png" alt="" /></a>
-    <nav>
-      <a
-        routerLink="/admin"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        >HOME</a
-      >
-      <a routerLink="all-users" routerLinkActive="active">All users</a>
-    </nav>
+    <div id="admin-header">
+      <a id="logo" href="/home"><img src="/assets/logo.png" alt="" /></a>
+      <nav>
+        <a
+          routerLink="/admin"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >HOME</a
+        >
+        <a routerLink="all-users" routerLinkActive="active">All users</a>
+      </nav>
+    </div>
     <div id="admin-user">
       <div id="inform" *ngIf="currentUser$ | async as user">
         <p>{{ user.firstname }} {{ user.lastname }}</p>

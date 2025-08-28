@@ -21,11 +21,12 @@ export class Inbox {
 
   constructor(private msgState: MsgService) {
     this.inboxByFlat$ = this.msgState.inbox$;
-    console.log(this.inboxByFlat$)
   }
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  openModal(flatId: string) {
+  openModal(flatId: string, event: Event) {
+    event.stopPropagation();
+
     this.inboxByFlat$
       .pipe(
         take(1),
@@ -44,7 +45,7 @@ export class Inbox {
       });
   }
 
-  viewFlatDetail(flat: Flat) {
+  viewFlatDetail(flat: Flat) {    
     if (!flat._id) return;
     window.location.href = `/flat/view/${flat._id}`;
   }

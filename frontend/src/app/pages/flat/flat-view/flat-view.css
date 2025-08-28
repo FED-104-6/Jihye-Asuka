@@ -1,5 +1,6 @@
 /*  Container  */
 .flat-container {
+  width: fit-content;
   margin: 0 auto;
   padding: 30px;
   background-color: var(--table-tr-gray);

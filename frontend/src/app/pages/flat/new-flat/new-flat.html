@@ -1,90 +1,93 @@
-<form class="flat-container" [formGroup]="newFlatForm" (ngSubmit)="newFlat()">
-  <small class="warn-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</small>
-
-  <!-- Adress -->
-  <div class="flat-info">
-    <div class="icon"><i class="material-icons">home</i></div>
-    <div class="form-row">
-      <div class="label">Street Number</div>
-      <div class="value">
-        <input type="number" formControlName="stNum" />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label">Street Name</div>
-      <div class="value">
-        <input type="text" formControlName="stName" />
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="label">City</div>
-      <div class="value">
-        <input type="text" formControlName="city" />
-      </div>
-    </div>
+<div id="container">
+  <div id="flat-title">
+    <p>New Flat</p>
+    <p>Post your awesome flat!</p>
   </div>
 
-  <!-- Main Info -->
-  <div class="flat-detail">
-    <!-- Flat Info -->
-    <div class="flat-info-list">
-      <div class="flat-info">
-        <div class="icon"><i class="material-icons">attach_money</i></div>
+  <form class="flat-form" [formGroup]="newFlatForm" (ngSubmit)="newFlat()">
+    <small class="warn-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</small>
+
+    <!-- Adress -->
+    <div class="flat-info">
+      <div class="icon"><i class="material-icons">home</i></div>
+      <div>
         <div class="form-row">
-          <div class="label">price</div>
+          <div class="label">Street Number</div>
           <div class="value">
-            <input type="number" formControlName="price" />
+            <input type="number" formControlName="stNum" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label">Street Name</div>
+          <div class="value">
+            <input type="text" formControlName="stName" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="label">City</div>
+          <div class="value">
+            <input type="text" formControlName="city" />
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="flat-info">
-        <div class="icon"><i class="material-icons">square_foot</i></div>
-        <div class="form-row">
-          <div class="label">size</div>
-          <div class="value">
-            <input type="number" formControlName="size" />
-          </div>
+    <div class="flat-info">
+      <div class="icon"><i class="material-icons">attach_money</i></div>
+      <div class="form-row">
+        <div class="label">price</div>
+        <div class="value">
+          <input type="number" formControlName="price" />
         </div>
       </div>
+    </div>
 
-      <div class="flat-info">
-        <div class="icon"><i class="material-icons">thermostat</i></div>
-        <div class="form-row">
-          <div class="label">hasAC</div>
-          <label
-            ><input type="radio" formControlName="hasAC" [value]="true" />
-            Yes</label
-          >
-          <label
-            ><input
-              type="radio"
-              formControlName="hasAC"
-              [value]="false"
-              value="no"
-            />
-            No</label
-          >
+    <div class="flat-info">
+      <div class="icon"><i class="material-icons">square_foot</i></div>
+      <div class="form-row">
+        <div class="label">size</div>
+        <div class="value">
+          <input type="number" formControlName="size" />
         </div>
       </div>
+    </div>
 
-      <div class="flat-info">
-        <div class="icon"><i class="material-icons">apartment</i></div>
-        <div class="form-row">
-          <div class="label">Built In</div>
-          <div class="value">
-            <input type="number" formControlName="built" />
-          </div>
+    <div class="flat-info">
+      <div class="icon"><i class="material-icons">thermostat</i></div>
+      <div class="form-row">
+        <div class="label">hasAC</div>
+        <label
+          ><input type="radio" formControlName="hasAC" [value]="true" />
+          Yes</label
+        >
+        <label
+          ><input
+            type="radio"
+            formControlName="hasAC"
+            [value]="false"
+            value="no"
+          />
+          No</label
+        >
+      </div>
+    </div>
+
+    <div class="flat-info">
+      <div class="icon"><i class="material-icons">apartment</i></div>
+      <div class="form-row">
+        <div class="label">Built In</div>
+        <div class="value">
+          <input type="number" formControlName="built" />
         </div>
       </div>
+    </div>
 
-      <div class="flat-info">
-        <div class="icon"><i class="material-icons">today</i></div>
-        <div class="form-row">
-          <div class="label">Date Available</div>
-          <div class="value">
-            <input type="date" formControlName="dateAvailable" />
-          </div>
+    <div class="flat-info">
+      <div class="icon"><i class="material-icons">today</i></div>
+      <div class="form-row">
+        <div class="label">Date Available</div>
+        <div class="value">
+          <input type="date" formControlName="dateAvailable" />
         </div>
       </div>
     </div>
@@ -93,5 +96,5 @@
     <div class="flat-actions">
       <button type="submit">Add Flat</button>
     </div>
-  </div>
-</form>
+  </form>
+</div>

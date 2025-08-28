@@ -25,12 +25,19 @@
       <th>Address</th>
       <th>Size</th>
       <th>Price</th>
-      <th>View Detail</th>
+      <th>AC</th>
+      <th>Built</th>
+      <th>Available</th>
+      <th>Owner</th>
       <th>View Messages</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let group of inboxByFlat$ | async | keyvalue" class="flat-item">
+    <tr
+      *ngFor="let group of inboxByFlat$ | async | keyvalue"
+      class="btn-hover flat-item"
+      (click)="viewFlatDetail(group.value.flat)"
+    >
       <td>
         <p class="address">
           {{ group.value.flat.stNum }} {{ group.value.flat.stName }},
@@ -46,10 +53,25 @@
         </p>
       </td>
       <td>
-        <button (click)="viewFlatDetail(group.value.flat)">View Detail</button>
+        <p class="hasAC">
+          {{ group.value.flat.hasAC ? "Y" : "N" }}
+        </p>
       </td>
       <td>
-        <button (click)="openModal(group.value.flat._id!)">
+        <p class="built">
+          {{ group.value.flat.year | date : "yyyy" }}
+        </p>
+      </td>
+      <td>
+        <p class="available">
+          {{ group.value.flat.availDate | date : "yy.MM.dd" }}
+        </p>
+      </td>
+      <td>
+        <p>ME</p>
+      </td>
+      <td>
+        <button (click)="openModal(group.value.flat._id!, $event)">
           View Messages ( {{ group.value.messages.length }} )
         </button>
       </td>

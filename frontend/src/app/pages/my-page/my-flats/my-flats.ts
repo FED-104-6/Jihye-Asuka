@@ -44,13 +44,17 @@ export class MyFlats {
 
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
-    window.location.href =  `/flat/view/${flat._id}`;
+    window.location.href = `/flat/view/${flat._id}`;
   }
 
-  editFlat(flat: any) {
-    window.location.href =  `/flat/edit/${flat._id}`;
+  editFlat(flat: any, event: Event) {
+    event.preventDefault();
+
+    window.location.href = `/flat/edit/${flat._id}`;
   }
-  removeFlat(flat: any) {
+  removeFlat(flat: any, event: Event) {
+    event.preventDefault();
+
     if (!flat._id) return;
     if (!confirm('Are you sure?')) return;
 

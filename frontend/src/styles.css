@@ -46,19 +46,34 @@ button {
   display: block;
 }
 
-html,
 body {
-  min-width: 1200px;
+  /* max-width: 1200px; */
   height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   overflow-x: hidden;
 
   &::-webkit-scrollbar {
-  display: none;
+    display: none;
+  }
 }
+/* tablet */
+@media screen and (max-width: 1023px) {
+  body {
+    min-width: 90%;
+  }
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+/* mobile */
+@media screen and (max-width: 767px) {
+  body {
+    min-width: 100%;
+  }
+}
+
+router-outlet + * {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .warn-msg {

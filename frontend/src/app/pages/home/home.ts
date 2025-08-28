@@ -97,6 +97,11 @@ export class Home {
 
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
+    if (!this.currentUser) {
+      alert('login first');
+      this.router.navigate(['/login']);
+      return;
+    }
     window.location.href = `/flat/view/${flat._id}`;
   }
 
@@ -113,7 +118,9 @@ export class Home {
       return isFavorite ? '/assets/fav-yellow.png' : '/assets/fav-white.png';
     }
   }
-  setFavorite(flat: Flat) {
+  setFavorite(flat: Flat, event: Event) {
+    event.stopPropagation();
+
     const updatedFavorites = [...this.currentUser!.favorites];
     const index = updatedFavorites.findIndex((fav) => fav._id === flat._id);
     if (index >= 0) {

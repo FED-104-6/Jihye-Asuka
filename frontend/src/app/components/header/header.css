@@ -1,6 +1,5 @@
 nav {
   width: 100%;
-  /* max-width: 1200px; */
   height: 60px;
   padding: 0 20px;
   background-color: var(--gray-black);
@@ -63,7 +62,6 @@ nav div #menu img {
   color: red;
 }
 
-
 nav #login {
   font-size: 12px;
   font-weight: 500;
@@ -71,4 +69,18 @@ nav #login {
   border-radius: 3px;
   padding: 7px 13px;
   color: white;
+}
+
+/* tablet */
+@media screen and (max-width: 1023px) {
+  #menu img {
+    transform: rotate(90deg);
+  }
+  #menu-items.open {
+    position: absolute;
+    top: 50px;
+    right: 25px;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }
