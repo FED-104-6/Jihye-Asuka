@@ -134,7 +134,7 @@ export class Register {
       next: (user) => {
         console.log('Created user:', user);
         alert(`Welcome: ${user.firstname}${isAdmin ? ' (Admin)' : ''}`);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.errorMessage = 'This email is already in use.';
