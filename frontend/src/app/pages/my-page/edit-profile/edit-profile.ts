@@ -8,15 +8,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-<<<<<<< HEAD
-import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
-import { UserService } from '../../../services/user.service';
-=======
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { User, UserService } from '../../../services/user.service';
->>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
 
 @Component({
   selector: 'app-edit-profile',
@@ -25,34 +19,34 @@ import { User, UserService } from '../../../services/user.service';
   styleUrl: './edit-profile.css',
 })
 export class EditProfile {
-<<<<<<< HEAD
-  updateForm = new FormGroup({
-    firstName: new FormControl("", [
-      Validators.required,
-      Validators.minLength(2)
-    ]),
-    lastName: new FormControl("", [
-      Validators.required,
-      Validators.minLength(2)
-    ]),
-    email: new FormControl("", [
-      Validators.required,
-      Validators.email
-    ]),
-    password: new FormControl("", [
-      Validators.required,
-      Validators.pattern('^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=[\\]{};\'"\\|,.<>/?]).{6,}$')
-    ]),
-    confirmPassword: new FormControl("", [
-      Validators.required
-    ]),
-    birthdate: new FormControl("", Validators.compose([
-      Validators.required,
-      EditProfile.ageRangeValidator
-    ]))
-  },
-    { validators: EditProfile.passwordMatchValidator }
-=======
+// <<<<<<< HEAD
+//   updateForm = new FormGroup({
+//     firstName: new FormControl("", [
+//       Validators.required,
+//       Validators.minLength(2)
+//     ]),
+//     lastName: new FormControl("", [
+//       Validators.required,
+//       Validators.minLength(2)
+//     ]),
+//     email: new FormControl("", [
+//       Validators.required,
+//       Validators.email
+//     ]),
+//     password: new FormControl("", [
+//       Validators.required,
+//       Validators.pattern('^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=[\\]{};\'"\\|,.<>/?]).{6,}$')
+//     ]),
+//     confirmPassword: new FormControl("", [
+//       Validators.required
+//     ]),
+//     birthdate: new FormControl("", Validators.compose([
+//       Validators.required,
+//       EditProfile.ageRangeValidator
+//     ]))
+//   },
+//     { validators: EditProfile.passwordMatchValidator }
+// =======
   errorMessage = '';
   currentUser: User | null = null;
   whatAdminCanOnlySee: string | null = null;
@@ -81,7 +75,7 @@ export class EditProfile {
       ),
     },
     { validators: passwordOptionalMatchValidator }
->>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
+// >>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
   );
 
   constructor(
@@ -173,53 +167,53 @@ export class EditProfile {
     return '';
   }
 
-<<<<<<< HEAD
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private userService: UserService
-  ) { }
+// <<<<<<< HEAD
+//   constructor(
+//     private router: Router,
+//     private authService: AuthService,
+//     private userService: UserService
+//   ) { }
 
-  ngOnInit() {
-    const currentUser = this.authService.getUser();
+//   ngOnInit() {
+//     const currentUser = this.authService.getUser();
 
-    if (currentUser) {
-      this.updateForm.patchValue({
-        firstName: currentUser.firstname,
-        lastName: currentUser.lastname,
-        email: currentUser.email,
-        birthdate: new Date(currentUser.birthdate).toISOString().split('T')[0]
-      });
-    }
-  }
+//     if (currentUser) {
+//       this.updateForm.patchValue({
+//         firstName: currentUser.firstname,
+//         lastName: currentUser.lastname,
+//         email: currentUser.email,
+//         birthdate: new Date(currentUser.birthdate).toISOString().split('T')[0]
+//       });
+//     }
+//   }
 
-  onSubmit() {
-    console.log('onSubmit called');
-    if (this.updateForm.invalid) return;
+//   onSubmit() {
+//     console.log('onSubmit called');
+//     if (this.updateForm.invalid) return;
 
-    const currentUser = this.authService.getUser();
-    if (!currentUser) return;
+//     const currentUser = this.authService.getUser();
+//     if (!currentUser) return;
 
-    const updatedData = {
-      firstname: this.updateForm.value.firstName || '',
-      lastname: this.updateForm.value.lastName || '',
-      email: this.updateForm.value.email || '',
-      birthdate: this.updateForm.value.birthdate ? new Date(this.updateForm.value.birthdate) : undefined,
-      password: this.updateForm.value.password || ''
-    };
+//     const updatedData = {
+//       firstname: this.updateForm.value.firstName || '',
+//       lastname: this.updateForm.value.lastName || '',
+//       email: this.updateForm.value.email || '',
+//       birthdate: this.updateForm.value.birthdate ? new Date(this.updateForm.value.birthdate) : undefined,
+//       password: this.updateForm.value.password || ''
+//     };
 
-    this.userService.updateUser(currentUser._id!, updatedData).subscribe({
-      next: (user) => {
-        console.log('updateprofile:', updatedData)
-        this.authService.setUser(user);
-        this.router.navigate(['/home'])
-      },
-      error: (err) => {
-        console.error('Failed to update profile', err);
-        alert('Failed to update profile. Please try again.');
-      }
-    });
-=======
+//     this.userService.updateUser(currentUser._id!, updatedData).subscribe({
+//       next: (user) => {
+//         console.log('updateprofile:', updatedData)
+//         this.authService.setUser(user);
+//         this.router.navigate(['/home'])
+//       },
+//       error: (err) => {
+//         console.error('Failed to update profile', err);
+//         alert('Failed to update profile. Please try again.');
+//       }
+//     });
+// =======
   editProfile(): void {
     this.errorMessage = this.getFormErrors();
     if (this.errorMessage) return;
@@ -254,7 +248,7 @@ export class EditProfile {
         error: (err) => console.error('Error updating user:', err),
       });
     }
->>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
+// >>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54
   }
 }
 
