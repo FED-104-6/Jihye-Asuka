@@ -182,4 +182,21 @@ router.patch('/:id/edit/favorites', async (req, res) => {
   }
 });
 
+router.patch('/:id/edit-profile', async (req, res) => {
+  const userId = req.params.id;
+  const updates = req.body;
+
+  if (updates.password) {
+    updates.password = await bcrypt.hash(updates.password, 10);
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
+    if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 export default router;

@@ -1,4 +1,32 @@
 <!-- flat content -->
+<!-- <<<<<<< HEAD
+<div class="my-flats-header">
+  <button class="add-flat-btn" (click)="goToAddFlat()">Add New Flat</button>
+</div>
+
+<div id="flat-wrap">
+    <div id="category">
+        <p>Address</p>
+        <p>Size</p>
+        <p>Price</p>
+        <p>Date Available</p>
+    </div>
+
+    <a *ngFor="let flat of myFlats" class="btn-hover flat-item" (click)="goToFlatView(flat)">
+        <div class="flat-inform">
+            <div class="flat-img">
+                <i class="material-icons">apartment</i>
+            </div>
+            <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
+            <p class="size">{{ flat.size }} m²</p>
+            <p class="price">${{ flat.price }} CAD</p>
+            <p>{{ flat.availDate | date:'yyyy/MM/dd' }}</p>
+            <i class="material-icons" (click)="goToFlatEdit(flat, $event)">edit</i>
+            <i class="material-icons" (click)="onDelete(flat, $event)">delete</i>
+        </div>
+    </a>
+</div>
+======= -->
 <div class="flat-wrap">
   <div id="flat-control">
     <p>My Flats</p>
@@ -63,3 +91,4 @@
     </table>
   </div>
 </div>
+<!-- >>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54 -->

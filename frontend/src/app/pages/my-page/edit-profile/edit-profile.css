@@ -4,6 +4,7 @@
   align-items: center;
   gap: 40px;
 }
+
 .container form {
   padding: 40px;
   background-color: var(--table-tr-gray);
@@ -44,7 +45,6 @@ button[type="submit"] {
   }
 }
 
-/* Need improve */
 /* Responsive */
 @media (max-width: 600px) {
   .form-row {
