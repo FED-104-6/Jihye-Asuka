@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { User } from '../models/user.model';
 import { Flat } from '../models/flat.model';
 import { Message } from '../models/message.model';
+import jwt from 'jsonwebtoken';
 
 const router = Router();
 
@@ -43,7 +44,13 @@ router.post('/login', async (req, res) => {
     if (!isMatch)
       return res.status(401).json({ message: 'Invalid credentials' });
 
-    res.json({ user });
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: '1h' }
+    );
+
+    res.json({ user, token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -53,7 +60,8 @@ router.post('/login', async (req, res) => {
 // register
 router.post('/register', async (req, res) => {
   try {
-    const { firstname, lastname, email, password, birthdate, type, admin } = req.body;
+    const { firstname, lastname, email, password, birthdate, type, admin } =
+      req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -99,13 +107,12 @@ router.delete('/:id', async (req, res) => {
       message: 'User, their flats and related messages deleted',
       user: deletedUser,
       deletedFlatsCount: deletedFlats.deletedCount,
-      deletedMessagesCount: deletedMessages.deletedCount
+      deletedMessagesCount: deletedMessages.deletedCount,
     });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 // change user
 router.patch('/:id/edit/all', async (req, res) => {
@@ -191,8 +198,11 @@ router.patch('/:id/edit-profile', async (req, res) => {
   }
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
-    if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true,
+    });
+    if (!updatedUser)
+      return res.status(404).json({ message: 'User not found' });
     res.json(updatedUser);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });

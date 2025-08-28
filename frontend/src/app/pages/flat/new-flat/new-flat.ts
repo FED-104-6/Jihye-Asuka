@@ -95,6 +95,11 @@ export class NewFlat {
     return '';
   }
 
+  capitalizeFirstLetter(str: string): string {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
   newFlat(): void {
     if (!this.currentUser) return;
     if (!this.newFlatForm.valid) {
@@ -105,17 +110,17 @@ export class NewFlat {
     const formValue = this.newFlatForm.value;
 
     const newFlat: Flat = {
-      stName: formValue.stName ?? '',
+      stName: this.capitalizeFirstLetter(formValue.stName ?? ''),
       stNum: formValue.stNum ?? 0,
-      city: formValue.city ?? '',
+      city: this.capitalizeFirstLetter(formValue.city ?? ''),
       size: formValue.size ?? 0,
       price: formValue.price ?? 0,
       hasAC: formValue.hasAC ?? false,
       year: formValue.built ?? 0,
       availDate: formValue.dateAvailable
-      ? new Date(formValue.dateAvailable)
-      : new Date(),
-      owner: this.currentUser
+        ? new Date(formValue.dateAvailable)
+        : new Date(),
+      owner: this.currentUser,
     };
 
     this.flatService.createFlat(this.currentUser._id!, newFlat).subscribe({

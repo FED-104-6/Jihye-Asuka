@@ -7,6 +7,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,11 +43,21 @@ export class Register {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
+        passwordStrengthValidator(),
       ]),
       confirmPw: new FormControl('', [Validators.required]),
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      birthdate: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+      ]),
+      lastname: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+      ]),
+      birthdate: new FormControl('', [
+        Validators.required,
+        ageValidator(18, 120),
+      ]),
       adminkey: new FormControl(''),
     },
     {
@@ -89,7 +100,17 @@ export class Register {
           return 'The email format is invalid.';
         }
         if (control.errors['minlength']) {
-          return 'The password should be at least 6 characters.';
+          if (field === 'password') {
+            return 'The password should be at least 6 characters.';
+          } else if (field === 'firstname' || field === 'lastname') {
+            return `${field} should be at least 2 characters.`;
+          }
+        }
+        if (control.errors['weakPassword']) {
+          return 'Password must include letters, numbers, and special characters.';
+        }
+        if (control.errors['ageInvalid']) {
+          return 'Age must be between 18 and 120 years.';
         }
       }
     }
@@ -141,4 +162,43 @@ export class Register {
       },
     });
   }
+}
+
+// password validator
+export function passwordStrengthValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+
+    const hasLetter = /[a-zA-Z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>\-\+]/.test(value);
+
+    if (!hasLetter || !hasNumber || !hasSpecial) {
+      return { weakPassword: true };
+    }
+    return null;
+  };
+}
+
+// age validator
+export function ageValidator(minAge: number, maxAge: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null;
+    const birthDate = new Date(control.value);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+
+    if (age < minAge || age > maxAge) {
+      return { ageInvalid: true };
+    }
+
+    return null;
+  };
 }

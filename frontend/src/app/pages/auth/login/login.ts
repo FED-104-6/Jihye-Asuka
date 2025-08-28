@@ -26,7 +26,10 @@ export class Login {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   // validation
   getFormErrors(): string {

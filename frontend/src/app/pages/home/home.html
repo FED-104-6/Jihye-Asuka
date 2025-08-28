@@ -100,6 +100,9 @@
         <th>Address</th>
         <th>Size</th>
         <th>Price</th>
+        <th>AC</th>
+        <th>Built</th>
+        <th>Available</th>
         <th>Owner</th>
         <th></th>
       </tr>
@@ -128,6 +131,21 @@
         <td>
           <p class="price">
             {{ flat.price | currency : "CAD" : "symbol" : "1.0-0" }}
+          </p>
+        </td>
+        <td>
+          <p class="hasAC">
+            {{ flat.hasAC ? "Y" : "N" }}
+          </p>
+        </td>
+        <td>
+          <p class="built">
+            {{ flat.year | date : "yyyy" }}
+          </p>
+        </td>
+        <td>
+          <p class="available">
+            {{ flat.availDate | date : "yyyy.MM.dd" }}
           </p>
         </td>
         <td>

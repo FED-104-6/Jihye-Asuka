@@ -11,9 +11,9 @@
       <a routerLink="all-users" routerLinkActive="active">All users</a>
     </nav>
     <div id="admin-user">
-      <div id="inform">
-        <p>JIHYE PARK</p>
-        <p>qkrwlgp1526@gmail.com</p>
+      <div id="inform" *ngIf="currentUser$ | async as user">
+        <p>{{ user.firstname }} {{ user.lastname }}</p>
+        <p>{{ user.email }}</p>
       </div>
       <button id="logout-btn" (click)="adminLogout()">Log out</button>
     </div>

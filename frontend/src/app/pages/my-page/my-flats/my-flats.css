@@ -85,7 +85,12 @@ table tbody tr {
 table tbody tr td {
   text-align: center;
 }
-
+table tbody td .manage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
 table tbody td button {
   background-color: var(--gray-black);
   color: white;

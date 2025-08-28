@@ -52,10 +52,9 @@ Users can send and receive messages, and also bookmark/manage favorite flats.
 
 ## 🖼 Screenshots
 
-_(Add your UI images here)_  
-![Home Page](./screenshots/home.png)  
-![Flat Detail](./screenshots/detail.png)  
-![Messages](./screenshots/messages.png)
+![Home Page](frontend/public/screenshots/home.png)
+![Flat Detail](frontend/public/screenshots/all-users.png)
+![Messages](frontend/public/screenshots/flat-detail.png)
 
 ---
 
@@ -119,23 +118,25 @@ flat-project/
    ````
 
 3. Set environment variables <br>
-  Create a .env file inside /backend:
+   Create a .env file inside /backend:
 
-    ```bash
-    MONGO_URI=your_mongodb_connection_string
-    PORT=5000
-    JWT_SECRET=your_jwt_secret_key
-    ```
+   ```bash
+   MONGO_URI=your_mongodb_connection_string
+   PORT=5000
+   JWT_SECRET=your_jwt_secret_key
+   ```
 
 4. Run the project (from root folder)
 
-    ```bash
-    npm run dev
-    ```
-    The dev script at the root will start both frontend (Angular) and backend (Express + Mongoose) simultaneously.
+   ```bash
+   npm run dev
+   ```
+
+   The dev script at the root will start both frontend (Angular) and backend (Express + Mongoose) simultaneously.
 
 ---
 
 ## 📬 Contact
+
 - Jihye Park — qkrwlgp1526@gmail.com
 - Asuka Fukuchi — afukuchi24@gmail.com

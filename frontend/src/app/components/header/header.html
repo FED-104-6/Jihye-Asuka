@@ -4,28 +4,64 @@
       <a id="logo" (click)="closeMenu()" href="/home">
         <img src="/assets/logo.png" alt="" />
       </a>
-      <a *ngIf="(currentUser$ | async)?.admin" id="admin" routerLink="/admin">Admin</a>
+      <a *ngIf="(currentUser$ | async)?.admin" id="admin" routerLink="/admin"
+        >Admin</a
+      >
     </div>
 
     <div id="mypage" *ngIf="currentUser$ | async as user">
       <div id="menu">
-        <p *ngIf="!isMenuOpen" class="btn-hover" (click)="isMenuOpen = !isMenuOpen">
+        <p
+          *ngIf="!isMenuOpen"
+          class="btn-hover"
+          (click)="isMenuOpen = !isMenuOpen"
+        >
           {{ user.firstname }} {{ user.lastname }}
         </p>
 
         <ul *ngIf="isMenuOpen" id="menu-items">
-          <li><a routerLink="/user/flats" routerLinkActive="active" (click)="closeMenu()">My flats</a></li>
           <li>
-            <a routerLink="/user/favorites" routerLinkActive="active" (click)="closeMenu()">My favorites</a>
+            <a
+              routerLink="/user/flats"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+              >My flats</a
+            >
           </li>
           <li>
-            <a routerLink="/user/profile" routerLinkActive="active" (click)="closeMenu()">My profile</a>
+            <a
+              routerLink="/user/favorites"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+              >My favorites</a
+            >
           </li>
           <li>
-            <a routerLink="/user/edit" routerLinkActive="active" (click)="closeMenu()">Edit profile</a>
+            <a
+              routerLink="/user/profile"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+              >My profile</a
+            >
           </li>
-          <li><a routerLink="/user/messages" routerLinkActive="active" (click)="closeMenu()">Messages</a></li>
+          <li>
+            <a
+              routerLink="/user/edit"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+              >Edit profile</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/user/messages"
+              routerLinkActive="active"
+              (click)="closeMenu()"
+              >Messages</a
+            >
+          </li>
           <li class="btn-hover" id="logout" (click)="logout()">Log out</li>
+          <li class="btn-hover" id="delete" (click)="deleteUser()">Delete</li>
         </ul>
 
         <img

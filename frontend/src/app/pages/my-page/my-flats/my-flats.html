@@ -8,14 +8,15 @@
   </div>
 
   <div class="flat-content">
-
     <table>
       <thead>
         <tr id="category">
           <th>Address</th>
           <th>Size</th>
           <th>Price</th>
-          <th>Date Available</th>
+          <th>AC</th>
+          <th>Built</th>
+          <th>Available</th>
           <th>View Detail</th>
           <th>Manage</th>
         </tr>
@@ -36,9 +37,21 @@
             </p>
           </td>
           <td>
-            <p>{{ flat.availDate | date : "yyyy/MM/dd" }}</p>
+            <p class="hasAC">
+              {{ flat.hasAC ? "Y" : "N" }}
+            </p>
           </td>
-  
+          <td>
+            <p class="built">
+              {{ flat.year | date : "yyyy" }}
+            </p>
+          </td>
+          <td>
+            <p class="available">
+              {{ flat.availDate | date : "yyyy.MM.dd" }}
+            </p>
+          </td>
+
           <td>
             <button (click)="viewFlatDetail(flat)">View Detail</button>
           </td>
@@ -54,7 +67,7 @@
           </td>
         </tr>
         <tr>
-          <td id="add-flat" class="btn-hover" (click)="addFlat()" colspan="6">
+          <td id="add-flat" class="btn-hover" (click)="addFlat()" colspan="8">
             +
           </td>
         </tr>

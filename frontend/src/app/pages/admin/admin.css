@@ -44,6 +44,11 @@ nav a.active {
   justify-content: center;
   gap: 10px;
 }
+#admin-user #inform {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 #admin-user #inform p {
   width: 190px;
   color: white;
