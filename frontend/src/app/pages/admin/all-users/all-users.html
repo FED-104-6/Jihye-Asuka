@@ -123,7 +123,7 @@
         <td>{{ user.lastname }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.type }}</td>
-        <td>{{ user.birthdate | date:'yyyy.MM.dd' }} ({{ user.age }})</td>
+        <td>{{ user.birthdate | date:'yyyy.MM.dd'  : "UTC"}} ({{ user.age }})</td>
         <td>{{ user.flats.length || 0 }}</td>
         <td>
           <div class="admin-manage">
