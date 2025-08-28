@@ -98,7 +98,7 @@ export class Home {
   viewFlatDetail(flat: Flat) {
     if (!flat._id) return;
     if (!this.currentUser) {
-      alert('login first');
+      alert('Please log in first');
       this.router.navigate(['/login']);
       return;
     }

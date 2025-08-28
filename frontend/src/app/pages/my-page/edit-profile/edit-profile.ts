@@ -142,11 +142,11 @@ export class EditProfile {
 
       const nextCallback = (user: User) => {
         if (this.whatAdminCanOnlySee) {
-          alert('edit: ' + user.firstname + ' as an admin');
+          alert('User edit successfully: ' + user.firstname + ' as an admin');
           this.router.navigate(['/admin/all-users']);
         } else {
           this.authService.setUser(user);
-          alert('edit: ' + user.firstname);
+          alert('User edit successfully: ' + user.firstname);
           window.location.href = '/home';
         }
       };

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AbstractControl,
@@ -68,7 +68,8 @@ export class Register {
   constructor(
     private router: Router,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -153,12 +154,13 @@ export class Register {
 
     this.userService.createUser(this.newUser).subscribe({
       next: (user) => {
-        console.log('Created user:', user);
+        console.log('Registration successful / user:', user);
         alert(`Welcome: ${user.firstname}${isAdmin ? ' (Admin)' : ''}`);
         this.router.navigate(['/home']);
       },
       error: (err) => {
         this.errorMessage = 'This email is already in use.';
+        this.cd.detectChanges();
       },
     });
   }

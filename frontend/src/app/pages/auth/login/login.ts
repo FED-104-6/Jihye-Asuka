@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -28,7 +28,8 @@ export class Login {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private cd: ChangeDetectorRef
   ) {}
 
   // validation
@@ -63,6 +64,7 @@ export class Login {
       },
       error: (err) => {
         this.errorMessage = 'Invalid email or password.';
+        this.cd.detectChanges();
       },
     });
   }
