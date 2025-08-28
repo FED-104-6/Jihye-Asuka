@@ -102,33 +102,35 @@ flat-project/
 
 1. Clone repository
 
-   ```bash
+   ```
    git clone https://github.com/username/flat-project.git
    cd flat-project
    ```
 
 2. Install dependencies (both frontend & backend)
 
-   ````
-   bash
+   ```
    cd frontend && npm install
    cd ../backend && npm install
-   cd ..   ```
-
-   ````
+   cd ..
+   ```
 
 3. Set environment variables <br>
    Create a .env file inside /backend:
 
-   ```bash
-   MONGO_URI=your_mongodb_connection_string
-   PORT=5000
-   JWT_SECRET=your_jwt_secret_key
    ```
+   MONGO_URI=mongodb_connection_string
+   PORT=3000
+   JWT_SECRET=jwt_secret_key
+   SECRET_ADMIN_KEY=SuperSecretAdmin2025
+   ```
+
+   ℹ️ If you want to register as an admin, just add ?adminkey=SuperSecretAdmin2025 to the register page URL. <br>
+   Example: http://localhost:4200/register?adminkey=SuperSecretAdmin2025
 
 4. Run the project (from root folder)
 
-   ```bash
+   ```
    npm run dev
    ```
 
