@@ -4,8 +4,6 @@ import { User } from '../models/user.model';
 
 const router = Router();
 
-// req, res 있는 게 '라우팅'
-// find all
 router.get('/', async (req, res) => {
   try {
     const flats = await Flat.find().populate('owner');
@@ -43,11 +41,11 @@ router.post('/create/:id', async (req, res) => {
     const userId = req.params.id;
     const flatData = req.body;
 
-    // flat 생성
+    // flat create
     const flat = new Flat({ ...flatData, owner: userId });
     await flat.save();
 
-    // user에도 flat 추가
+    // add flat in user
     await User.findByIdAndUpdate(userId, { $push: { flats: flat._id } });
 
     res.json(flat);

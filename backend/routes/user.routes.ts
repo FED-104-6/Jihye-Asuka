@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
       .populate('flats')
       .populate({
         path: 'favorites',
-        populate: { path: 'owner' }, // 중첩 가능
+        populate: { path: 'owner' }, // Nestable!
       });
     if (!user) return res.status(404).json({ error: 'Flat not found' });
     res.json(user);

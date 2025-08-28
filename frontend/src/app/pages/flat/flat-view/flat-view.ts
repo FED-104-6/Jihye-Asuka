@@ -51,15 +51,12 @@ export class FlatView {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
 
-    // 현재 로그인 유저 Observable
     this.currentUser$ = this.authService.currentUser$.pipe(
       filter((user): user is User => !!user)
     );
 
-    // 현재 flat Observable
     this.currentFlat$ = this.flatService.getFlatById(id);
 
-    // openOwnerInform Observable (현재 유저가 flat 소유자가 아닌 경우)
     this.openOwnerInform$ = combineLatest([
       this.currentFlat$,
       this.currentUser$,

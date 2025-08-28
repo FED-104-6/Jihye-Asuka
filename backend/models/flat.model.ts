@@ -22,7 +22,7 @@ const flatSchema = new Schema<IFlat>({
   year: { type: Number, required: true },
   price: { type: Number, required: true },
   availDate: { type: Date, required: true },
-  owner: { type: Schema.Types.ObjectId, ref: "User", required: true } // 🔗 User 연결
+  owner: { type: Schema.Types.ObjectId, ref: "User", required: true } 
 });
 
 export const Flat = mongoose.model<IFlat>("Flat", flatSchema, "flat");
