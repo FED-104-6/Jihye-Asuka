@@ -35,7 +35,6 @@ export class Messages {
         this.msgService.getInboxById(this.currentUserId),
         this.msgService.getOutboxById(this.currentUserId),
       ]).subscribe(([inbox, outbox]) => {
-        // 서비스로 자식한테 전해줘야 됨
         this.msgService.setInbox(this.groupByFlat(inbox));
         this.msgService.setOutbox(this.groupByFlat(outbox));
       });
