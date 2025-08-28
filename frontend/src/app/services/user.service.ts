@@ -9,7 +9,7 @@ export interface User {
   lastname: string;
   email: string;
   password: string;
-  birthdate: Date;
+  birthdate: string | Date;
   createdat: Date;
   age?: number;
   type: string[];
