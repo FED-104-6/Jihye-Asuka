@@ -64,7 +64,7 @@
           <div class="icon"><i class="material-icons">today</i></div>
           <div class="right">
             <div class="label">Date Available</div>
-            <div class="value">{{ flat.availDate | date : "yyyy/MM/dd" }}</div>
+            <div class="value">{{ flat.availDate | date : "yyyy/MM/dd" : "UTC" }}</div>
           </div>
         </div>
       </div>
