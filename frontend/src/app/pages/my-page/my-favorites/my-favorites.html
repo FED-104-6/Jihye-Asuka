@@ -8,26 +8,6 @@
     </p>
   </div>
 
-<!-- <<<<<<< HEAD
-    <a *ngFor="let flat of favFlats" class="btn-hover flat-item" (click)="goToFlatView(flat)">
-        <div class="flat-inform">
-            <div class="flat-img">
-                <i class="material-icons">apartment</i>
-            </div>
-            <p class="address">{{ flat.stNum }} {{ flat.stName }}, {{ flat.city }}</p>
-            <p class="size">{{ flat.size }}</p>
-            <p class="price">{{ flat.price | currency:'CAD':'symbol':'1.0-0'  }}</p>
-            <p>{{ flat.owner.email }} ({{ flat.owner.firstname }})</p>
-            <i *ngIf="currentUser"
-                class="material-icons flat-fav"
-                [style.color]="currentUser?.favorites?.includes(flat._id) ? 'gold' : 'gray'"
-                (click)="toggleFavorite($event, flat)">
-                {{ currentUser?.favorites?.includes(flat._id) ? 'star' : 'star_outline' }}
-            </i>
-        </div>
-    </a>
-</div>
-======= -->
   <div class="flat-content">
     <table>
       <thead>
@@ -74,4 +54,3 @@
     </table>
   </div>
 </div>
-<!-- >>>>>>> dfcd12356210f6d6f13b19515aee762d49cbff54 -->
